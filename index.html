@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧩 SALES & MKTG - Puzzle Glissant</title>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary: #0066FF;
@@ -751,7 +752,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 10005;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
@@ -1200,51 +1201,532 @@
             color: var(--accent);
             border: 2px solid var(--accent);
         }
-    </style>
+
+        /* ============================================
+           NOUVEAUX STYLES - AMÉLIORATIONS
+           ============================================ */
+
+        /* Confettis Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            animation: confetti-fall 3s ease-out forwards;
+            z-index: 10001;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Leaderboard Modal */
+        .leaderboard-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .leaderboard-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .leaderboard-content {
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+            padding: 2.5rem;
+            border-radius: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 20px 80px rgba(0, 212, 255, 0.6);
+            animation: modalSlideIn 0.5s ease-out;
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .leaderboard-title {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .leaderboard-subtitle {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+            margin: 0 0 2rem 0;
+            padding: 0;
+        }
+
+        .leaderboard-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(5px);
+            border-color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .leaderboard-item.current-player {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.2));
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .leaderboard-rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: 50px;
+            text-align: center;
+        }
+
+        .rank-1 { color: #FFD700; }
+        .rank-2 { color: #C0C0C0; }
+        .rank-3 { color: #CD7F32; }
+
+        .leaderboard-info {
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .leaderboard-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.3rem;
+        }
+
+        .leaderboard-stats {
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+
+        .leaderboard-score {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Badges System */
+        .badges-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .badges-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+        }
+
+        .badge {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+
+        .badge.unlocked {
+            border-color: var(--accent);
+            background: rgba(255, 215, 0, 0.1);
+            animation: badgeUnlock 0.6s ease;
+        }
+
+        @keyframes badgeUnlock {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .badge.locked {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-name {
+            font-size: 0.7rem;
+            text-align: center;
+            color: var(--secondary);
+        }
+
+        /* Analytics Panel */
+        .analytics-panel {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .analytics-title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .analytics-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .analytics-label {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .analytics-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .analytics-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .analytics-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* Share Card */
+        .share-card {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 20px;
+            border: 2px solid var(--secondary);
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .share-btn-download {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .share-btn-copy {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Name Input Modal */
+        .name-input-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .name-input-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .name-input-content {
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+            padding: 2rem;
+            border-radius: 25px;
+            max-width: 400px;
+            width: 90%;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.5);
+            text-align: center;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .name-input-title {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .name-input-field {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .name-input-field:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .name-input-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .name-input-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .name-input-submit {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .name-input-skip {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .name-input-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* New Record Badge */
+        .new-record-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
+            animation: newRecordPulse 1s ease infinite;
+        }
+
+        @keyframes newRecordPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    
+        /* Champ nom sur l'écran d'accueil */
+        .name-entry-box {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .name-entry-label {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .name-entry-input {
+            width: 100%;
+            max-width: 320px;
+            padding: 0.75rem 1.2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .name-entry-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(0,212,255,0.4);
+        }
+        .name-entry-input::placeholder { color: rgba(255,255,255,0.4); }
+
+        /* Message de bienvenue dans le puzzle */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(0,102,255,0.15), rgba(0,212,255,0.15));
+            border: 1px solid rgba(0,212,255,0.4);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            animation: welcomeFadeIn 1s ease;
+        }
+        @keyframes welcomeFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .welcome-banner .welcome-text {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        .welcome-banner .welcome-name {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        </style>
 </head>
 <body>
     <!-- Cinematic Warning Screen -->
     <div id="cinematic-warning">
         <div class="cinematic-content">
-            <div class="warning-icon">🎮</div>
-            <div class="cinematic-logo">🧩 TEAM CHECKERS</div>
-            <h1 class="warning-title">⚠️ ATTENTION ⚠️</h1>
+            <div class="warning-icon">🧩</div>
+            <h1 class="cinematic-logo">TEAM CHECKERS</h1>
+            <p class="warning-title" style="font-size:1.3rem; font-weight:600; letter-spacing:1px;">Le thème de lundi se cache ici.</p>
             <p class="warning-message">
-                Bienvenue dans une <span class="warning-highlight">expérience unique</span>...<br><br>
-                
-                Ce n'est pas un simple jeu. C'est une <span class="warning-highlight">mission</span>.<br>
-                Derrière ce puzzle se cache un <span class="warning-highlight">secret</span> que seuls les plus déterminés découvriront.<br><br>
-                
-                Le <span class="warning-highlight">thème mystère</span> attend d'être révélé.<br>
-                Chaque pièce que vous placerez vous rapprochera de la vérité.<br><br>
-                
-                Êtes-vous prêt à accepter ce <span class="warning-highlight">défi personnel</span> ?<br>
-                À prouver votre <span class="warning-highlight">logique</span> et votre <span class="warning-highlight">persévérance</span> ?<br><br>
-                
-                Une fois que vous commencerez, il n'y aura <span class="warning-highlight">pas de retour en arrière</span>.<br>
-                Le chronomètre tournera. Chaque mouvement comptera.<br><br>
-                
-                La question est simple :<br>
-                <span class="warning-highlight" style="font-size: 1.4em;">ÊTES-VOUS PRÊT ?</span>
+                Un puzzle. Un secret. <span class="warning-highlight">Le thème de la semaine</span> attend d'être révélé.<br><br>
+                Prouve que tu es le plus rapide de l'équipe —<br>
+                <span class="warning-highlight">le classement est partagé en temps réel.</span>
             </p>
 
             <div class="audio-notice">
-                <div class="audio-icon">🎵</div>
+                <div class="audio-icon">🎧</div>
                 <div class="audio-text">
-                    ⚡ RECOMMANDATION IMPORTANTE ⚡<br>
-                    <strong>Mettez vos écouteurs ou casque audio</strong> 🎧<br>
-                    Une ambiance sonore épique vous accompagnera dans cette quête !<br>
-                    <em>L'expérience n'en sera que plus immersive...</em>
+                    <strong>Mets tes écouteurs avant de commencer</strong><br>
+                    <em>L'ambiance sonore rend l'expérience 10x plus intense.</em>
                 </div>
+            </div>
+
+
+            <div class="live-counter" id="live-counter"><span class="live-dot"></span>Chargement des stats...</div>
+
+            <div class="name-entry-box">
+                <div class="name-entry-label">👤 Entrez votre prénom pour commencer</div>
+                <input 
+                    type="text" 
+                    id="player-name-entry" 
+                    class="name-entry-input" 
+                    placeholder="Votre prénom..."
+                    maxlength="30"
+                    onkeydown="if(event.key==='Enter') startGame()"
+                >
             </div>
 
             <div class="cinematic-buttons">
                 <button class="cinematic-btn btn-accept" onclick="startGame()">
                     ✨ COMMENCER ✨
                 </button>
-                <button class="cinematic-btn btn-decline" onclick="declineGame()">
-                    ← ANNULER
-                </button>
+
             </div>
         </div>
     </div>
@@ -1318,9 +1800,9 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2>🎉 Félicitations !</h2>
-            <p style="color: var(--secondary); font-size: 1.3rem; margin-bottom: 1rem;">
-                Le theme est BLEU 
-            </p>
+            <p style="color: var(--secondary); font-size: 0.95rem; margin-bottom: 0.5rem;">🔓 Le thème mystère est révélé...</p>
+            <div class="theme-reveal-text" id="theme-typewriter"></div>
+            <div style="height:0.8rem"></div>
             <img class="modal-image" id="revealed-image" src="" alt="Photo d'Équipe Révélée">
             <div class="modal-stats">
                 <div class="modal-stat">
@@ -1332,7 +1814,7 @@
                     <div class="modal-stat-value" id="final-moves">0</div>
                 </div>
             </div>
-            <a href="thanks.html"><button class="btn btn-primary" id="close-btn">✨ Fermer</button></a>
+            <button class="btn btn-primary" id="close-btn" onclick="onCloseModal()">✨ Voir le classement</button>
         </div>
     </div>
 
@@ -1356,6 +1838,9 @@
     </div>
 
     <script>
+        // Nom du joueur courant
+        let currentPlayerName = '';
+
         // Particle Animation
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
@@ -1942,6 +2427,23 @@
 
         // Show main content when game starts
         function startGame() {
+            // Récupérer le nom saisi
+            const nameInput = document.getElementById('player-name-entry');
+            const enteredName = nameInput ? nameInput.value.trim() : '';
+            if (!enteredName) {
+                nameInput.style.borderColor = '#ff4444';
+                nameInput.style.boxShadow = '0 0 15px rgba(255,68,68,0.4)';
+                nameInput.placeholder = '⚠️ Entrez votre prénom !';
+                nameInput.focus();
+                setTimeout(() => {
+                    nameInput.style.borderColor = '';
+                    nameInput.style.boxShadow = '';
+                    nameInput.placeholder = 'Votre prénom...';
+                }, 2000);
+                return;
+            }
+            currentPlayerName = enteredName;
+
             const warningScreen = document.getElementById('cinematic-warning');
             const mainContainer = document.querySelector('.main-container');
             const music = document.getElementById('background-music');
@@ -1955,6 +2457,15 @@
                     mainContainer.style.transition = 'opacity 1s ease';
                     mainContainer.style.opacity = '1';
                     mainContainer.style.pointerEvents = 'all';
+                }
+
+                // Afficher le message de bienvenue
+                const topSection = document.querySelector('.top-section');
+                if (topSection && currentPlayerName) {
+                    const banner = document.createElement('div');
+                    banner.className = 'welcome-banner';
+                    banner.innerHTML = '<div class="welcome-text">👋 Bienvenue dans l\'arène, <span class="welcome-name">' + currentPlayerName + '</span> !</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:0.3rem;">Bonne chance 🍀 Le chrono tourne...</div>';
+                    topSection.insertBefore(banner, topSection.firstChild);
                 }
                 
                 // Start the timer only when the game actually begins
@@ -1985,6 +2496,642 @@
                 musicToggle.classList.add('muted');
             }
         });
+
+        // ============================================
+        // SYSTÈME DE LEADERBOARD + BADGES + ANALYTICS
+        // ============================================
+        
+        const leaderboardData = {
+            scores: JSON.parse(localStorage.getItem('puzzleLeaderboard') || '[]'),
+            badges: JSON.parse(localStorage.getItem('puzzleBadges') || '[]'),
+            analytics: JSON.parse(localStorage.getItem('puzzleAnalytics') || '{"totalSolves":0,"totalTime":0,"totalMoves":0,"bestTime":999999,"bestMoves":999999}')
+        };
+
+        function saveLeaderboard() {
+            localStorage.setItem('puzzleLeaderboard', JSON.stringify(leaderboardData.scores));
+            localStorage.setItem('puzzleBadges', JSON.stringify(leaderboardData.badges));
+            localStorage.setItem('puzzleAnalytics', JSON.stringify(leaderboardData.analytics));
+        }
+
+        function addScore(name, time, moves) {
+            const score = { name, time, moves, date: Date.now(), id: Date.now() };
+            leaderboardData.scores.push(score);
+            leaderboardData.scores.sort((a, b) => a.time !== b.time ? a.time - b.time : a.moves - b.moves);
+            leaderboardData.scores = leaderboardData.scores.slice(0, 10);
+            
+            leaderboardData.analytics.totalSolves++;
+            leaderboardData.analytics.totalTime += time;
+            leaderboardData.analytics.totalMoves += moves;
+            leaderboardData.analytics.bestTime = Math.min(leaderboardData.analytics.bestTime, time);
+            leaderboardData.analytics.bestMoves = Math.min(leaderboardData.analytics.bestMoves, moves);
+            
+            saveLeaderboard();
+            return leaderboardData.scores.findIndex(s => s.id === score.id) + 1;
+        }
+
+        const BADGES = {
+            first: { id: 'first', name: 'Débutant', icon: '🎯', check: () => true },
+            fast: { id: 'fast', name: 'Éclair', icon: '⚡', check: (t) => t < 120 },
+            efficient: { id: 'efficient', name: 'Efficace', icon: '🎯', check: (t, m) => m < 50 },
+            perfect: { id: 'perfect', name: 'Parfait', icon: '💎', check: (t, m) => t < 180 && m < 40 },
+            legend: { id: 'legend', name: 'Légende', icon: '👑', check: (t, m, r) => r === 1 }
+        };
+
+        function checkBadges(time, moves, rank) {
+            const newBadges = [];
+            for (const badge of Object.values(BADGES)) {
+                if (!leaderboardData.badges.includes(badge.id) && badge.check(time, moves, rank)) {
+                    leaderboardData.badges.push(badge.id);
+                    newBadges.push(badge);
+                }
+            }
+            if (newBadges.length > 0) saveLeaderboard();
+            return newBadges;
+        }
+
+        function createConfetti() {
+            const colors = ['#FFD700', '#00D4FF', '#0066FF', '#FF6B35'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.className = 'confetti';
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    c.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function showNameInput(time, moves) {
+            // Géré par onCloseModal - plus utilisé
+        }
+
+        // ⚠️ submitName est redéfini plus bas par Apps Script
+        function submitName(time, moves) {
+            const name = (document.getElementById('player-name-input')?.value.trim() || 'Anonyme');
+            document.querySelector('.name-input-modal')?.remove();
+            
+            const rank = addScore(name, time, moves);
+            const isRecord = rank === 1;
+            const newBadges = checkBadges(time, moves, rank);
+            
+            showLeaderboard(rank, isRecord, newBadges, time, moves);
+        }
+
+        function skipName() {
+            document.querySelector('.name-input-modal')?.remove();
+        }
+
+        function showLeaderboard(currentRank, isRecord, newBadges, time, moves) {
+            const modal = document.createElement('div');
+            modal.className = 'leaderboard-modal active';
+            
+            let html = leaderboardData.scores.map((s, i) => {
+                const rank = i + 1;
+                const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+                const isCurrent = rank === currentRank;
+                return `
+                    <li class="leaderboard-item ${isCurrent ? 'current-player' : ''}">
+                        ${isCurrent && isRecord ? '<div class="new-record-badge">🎉 RECORD!</div>' : ''}
+                        <div class="leaderboard-rank rank-${rank}">${medal}</div>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${s.name}</div>
+                            <div class="leaderboard-stats">⏱️ ${Math.floor(s.time/60)}:${(s.time%60).toString().padStart(2,'0')} | 🔄 ${s.moves} mouvements</div>
+                        </div>
+                        <div class="leaderboard-score">${Math.max(0, 1000-s.time*2-s.moves*5)} pts</div>
+                    </li>
+                `;
+            }).join('');
+            
+            let badgesHtml = Object.values(BADGES).map(b => `
+                <div class="badge ${leaderboardData.badges.includes(b.id) ? 'unlocked' : 'locked'}" title="${b.name}">
+                    <div class="badge-icon">${b.icon}</div>
+                    <div class="badge-name">${b.name}</div>
+                </div>
+            `).join('');
+            
+            const efficiency = Math.min(100, Math.max(0, 100 - time/3 - moves/2));
+            const speed = time < 60 ? '🔥 Incroyable' : time < 120 ? '⚡ Rapide' : time < 180 ? '✅ Bon' : '🐢 Moyen';
+            
+            modal.innerHTML = `
+                <div class="leaderboard-content">
+                    <div class="leaderboard-header">
+                        <h2 class="leaderboard-title">🏆 Classement</h2>
+                        <p class="leaderboard-subtitle">Top 10 des meilleurs scores</p>
+                    </div>
+                    <ul class="leaderboard-list">${html}</ul>
+                    <div class="badges-container">
+                        <h3 class="badges-title">🏅 Badges (${leaderboardData.badges.length}/${Object.keys(BADGES).length})</h3>
+                        <div class="badges-grid">${badgesHtml}</div>
+                    </div>
+                    <div class="analytics-panel">
+                        <h3 class="analytics-title">📊 Tes Stats</h3>
+                        <div class="analytics-grid">
+                            <div class="analytics-item">
+                                <div class="analytics-label">Efficacité</div>
+                                <div class="analytics-value">${Math.round(efficiency)}%</div>
+                                <div class="analytics-bar"><div class="analytics-bar-fill" style="width: ${efficiency}%"></div></div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Vitesse</div>
+                                <div class="analytics-value">${speed}</div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Stratégie</div>
+                                <div class="analytics-value">${moves < 40 ? '🧠 Stratège' : moves < 60 ? '🎯 Méthodique' : '🔄 Explorateur'}</div>
+                            </div>
+                            <div class="analytics-item">
+                                <div class="analytics-label">Parties</div>
+                                <div class="analytics-value">${leaderboardData.analytics.totalSolves}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="share-card">
+                        <h3 class="share-title">📢 Partage ton score !</h3>
+                        <div class="share-buttons">
+                            <button class="share-btn share-btn-copy" onclick="copyScore(${time}, ${moves}, ${currentRank})">📋 Copier</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="closeLeaderboard()" style="width: 100%; margin-top: 1rem;">✨ Fermer</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            if (isRecord) createConfetti();
+        }
+
+        function closeLeaderboard() {
+            document.querySelector('.leaderboard-modal')?.remove();
+        }
+
+        function copyScore(time, moves, rank) {
+            const text = `🎉 J'ai résolu le puzzle en ${Math.floor(time/60)}:${(time%60).toString().padStart(2,'0')} avec ${moves} mouvements! Rang: #${rank} 🏆`;
+            navigator.clipboard.writeText(text).then(() => alert('✅ Copié!')).catch(() => alert('❌ Erreur'));
+        }
+
+        // ══ completePuzzle finale (tous effets + sauvegarde) ══
+        const originalCompletePuzzle = completePuzzle;
+        let savedTime = 0, savedMoves = 0;
+        completePuzzle = function() {
+            // 1. Effets visuels immédiats
+            victoryFlash();
+            const grid = document.getElementById('puzzle-grid');
+            if (grid) {
+                Array.from(grid.children).forEach((el, i) => {
+                    const rot = (Math.random() * 40 - 20) + 'deg';
+                    el.style.setProperty('--rot', rot);
+                    setTimeout(() => {
+                        el.classList.add('puzzle-explode');
+                        setTimeout(() => el.classList.remove('puzzle-explode'), 900);
+                    }, i * 25);
+                });
+            }
+            // 2. Easter egg surprise
+            setTimeout(() => showEasterEgg(), 300);
+            // 3. Typewriter thème dans le modal
+            setTimeout(() => typewriterReveal('BLEU 💙', 'theme-typewriter'), 700);
+            // 4. Logique originale (stopTimer, modal félicitations...)
+            originalCompletePuzzle();
+            // 5. Sauvegarder temps/mouvements et historique perso
+            savedTime = seconds;
+            savedMoves = moves;
+            savePersonalHistory(savedTime, savedMoves);
+            // 6. Sauvegarde Google Sheets en arrière-plan
+            addScoreToSheets(currentPlayerName || 'Anonyme', savedTime, savedMoves)
+                .then(() => { lastFetchTime = 0; })
+                .catch(err => console.error('Erreur sauvegarde:', err));
+        };
+
+        async function onCloseModal() {
+            document.getElementById('modal').classList.remove('active');
+            // Afficher le loader pendant le chargement du classement
+            showLoader('⏳ Chargement du classement...');
+            try {
+                const leaderboard = await fetchLeaderboardFromSheets();
+                const name = currentPlayerName || 'Anonyme';
+                const tempBoard = [...leaderboard, { name, time: savedTime, moves: savedMoves }];
+                tempBoard.sort((a, b) => a.time !== b.time ? a.time - b.time : a.moves - b.moves);
+                let rank = tempBoard.findIndex(s => s.name === name && s.time === savedTime && s.moves === savedMoves) + 1;
+                if (rank === 0) rank = tempBoard.length;
+                const isRecord = leaderboard.length === 0 || savedTime < leaderboard[0].time || (savedTime === leaderboard[0].time && savedMoves < leaderboard[0].moves);
+                leaderboardData.analytics.totalSolves++;
+                localStorage.setItem('puzzleAnalytics', JSON.stringify(leaderboardData.analytics));
+                const stats = { time: savedTime, moves: savedMoves, rank, totalSolves: leaderboardData.analytics.totalSolves };
+                const newBadges = checkBadges(savedTime, savedMoves, rank);
+                hideLoader();
+                showLeaderboardWithSheets(leaderboard, rank, isRecord, newBadges, stats);
+            } catch(e) {
+                hideLoader();
+                window.location.href = 'thanks.html';
+            }
+        }
+
+
+        // ============================================
+        // 📊 APPS SCRIPT INTEGRATION
+        // ============================================
+
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySGx5MetAKPctETVweBJfCJE_0UmlXp7E8EjLyGcn3Ktfmtfgf45IODffTbxSxtypbiA/exec';
+
+        let cachedLeaderboard = [];
+        let lastFetchTime = 0;
+        const CACHE_DURATION = 30000;
+
+        async function fetchLeaderboardFromSheets() {
+            const now = Date.now();
+            if (cachedLeaderboard.length > 0 && (now - lastFetchTime) < CACHE_DURATION) {
+                return cachedLeaderboard;
+            }
+            try {
+                const response = await fetch(APPS_SCRIPT_URL);
+                if (!response.ok) throw new Error(response.status);
+                const data = await response.json();
+                const rows = data.values || [];
+                const scores = rows.slice(1).map(row => ({
+                    name: row[1] || 'Anonyme',
+                    time: parseInt(row[2]) || 0,
+                    moves: parseInt(row[3]) || 0,
+                    score: parseInt(row[4]) || 0
+                }));
+                scores.sort((a, b) => a.time !== b.time ? a.time - b.time : a.moves - b.moves);
+                const uniqueScores = [];
+                const seenPlayers = new Set();
+                for (const s of scores) {
+                    if (!seenPlayers.has(s.name.toLowerCase())) {
+                        uniqueScores.push(s);
+                        seenPlayers.add(s.name.toLowerCase());
+                    }
+                }
+                cachedLeaderboard = uniqueScores.slice(0, 10);
+                lastFetchTime = now;
+                console.log('Leaderboard charge: ' + cachedLeaderboard.length + ' scores');
+                return cachedLeaderboard;
+            } catch (error) {
+                console.error('Erreur fetch leaderboard:', error);
+                return cachedLeaderboard;
+            }
+        }
+
+        async function addScoreToSheets(name, time, moves) {
+            try {
+                const score = Math.max(0, 1000 - time * 2 - moves * 5);
+                const timestamp = new Date().toISOString();
+                const dateStr = new Date().toLocaleDateString('fr-FR');
+                const params = new URLSearchParams({ action: 'add', timestamp, name, time, moves, score, date: dateStr });
+                const response = await fetch(APPS_SCRIPT_URL + '?' + params);
+                if (!response.ok) throw new Error(response.status);
+                console.log('Score ajoute dans Google Sheets!');
+                lastFetchTime = 0;
+                return true;
+            } catch (error) {
+                console.error('Erreur ajout score:', error);
+                return false;
+            }
+        }
+
+        function showLoader(message) {
+            const loader = document.createElement('div');
+            loader.id = 'api-loader';
+            loader.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10002;"><div style="background:linear-gradient(135deg,#0A0E27,#1a1f3a);padding:2rem;border-radius:20px;border:2px solid var(--secondary);text-align:center;"><div style="font-size:3rem;margin-bottom:1rem;">⏳</div><div style="color:white;font-size:1.2rem;">' + message + '</div></div></div>';
+            document.body.appendChild(loader);
+        }
+
+        function hideLoader() {
+            document.getElementById('api-loader') && document.getElementById('api-loader').remove();
+        }
+
+        // showLeaderboardWithSheets → définie plus bas avec podium + rivalité + historique
+
+        // Redefinir submitName ICI (apres la version originale) pour l'intercepter correctement
+        submitName = async function(time, moves) {
+            const input = document.getElementById('player-name-input');
+            // Utiliser le nom entré au départ si le champ est vide
+            const name = (input && input.value.trim()) ? input.value.trim() : (currentPlayerName || 'Anonyme');
+            const modal = document.querySelector('.name-input-modal');
+            if (modal) modal.remove();
+
+            showLoader('💾 Sauvegarde en cours...');
+
+            try {
+                await addScoreToSheets(name, time, moves);
+                const leaderboard = await fetchLeaderboardFromSheets();
+
+                const tempBoard = [...leaderboard, { name, time, moves }];
+                tempBoard.sort((a, b) => a.time !== b.time ? a.time - b.time : a.moves - b.moves);
+                let rank = tempBoard.findIndex(s => s.name === name && s.time === time && s.moves === moves) + 1;
+                if (rank === 0) rank = tempBoard.length;
+
+                const isRecord = leaderboard.length === 0 || time < leaderboard[0].time || (time === leaderboard[0].time && moves < leaderboard[0].moves);
+
+                leaderboardData.analytics.totalSolves++;
+                localStorage.setItem('puzzleAnalytics', JSON.stringify(leaderboardData.analytics));
+
+                const stats = { time, moves, rank, totalSolves: leaderboardData.analytics.totalSolves };
+                const newBadges = checkBadges(time, moves, rank);
+
+                hideLoader();
+                showLeaderboardWithSheets(leaderboard, rank, isRecord, newBadges, stats);
+
+            } catch (error) {
+                console.error('Erreur Apps Script:', error);
+                hideLoader();
+                const rank = addScore(name, time, moves);
+                const isRecord = rank === 1;
+                const newBadges = checkBadges(time, moves, rank);
+                showLeaderboard(rank, isRecord, newBadges, time, moves);
+            }
+        };
+
+        fetchLeaderboardFromSheets().catch(() => {});
+
+
+        console.log('🚀 Améliorations chargées: Leaderboard, Badges, Analytics!');
+        // ══════════════════════════════════════════════════
+        // 🚀 AMÉLIORATIONS ÉPOUSTOUFLANTES
+        // ══════════════════════════════════════════════════
+
+        // ── Historique perso (localStorage) ──
+        function getPersonalHistory() {
+            try { return JSON.parse(localStorage.getItem('personalHistory') || '[]'); } catch(e) { return []; }
+        }
+        function savePersonalHistory(time, moves) {
+            const history = getPersonalHistory();
+            history.push({ time, moves, date: new Date().toISOString() });
+            localStorage.setItem('personalHistory', JSON.stringify(history.slice(-20)));
+        }
+        function getPersonalBest() {
+            const history = getPersonalHistory();
+            if (history.length === 0) return null;
+            return history.reduce((best, h) => h.time < best.time ? h : best, history[0]);
+        }
+
+        // ── Toast notification ──
+        function showToast(msg, duration = 4000) {
+            const old = document.querySelector('.toast-notif');
+            if (old) old.remove();
+            const t = document.createElement('div');
+            t.className = 'toast-notif';
+            t.innerHTML = msg;
+            document.body.appendChild(t);
+            requestAnimationFrame(() => { requestAnimationFrame(() => { t.classList.add('show'); }); });
+            setTimeout(() => {
+                t.classList.remove('show');
+                t.classList.add('hide');
+                setTimeout(() => t.remove(), 400);
+            }, duration);
+        }
+
+        // ── Flash de victoire ──
+        function victoryFlash() {
+            const f = document.createElement('div');
+            f.className = 'victory-flash';
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 700);
+        }
+
+        // ── Son de victoire via WebAudio ──
+        function playVictorySound(isRecord) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = isRecord
+                    ? [523, 659, 784, 1047, 784, 1047, 1319]
+                    : [523, 659, 784, 1047];
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    const start = ctx.currentTime + i * 0.15;
+                    gain.gain.setValueAtTime(0, start);
+                    gain.gain.linearRampToValueAtTime(0.3, start + 0.05);
+                    gain.gain.linearRampToValueAtTime(0, start + 0.25);
+                    osc.start(start); osc.stop(start + 0.3);
+                });
+            } catch(e) {}
+        }
+
+        // ── Typewriter thème ──
+        function typewriterReveal(text, elementId, callback) {
+            const el = document.getElementById(elementId);
+            if (!el) { if(callback) callback(); return; }
+            el.innerHTML = '<span class="theme-cursor">|</span>';
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    el.innerHTML = text.slice(0, ++i) + '<span class="theme-cursor">|</span>';
+                } else {
+                    el.innerHTML = text;
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, 80);
+        }
+
+        // ── Explosion puzzle ──
+        function explodePuzzle(callback) {
+            const tiles = document.querySelectorAll('.puzzle-tile, .puzzle-piece, [class*="tile"], [class*="piece"]');
+            const grid = document.getElementById('puzzle-grid');
+            const allCells = grid ? grid.children : tiles;
+            let delay = 0;
+            Array.from(allCells).forEach((el, i) => {
+                const rot = (Math.random() * 30 - 15) + 'deg';
+                el.style.setProperty('--rot', rot);
+                setTimeout(() => el.classList.add('puzzle-explode'), delay);
+                delay += 30;
+            });
+            setTimeout(() => { if (callback) callback(); }, delay + 800);
+        }
+
+        // ── Easter egg ──
+        function showEasterEgg() {
+            const messages = [
+                '🌟 Tu es une STAR de l\'équipe !',
+                '🔥 INCROYABLE ! Génie certifié !',
+                '🧠 IQ = 200 confirmé !',
+                '🏆 Champion Sales & Mktg !'
+            ];
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const el = document.createElement('div');
+            el.className = 'easter-egg-msg';
+            el.innerHTML = msg + '<br><span style="font-size:0.8rem;font-weight:400;margin-top:0.4rem;display:block">✨ Secret débloqué !</span>';
+            document.body.appendChild(el);
+            requestAnimationFrame(() => { requestAnimationFrame(() => el.classList.add('show')); });
+            setTimeout(() => {
+                el.style.transition = 'transform 0.4s ease, opacity 0.4s';
+                el.style.opacity = '0';
+                el.style.transform = 'translate(-50%,-50%) scale(0)';
+                setTimeout(() => el.remove(), 400);
+            }, 2500);
+        }
+
+        // ── Compteur live page accueil ──
+        async function loadLiveCounter() {
+            const el = document.getElementById('live-counter');
+            if (!el) return;
+            try {
+                const res = await fetch(APPS_SCRIPT_URL);
+                const data = await res.json();
+                const rows = (data.values || []).slice(1);
+                const count = rows.length;
+                const names = [...new Set(rows.map(r => r[1]).filter(Boolean))];
+                const preview = names.slice(-3).join(', ');
+                el.innerHTML = '<span class="live-dot"></span> <strong>' + count + ' équipier' + (count>1?'s':'') + '</strong> ont déjà joué' +
+                    (preview ? ' · <span style="opacity:0.7">' + preview + (names.length > 3 ? '...' : '') + '</span>' : '');
+            } catch(e) {
+                el.innerHTML = '<span class="live-dot"></span> Classement partagé en temps réel 🌐';
+            }
+        }
+
+        // ── Podium animé ──
+        function buildPodium(leaderboard) {
+            if (leaderboard.length < 1) return '';
+            const top3 = leaderboard.slice(0, 3);
+            const medals  = ['🥇','🥈','🥉'];
+            const colors  = [
+                'linear-gradient(135deg,#FFD700,#FFA500)',
+                'linear-gradient(135deg,#C0C0C0,#888)',
+                'linear-gradient(135deg,#CD7F32,#8B4513)'
+            ];
+            const shadows = [
+                '0 4px 20px rgba(255,215,0,0.4)',
+                '0 4px 15px rgba(192,192,192,0.3)',
+                '0 4px 12px rgba(205,127,50,0.3)'
+            ];
+            let cards = top3.map((s, i) => {
+                const mins = Math.floor(s.time/60);
+                const secs = String(s.time%60).padStart(2,'0');
+                return '<div style="flex:1;background:rgba(255,255,255,0.05);border-radius:14px;padding:0.9rem 0.5rem;text-align:center;border:1px solid rgba(255,255,255,0.1);animation:podiumRise 0.5s ease ' + (i*0.15) + 's both;">' +
+                    '<div style="font-size:1.8rem;margin-bottom:4px;">' + medals[i] + '</div>' +
+                    '<div style="font-weight:700;font-size:0.85rem;color:white;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:80px;margin:0 auto 3px;">' + s.name + '</div>' +
+                    '<div style="font-size:0.75rem;background:' + colors[i] + ';-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">⏱ ' + mins + ':' + secs + '</div>' +
+                    '<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px;">' + s.moves + ' mvts</div>' +
+                '</div>';
+            }).join('');
+            return '<div style="display:flex;gap:8px;margin:1rem 0;">' + cards + '</div>';
+        }
+
+        // ── Message de rivalité ──
+        function buildRivalryMsg(leaderboard, myTime, myMoves) {
+            if (leaderboard.length === 0) return '';
+            const leader = leaderboard[0];
+            const diff = myTime - leader.time;
+            if (diff <= 0) return '<div class="rivalry-msg">🏆 Tu es le NOUVEAU LEADER ! Imbattable !</div>';
+            if (diff < 30) return '<div class="rivalry-msg">🔥 À seulement <strong>' + diff + 's</strong> de ' + leader.name + ' ! Si proche !</div>';
+            if (diff < 90) return '<div class="rivalry-msg">⚡ ' + leader.name + ' te devance de <strong>' + diff + 's</strong>. Tu peux faire mieux !</div>';
+            return '<div class="rivalry-msg">💪 Le record de ' + leader.name + ' est à battre : <strong>' + Math.floor(leader.time/60) + ':' + String(leader.time%60).padStart(2,'0') + '</strong></div>';
+        }
+
+        // ── Historique perso block ──
+        function buildHistoryMsg(myTime) {
+            const best = getPersonalBest();
+            if (!best || best.time === myTime) return '';
+            const diff = best.time - myTime;
+            if (diff > 0) return '<div class="personal-history">📈 Tu t\'es <span class="history-improvement">amélioré de ' + diff + 's</span> par rapport à ton meilleur score !</div>';
+            if (diff < 0) return '<div class="personal-history">💡 Ton record perso est <span class="history-regress">' + Math.abs(diff) + 's plus rapide</span>. Rejoue pour le battre !</div>';
+            return '<div class="personal-history">🎯 Tu égales ton record personnel !</div>';
+        }
+
+        // ══ showLeaderboardWithSheets finale avec podium + rivalité + historique ══
+        function showLeaderboardWithSheets(leaderboard, currentRank, isRecord, newBadges, stats) {
+            const modal = document.createElement('div');
+            modal.className = 'leaderboard-modal active';
+
+            const podiumHtml = buildPodium(leaderboard);
+            const rivalryHtml = buildRivalryMsg(leaderboard, stats.time, stats.moves);
+            const historyHtml = buildHistoryMsg(stats.time);
+
+            let html = leaderboard.map((score, index) => {
+                const rank = index + 1;
+                const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+                const isCurrent = rank === currentRank;
+                return '<li class="leaderboard-item ' + (isCurrent ? 'current-player' : '') + '">' +
+                    (isCurrent && isRecord ? '<div class="new-record-badge">🎉 RECORD!</div>' : '') +
+                    '<div class="leaderboard-rank rank-' + rank + '">' + medal + '</div>' +
+                    '<div class="leaderboard-info"><div class="leaderboard-name">' + score.name + '</div>' +
+                    '<div class="leaderboard-stats">⏱️ ' + Math.floor(score.time/60) + ':' + String(score.time%60).padStart(2,'0') + ' | 🔄 ' + score.moves + ' mouvements</div></div>' +
+                    '<div class="leaderboard-score">' + score.score + ' pts</div></li>';
+            }).join('');
+
+            let badgesHtml = Object.values(BADGES).map(b =>
+                '<div class="badge ' + (leaderboardData.badges.includes(b.id) ? 'unlocked' : 'locked') + '" title="' + b.name + '">' +
+                '<div class="badge-icon">' + b.icon + '</div><div class="badge-name">' + b.name + '</div></div>'
+            ).join('');
+
+            const efficiency = Math.min(100, Math.max(0, 100 - stats.time/3 - stats.moves/2));
+            const speed = stats.time < 60 ? '🔥 Incroyable' : stats.time < 120 ? '⚡ Rapide' : stats.time < 180 ? '✅ Bon' : '🐢 Moyen';
+            const strategie = stats.moves < 40 ? '🧠 Stratège' : stats.moves < 60 ? '🎯 Méthodique' : '🔄 Explorateur';
+
+            modal.innerHTML =
+                '<div class="leaderboard-content">' +
+                '<div class="leaderboard-header"><h2 class="leaderboard-title">🏆 Classement Global</h2><p class="leaderboard-subtitle">🌐 Partagé avec toute l\'équipe</p></div>' +
+                podiumHtml +
+                rivalryHtml +
+                historyHtml +
+                '<ul class="leaderboard-list">' + html + '</ul>' +
+                '<div class="badges-container"><h3 class="badges-title">🏅 Tes Badges (' + leaderboardData.badges.length + '/' + Object.keys(BADGES).length + ')</h3><div class="badges-grid">' + badgesHtml + '</div></div>' +
+                '<div class="analytics-panel"><h3 class="analytics-title">📊 Tes Stats</h3><div class="analytics-grid">' +
+                '<div class="analytics-item"><div class="analytics-label">Efficacité</div><div class="analytics-value">' + Math.round(efficiency) + '%</div><div class="analytics-bar"><div class="analytics-bar-fill" style="width:' + efficiency + '%"></div></div></div>' +
+                '<div class="analytics-item"><div class="analytics-label">Vitesse</div><div class="analytics-value">' + speed + '</div></div>' +
+                '<div class="analytics-item"><div class="analytics-label">Stratégie</div><div class="analytics-value">' + strategie + '</div></div>' +
+                '<div class="analytics-item"><div class="analytics-label">Ton Rang</div><div class="analytics-value">#' + currentRank + '</div></div>' +
+                '</div></div>' +
+                '<div class="share-card"><h3 class="share-title">📢 Partage ton score !</h3><div class="share-buttons"><button class="share-btn share-btn-copy" onclick="copyScore(' + stats.time + ',' + stats.moves + ',' + currentRank + ')">📋 Copier</button></div></div>' +
+                '<button class="btn btn-primary" onclick="closeLeaderboard()" style="width:100%;margin-top:1rem;">✨ Fermer</button>' +
+                '</div>';
+
+            document.body.appendChild(modal);
+            if (isRecord) { createConfetti(); playVictorySound(true); }
+            else { playVictorySound(false); }
+        };
+
+        // ══ Intercept completePuzzle pour effets visuels ══
+
+
+        // ══ Notification temps réel pendant le jeu ══
+        let notifCheckInterval = null;
+        let lastKnownCount = 0;
+        function startLiveNotifications() {
+            notifCheckInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(APPS_SCRIPT_URL);
+                    const data = await res.json();
+                    const rows = (data.values || []).slice(1);
+                    if (rows.length > lastKnownCount && lastKnownCount > 0) {
+                        const newRow = rows[rows.length - 1];
+                        const who = newRow[1] || 'Quelqu\'un';
+                        const t = parseInt(newRow[2]) || 0;
+                        const mins = Math.floor(t/60), secs = String(t%60).padStart(2,'0');
+                        showToast('🔥 ' + who + ' vient de terminer en ' + mins + ':' + secs + ' !');
+                    }
+                    lastKnownCount = rows.length;
+                } catch(e) {}
+            }, 30000); // vérifier toutes les 30s
+        }
+
+
+
+        // Démarrer le compteur live dès le chargement
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLiveCounter();
+        });
+
+        // Démarrer notifications live quand le jeu commence
+        const _origStartGame = startGame;
+        startGame = function() {
+            _origStartGame();
+            setTimeout(() => {
+                fetch(APPS_SCRIPT_URL).then(r=>r.json()).then(d => {
+                    lastKnownCount = ((d.values||[]).slice(1)).length;
+                    startLiveNotifications();
+                }).catch(()=>{});
+            }, 1500);
+        };
+
+        console.log('🚀 10 améliorations époustouflantes chargées !');
+
     </script>
 </body>
 </html>
