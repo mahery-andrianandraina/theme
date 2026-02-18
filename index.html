@@ -1112,95 +1112,103 @@
             }
         }
 
-        /* Inactivity Notification Modal */
-        .inactivity-modal {
+        /* ── Avatar Coach (remplace inactivity modal) ── */
+        #inactivity-modal { display: none !important; }
+
+        #coach-bubble {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
+            top: 1.2rem;
+            right: 1.4rem;
+            z-index: 99998;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
+            align-items: flex-end;
+            gap: 0.7rem;
+            transform: translateX(140%);
+            transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
         }
-
-        .inactivity-modal.active {
+        #coach-bubble.show {
+            transform: translateX(0);
             opacity: 1;
             pointer-events: auto;
         }
-
-        .inactivity-content {
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 212, 255, 0.15));
-            border: 3px solid var(--secondary);
-            border-radius: 25px;
-            padding: 2.5rem;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
-            animation: slideInDown 0.5s ease;
+        .coach-msg {
+            background: linear-gradient(135deg, #0d1230, #1a2050);
+            border: 2px solid var(--secondary);
+            border-radius: 18px 18px 4px 18px;
+            padding: 0.85rem 1.1rem 0.85rem 1rem;
+            max-width: 230px;
+            box-shadow: 0 8px 32px rgba(0,212,255,0.4), 0 2px 8px rgba(0,0,0,0.5);
+            position: relative;
         }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .coach-msg::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: -10px;
+            width: 0; height: 0;
+            border-left: 10px solid #00D4FF;
+            border-bottom: 10px solid transparent;
         }
-
-        .inactivity-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            animation: pulseIcon 2s infinite;
-        }
-
-        @keyframes pulseIcon {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .inactivity-title {
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .coach-msg-name {
+            font-size: 0.65rem;
             font-weight: 700;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.3rem;
         }
-
-        .inactivity-text {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .inactivity-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .btn-continue {
-            flex: 1;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        .coach-msg-text {
+            font-size: 0.88rem;
+            font-weight: 600;
             color: white;
+            line-height: 1.5;
         }
-
-        .btn-skip {
-            flex: 1;
-            background: rgba(255, 215, 0, 0.2);
-            color: var(--accent);
-            border: 2px solid var(--accent);
+        .coach-msg-dismiss {
+            display: inline-block;
+            margin-top: 0.6rem;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.45);
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s;
         }
+        .coach-msg-dismiss:hover { color: var(--accent); }
+        .coach-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 3px solid var(--secondary);
+            box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,102,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            animation: coachPulse 2.5s ease-in-out infinite;
+            cursor: pointer;
+        }
+        @keyframes coachPulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(0,212,255,0.6); transform: scale(1); }
+            50%       { box-shadow: 0 0 30px rgba(0,212,255,0.9), 0 0 50px rgba(0,102,255,0.4); transform: scale(1.05); }
+        }
+        .coach-typing { display: flex; gap: 4px; align-items: center; padding: 0.4rem 0.2rem; }
+        .coach-typing span {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--secondary);
+            animation: typingDot 1.2s ease-in-out infinite;
+        }
+        .coach-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .coach-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+        /* stubs pour compat JS */
+        .inactivity-content, .inactivity-icon, .inactivity-title,
+        .inactivity-text, .inactivity-buttons, .btn-continue, .btn-skip {}
 
         /* ============================================
            NOUVEAUX STYLES - AMÉLIORATIONS
@@ -1840,23 +1848,24 @@
         </div>
     </div>
 
-    <!-- Inactivity Notification Modal -->
+    <!-- Inactivity modal (caché, gardé pour compat JS) -->
     <div id="inactivity-modal" class="inactivity-modal">
         <div class="inactivity-content">
-            <div class="inactivity-icon">⏰</div>
-            <h3 class="inactivity-title">Besoin d'aide ?</h3>
-            <p class="inactivity-text">
-                Vous semblez hésiter... Voulez-vous continuer le puzzle ou passer directement à la révélation du thème ?
-            </p>
-            <div class="inactivity-buttons">
-                <button id="continue-btn" class="btn btn-continue">
-                    🎮 Continuer
-                </button>
-                <button id="skip-btn" class="btn btn-skip">
-                    ✨ Révéler
-                </button>
-            </div>
+            <button id="continue-btn" class="btn btn-continue" style="display:none"></button>
+            <button id="skip-btn" class="btn btn-skip" style="display:none"></button>
         </div>
+    </div>
+
+    <!-- ⭐ AVATAR COACH — bulle haut droite -->
+    <div id="coach-bubble">
+        <div class="coach-msg">
+            <div class="coach-msg-name">⚡ Mahery</div>
+            <div id="coach-msg-text" class="coach-msg-text">
+                <div class="coach-typing"><span></span><span></span><span></span></div>
+            </div>
+            <span class="coach-msg-dismiss" onclick="dismissCoach()">OK, je continue ! 💪</span>
+        </div>
+        <div class="coach-avatar" onclick="dismissCoach()">🧑‍💼</div>
     </div>
 
     <script>
@@ -2349,12 +2358,67 @@
             }
         }
 
+        // ── COACH AVATAR (remplace showInactivityModal) ──
+        const _coachMessages = [
+            "Hé {name} ! 💪 T'es trop proche du but pour lâcher maintenant !",
+            "Allez {name}, chaque pièce compte — t'abandonnes pas ! 🔥",
+            "{name}, les champions finissent ce qu'ils commencent. C'est toi ça ! 🏆",
+            "Ne t'inquiète pas {name}, le puzzle attend juste le bon mouvement. Réfléchis ! 🧩",
+            "{name}, ton équipe te regarde. Montre-leur de quoi tu es capable ! 👊",
+            "Respire, {name}. La solution est là, juste devant toi ! ✨",
+            "Pas question d'abandonner {name} ! Les meilleurs se battent jusqu'au bout. 💥",
+        ];
+        let _coachCallCount = 0;
+
         function showInactivityModal() {
-            document.getElementById('inactivity-modal').classList.add('active');
+            // Pas de modal — on affiche la bulle coach à la place
+            const bubble = document.getElementById('coach-bubble');
+            const msgEl  = document.getElementById('coach-msg-text');
+            if (!bubble || !msgEl) return;
+
+            // Choisir un message rotatif
+            const idx = _coachCallCount % _coachMessages.length;
+            _coachCallCount++;
+            const name = currentPlayerName || 'Champion';
+            const rawMsg = _coachMessages[idx].replace(/{name}/g, name);
+
+            // Phase 1 : afficher les "..." de frappe
+            bubble.classList.add('show');
+            msgEl.innerHTML = '<div class="coach-typing"><span></span><span></span><span></span></div>';
+
+            // Phase 2 : révéler le message après 1.2s
+            setTimeout(() => {
+                msgEl.textContent = rawMsg;
+            }, 1200);
+
+            // Auto-hide après 9s
+            setTimeout(() => dismissCoach(), 9000);
+
+            // Son subtil
+            try {
+                const ac = new (window.AudioContext || window.webkitAudioContext)();
+                [660, 880].forEach((f, i) => {
+                    const o = ac.createOscillator();
+                    const g = ac.createGain();
+                    o.connect(g); g.connect(ac.destination);
+                    o.type = 'sine'; o.frequency.value = f;
+                    const t = ac.currentTime + i * 0.12;
+                    g.gain.setValueAtTime(0, t);
+                    g.gain.linearRampToValueAtTime(0.15, t + 0.05);
+                    g.gain.linearRampToValueAtTime(0, t + 0.3);
+                    o.start(t); o.stop(t + 0.35);
+                });
+            } catch(e) {}
         }
 
         function hideInactivityModal() {
-            document.getElementById('inactivity-modal').classList.remove('active');
+            dismissCoach();
+        }
+
+        function dismissCoach() {
+            const bubble = document.getElementById('coach-bubble');
+            if (bubble) bubble.classList.remove('show');
+            resetActivityTimer();
         }
 
         function startInactivityCheck() {
@@ -2393,16 +2457,9 @@
             document.getElementById('modal').classList.remove('active');
         });
 
-        // Inactivity modal button handlers
-        document.getElementById('continue-btn').addEventListener('click', () => {
-            hideInactivityModal();
-            resetActivityTimer();
-        });
-
-        document.getElementById('skip-btn').addEventListener('click', () => {
-            hideInactivityModal();
-            completePuzzle();
-        });
+        // Inactivity : boutons cachés pour compat, le coach se ferme via dismissCoach()
+        document.getElementById('continue-btn').addEventListener('click', () => { dismissCoach(); });
+        document.getElementById('skip-btn').addEventListener('click', () => { dismissCoach(); });
 
         // Cinematic Warning Screen Functions
         function startGame() {
@@ -3179,20 +3236,773 @@
             loadLiveCounter();
         });
 
-        // Démarrer notifications live quand le jeu commence
-        const _origStartGame = startGame;
-        startGame = function() {
-            _origStartGame();
+        // Les notifications live sont intégrées dans le startGame principal (pack visuel MAX)
+
+        console.log('🚀 10 améliorations époustouflantes chargées !');
+
+    </script>
+
+    <!-- ════════════════════════════════════════════════════════
+         🎆 PACK VISUEL MAXIMUM - EFFETS IMPRESSIONNANTS
+         ════════════════════════════════════════════════════════ -->
+
+    <!-- AURORA Background -->
+    <canvas id="aurora-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.18;"></canvas>
+
+    <!-- COUNTDOWN OVERLAY -->
+    <div id="countdown-overlay" style="
+        display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,0.92);z-index:50000;
+        align-items:center;justify-content:center;flex-direction:column;
+    ">
+        <div id="countdown-number" style="
+            font-family:'Righteous',cursive;font-size:20vw;font-weight:900;
+            background:linear-gradient(135deg,#0066FF,#00D4FF,#FFD700);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+            filter:drop-shadow(0 0 60px rgba(0,212,255,0.9));
+            animation:countBeat 1s cubic-bezier(0.36,0.07,0.19,0.97) infinite;
+            line-height:1;
+        ">3</div>
+        <div id="countdown-text" style="font-size:1.5rem;color:rgba(255,255,255,0.7);margin-top:1rem;letter-spacing:4px;text-transform:uppercase;">Prépare-toi...</div>
+        <!-- Rings animés -->
+        <div style="position:absolute;width:300px;height:300px;border-radius:50%;border:2px solid rgba(0,212,255,0.15);animation:ringExpand 2s ease-out infinite;"></div>
+        <div style="position:absolute;width:300px;height:300px;border-radius:50%;border:2px solid rgba(0,212,255,0.1);animation:ringExpand 2s ease-out 0.6s infinite;"></div>
+        <div style="position:absolute;width:300px;height:300px;border-radius:50%;border:2px solid rgba(0,212,255,0.06);animation:ringExpand 2s ease-out 1.2s infinite;"></div>
+    </div>
+
+    <!-- VICTORY CINEMATIC OVERLAY -->
+    <div id="victory-cinematic" style="
+        display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+        z-index:49000;pointer-events:none;overflow:hidden;
+    ">
+        <!-- Shockwave ring -->
+        <div id="shockwave" style="
+            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            width:10px;height:10px;border-radius:50%;
+            border:3px solid #00D4FF;opacity:0;
+        "></div>
+        <!-- Lightning bolts -->
+        <svg id="lightning-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <line id="bolt1" x1="960" y1="0" x2="200" y2="1080" stroke="#00D4FF" stroke-width="3" opacity="0"/>
+            <line id="bolt2" x1="960" y1="0" x2="1720" y2="1080" stroke="#FFD700" stroke-width="3" opacity="0"/>
+            <line id="bolt3" x1="0" y1="540" x2="1920" y2="200" stroke="#0066FF" stroke-width="2" opacity="0"/>
+        </svg>
+        <!-- Particle burst canvas -->
+        <canvas id="burst-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;"></canvas>
+    </div>
+
+    <!-- RECORD ALERT - Plein écran dramatique -->
+    <div id="record-alert" style="
+        display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,0.0);z-index:48000;
+        align-items:center;justify-content:center;pointer-events:none;
+    ">
+        <div id="record-alert-inner" style="
+            text-align:center;transform:scale(0);opacity:0;
+        ">
+            <div style="font-size:8vw;animation:crownFloat 2s ease-in-out infinite;">👑</div>
+            <div style="
+                font-family:'Righteous',cursive;font-size:6vw;font-weight:900;
+                background:linear-gradient(90deg,#FFD700,#FF8C00,#FFD700);
+                background-size:200% 100%;
+                -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+                animation:goldShimmer 1.5s linear infinite;
+                text-transform:uppercase;letter-spacing:5px;
+                filter:drop-shadow(0 0 40px rgba(255,215,0,0.9));
+            ">NOUVEAU RECORD !</div>
+            <div id="record-name" style="font-size:2.5vw;color:white;margin-top:1rem;letter-spacing:3px;opacity:0.9;"></div>
+        </div>
+    </div>
+
+    <!-- HOLOGRAPHIC CURSOR TRAIL -->
+    <canvas id="cursor-trail" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
+
+    <style>
+        /* ── COUNTDOWN ── */
+        @keyframes countBeat {
+            0% { transform: scale(1); filter: drop-shadow(0 0 60px rgba(0,212,255,0.9)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 100px rgba(0,212,255,1)); }
+            100% { transform: scale(1); }
+        }
+        @keyframes ringExpand {
+            0%   { transform: scale(0.3); opacity: 0.6; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* ── VICTORY / SHOCKWAVE ── */
+        @keyframes shockwaveExpand {
+            0%   { width: 10px; height: 10px; opacity: 1; border-width: 5px; }
+            100% { width: 200vmax; height: 200vmax; opacity: 0; border-width: 1px; }
+        }
+        @keyframes crownFloat {
+            0%,100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes goldShimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        @keyframes recordReveal {
+            0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+            60%  { transform: scale(1.1) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* ── TILES HOLOGRAPHIQUES ── */
+        .puzzle-tile {
+            background: rgba(255,255,255,0.04) !important;
+            overflow: hidden;
+            position: relative;
+        }
+        .puzzle-tile:not(.empty)::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255,255,255,0.08) 40%,
+                rgba(0,212,255,0.12) 50%,
+                rgba(255,255,255,0.04) 60%,
+                transparent 100%
+            );
+            background-size: 300% 300%;
+            animation: holoShimmer 4s ease infinite;
+            pointer-events: none;
+            z-index: 5;
+            mix-blend-mode: screen;
+        }
+        @keyframes holoShimmer {
+            0%   { background-position: 0% 0%; opacity: 0.4; }
+            50%  { background-position: 100% 100%; opacity: 0.9; }
+            100% { background-position: 0% 0%; opacity: 0.4; }
+        }
+        .puzzle-tile:not(.empty):hover::after {
+            animation: holoShimmerFast 0.8s ease infinite;
+        }
+        @keyframes holoShimmerFast {
+            0%   { background-position: 0% 0%; opacity: 0.8; }
+            100% { background-position: 100% 100%; opacity: 1; }
+        }
+
+        /* ── CORRECT TILE GLOW ── */
+        .puzzle-tile.correct::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, #00ff88, #00D4FF, #00ff88);
+            background-size: 200% 200%;
+            animation: correctBorderSpin 2s linear infinite;
+            z-index: 0;
+            border-radius: 10px;
+        }
+        .puzzle-tile.correct > * { position: relative; z-index: 1; }
+        @keyframes correctBorderSpin {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 200%; }
+        }
+
+        /* ── GLITCH LOGO ── */
+        @keyframes glitchText {
+            0%, 100% { 
+                clip-path: none;
+                transform: translate(0);
+                filter: drop-shadow(0 0 15px rgba(0,212,255,0.8));
+            }
+            10% { 
+                clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+                transform: translate(-4px, 2px);
+                filter: drop-shadow(4px 0 0 rgba(255,0,0,0.7)) drop-shadow(-4px 0 0 rgba(0,255,255,0.7));
+            }
+            20% {
+                clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+                transform: translate(3px, -1px);
+            }
+            30% { transform: translate(0); clip-path: none; }
+            60% {
+                clip-path: polygon(0 10%, 100% 10%, 100% 25%, 0 25%);
+                transform: translate(-3px, 0);
+                filter: drop-shadow(3px 0 0 rgba(255,215,0,0.8)) drop-shadow(-3px 0 0 rgba(0,102,255,0.8));
+            }
+        }
+        .logo.glitching {
+            animation: gradientMove 3s ease infinite, glitchText 0.3s steps(1) 3 !important;
+        }
+
+        /* ── TILE MOVE PARTICLE ── */
+        @keyframes tileSpark {
+            0%   { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; }
+        }
+        .tile-spark {
+            position: fixed;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #00D4FF;
+            pointer-events: none;
+            z-index: 9999;
+            animation: tileSpark 0.5s ease-out forwards;
+        }
+
+        /* ── CONFETTIS 3D AMÉLIORÉS ── */
+        .confetti-3d {
+            position: fixed;
+            pointer-events: none;
+            z-index: 55000;
+            animation: confetti3dFall var(--dur) ease-out forwards;
+            transform-style: preserve-3d;
+        }
+        @keyframes confetti3dFall {
+            0%   { transform: translateY(-10vh) translateX(0) rotate3d(1,1,0,0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(110vh) translateX(var(--drift)) rotate3d(1,1,0,var(--spin)) scale(0.5); opacity: 0; }
+        }
+
+        /* ── AURORA ── */
+        @keyframes auroraMove {
+            0%, 100% { transform: translateX(0) scaleY(1); }
+            50%       { transform: translateX(5%) scaleY(1.1); }
+        }
+
+        /* ── LIVE DOT ── */
+        .live-dot {
+            display:inline-block;
+            width:8px;height:8px;background:#00ff88;border-radius:50%;
+            margin-right:5px;vertical-align:middle;
+            animation:liveDotAnim 1.5s ease-in-out infinite;
+        }
+        @keyframes liveDotAnim {
+            0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 6px #00ff88;}
+            50%{opacity:0.4;transform:scale(0.7);box-shadow:0 0 2px #00ff88;}
+        }
+
+        /* ── TILE HIGHLIGHT on Move ── */
+        @keyframes tileFlash {
+            0% { box-shadow: inset 0 0 0 3px rgba(0,212,255,0.9), 0 0 20px rgba(0,212,255,0.6); }
+            100% { box-shadow: none; }
+        }
+        .tile-moved { animation: tileFlash 0.4s ease-out; }
+
+        /* ── PROGRESS PARTICLES (timer) ── */
+        @keyframes progressSpark {
+            0%   { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-20px) scale(0); opacity: 0; }
+        }
+    </style>
+
+    <script>
+    // ══════════════════════════════════════════════
+    // 🎆 AURORA BACKGROUND
+    // ══════════════════════════════════════════════
+    (function() {
+        const canvas = document.getElementById('aurora-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let t = 0;
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+        
+        function drawAurora() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = canvas.width, h = canvas.height;
+            
+            // 3 aurora bands
+            const bands = [
+                { color1: 'rgba(0,102,255,0.3)', color2: 'rgba(0,212,255,0.1)', yBase: 0.3, amp: 0.08, speed: 0.4 },
+                { color1: 'rgba(0,212,255,0.2)', color2: 'rgba(0,255,136,0.1)', yBase: 0.5, amp: 0.12, speed: 0.25 },
+                { color1: 'rgba(100,0,255,0.2)', color2: 'rgba(0,102,255,0.1)', yBase: 0.15, amp: 0.06, speed: 0.6 },
+            ];
+            
+            bands.forEach(band => {
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                for (let x = 0; x <= w; x += 4) {
+                    const y = h * band.yBase + Math.sin(x / w * Math.PI * 2 + t * band.speed) * h * band.amp
+                             + Math.sin(x / w * Math.PI * 4 + t * band.speed * 1.3) * h * band.amp * 0.4;
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                const grad = ctx.createLinearGradient(0, 0, 0, h);
+                grad.addColorStop(0, band.color1);
+                grad.addColorStop(1, band.color2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+            });
+            
+            t += 0.008;
+            requestAnimationFrame(drawAurora);
+        }
+        drawAurora();
+    })();
+
+    // ══════════════════════════════════════════════
+    // ✨ CURSOR TRAIL HOLOGRAPHIQUE
+    // ══════════════════════════════════════════════
+    (function() {
+        const canvas = document.getElementById('cursor-trail');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        const trail = [];
+        let mouseX = 0, mouseY = 0;
+        let isOverPuzzle = false;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            isOverPuzzle = el && (el.closest('.puzzle-tile') || el.closest('.puzzle-grid'));
+            if (isOverPuzzle) {
+                trail.push({ x: e.clientX, y: e.clientY, t: Date.now(), size: 8 + Math.random() * 6 });
+                if (trail.length > 25) trail.shift();
+            }
+        });
+        
+        function drawTrail() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const now = Date.now();
+            for (let i = trail.length - 1; i >= 0; i--) {
+                const p = trail[i];
+                const age = (now - p.t) / 600;
+                if (age > 1) { trail.splice(i, 1); continue; }
+                const alpha = (1 - age) * 0.5;
+                const size = p.size * (1 - age * 0.5);
+                const hue = (i * 12 + now * 0.05) % 360;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${hue}, 100%, 70%, ${alpha})`;
+                ctx.fill();
+                // Glow
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = `hsla(${hue}, 100%, 70%, ${alpha * 0.5})`;
+            }
+            ctx.shadowBlur = 0;
+            requestAnimationFrame(drawTrail);
+        }
+        drawTrail();
+    })();
+
+    // ══════════════════════════════════════════════
+    // 🎬 COUNTDOWN AVANT LE JEU
+    // ══════════════════════════════════════════════
+    const _origStartGameCountdown = startGame;
+    startGame = function() {
+        // Valider le prénom
+        const nameInput = document.getElementById('player-name-entry');
+        const enteredName = nameInput ? nameInput.value.trim() : '';
+        if (!enteredName) {
+            if (nameInput) {
+                nameInput.style.borderColor = '#ff4444';
+                nameInput.style.boxShadow = '0 0 15px rgba(255,68,68,0.4)';
+                nameInput.placeholder = '⚠️ Entrez votre prénom !';
+                nameInput.focus();
+                setTimeout(() => {
+                    nameInput.style.borderColor = '';
+                    nameInput.style.boxShadow = '';
+                    nameInput.placeholder = 'Votre prénom...';
+                }, 2000);
+            }
+            return;
+        }
+        currentPlayerName = enteredName;
+        
+        // Cacher l'écran d'intro
+        const warning = document.getElementById('cinematic-warning');
+        if (warning) { warning.classList.add('hidden'); setTimeout(() => warning.style.display='none', 1000); }
+        
+        // Afficher countdown
+        setTimeout(() => showCountdown(() => {
+            const mainContainer = document.querySelector('.main-container');
+            const music = document.getElementById('background-music');
+            const musicToggle = document.getElementById('music-toggle');
+            if (mainContainer) {
+                mainContainer.style.transition = 'opacity 0.8s ease';
+                mainContainer.style.opacity = '1';
+                mainContainer.style.pointerEvents = 'all';
+            }
+            // Bienvenue banner
+            const topSection = document.querySelector('.top-section');
+            if (topSection && currentPlayerName) {
+                const existingBanner = topSection.querySelector('.welcome-banner');
+                if (!existingBanner) {
+                    const banner = document.createElement('div');
+                    banner.className = 'welcome-banner';
+                    banner.innerHTML = '<div class="welcome-text">👋 Bienvenue dans l\'arène, <span class="welcome-name">' + currentPlayerName + '</span> !</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:0.3rem;">Bonne chance 🍀 Le chrono tourne...</div>';
+                    topSection.insertBefore(banner, topSection.firstChild);
+                }
+            }
+            startTimer();
+            music && music.play().catch(() => {});
+            musicToggle && musicToggle.classList.add('visible');
+            // Démarrer live notifications
             setTimeout(() => {
                 fetch(APPS_SCRIPT_URL).then(r=>r.json()).then(d => {
                     lastKnownCount = ((d.values||[]).slice(1)).length;
                     startLiveNotifications();
                 }).catch(()=>{});
             }, 1500);
-        };
+        }), 800);
+    };
+    
+    function showCountdown(callback) {
+        const overlay = document.getElementById('countdown-overlay');
+        const num = document.getElementById('countdown-number');
+        const txt = document.getElementById('countdown-text');
+        if (!overlay) { if (callback) callback(); return; }
+        
+        overlay.style.display = 'flex';
+        
+        const steps = [
+            { n: '3', t: 'Prépare-toi...', color: '#00D4FF' },
+            { n: '2', t: 'Concentre-toi...', color: '#FFD700' },
+            { n: '1', t: 'À fond !', color: '#FF6B35' },
+            { n: '🚀', t: 'PARTEZ !', color: '#00ff88' },
+        ];
+        
+        let i = 0;
+        function nextStep() {
+            if (i >= steps.length) {
+                overlay.style.transition = 'opacity 0.4s ease';
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    overlay.style.opacity = '1';
+                    if (callback) callback();
+                }, 400);
+                return;
+            }
+            const s = steps[i];
+            num.textContent = s.n;
+            num.style.fontSize = s.n === '🚀' ? '15vw' : '20vw';
+            txt.textContent = s.t;
+            
+            // Pulse effect
+            num.style.animation = 'none';
+            void num.offsetWidth;
+            num.style.animation = 'countBeat 1s cubic-bezier(0.36,0.07,0.19,0.97) infinite';
+            
+            // Sound ping
+            try {
+                const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx2.createOscillator();
+                const gain = ctx2.createGain();
+                osc.connect(gain); gain.connect(ctx2.destination);
+                osc.frequency.value = i === 3 ? 880 : 440 + i * 110;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.4, ctx2.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.4);
+                osc.start(); osc.stop(ctx2.currentTime + 0.4);
+            } catch(e) {}
+            
+            i++;
+            setTimeout(nextStep, i < 4 ? 900 : 600);
+        }
+        nextStep();
+    }
 
-        console.log('🚀 10 améliorations époustouflantes chargées !');
+    // ══════════════════════════════════════════════
+    // ⚡ EFFETS VISUELS SUR CHAQUE MOUVEMENT
+    // ══════════════════════════════════════════════
+    (function() {
+        // Intercept la fonction moveTile ou les clicks sur les tiles
+        document.addEventListener('click', function(e) {
+            const tile = e.target.closest('.puzzle-tile');
+            if (!tile || tile.classList.contains('empty')) return;
+            
+            // Mini sparks au click
+            const rect = tile.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            for (let i = 0; i < 6; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'tile-spark';
+                const angle = (i / 6) * Math.PI * 2;
+                const dist = 20 + Math.random() * 30;
+                spark.style.left = cx + 'px';
+                spark.style.top = cy + 'px';
+                spark.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                spark.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                spark.style.background = ['#00D4FF','#FFD700','#0066FF','#00ff88'][Math.floor(Math.random()*4)];
+                spark.style.animationDuration = (0.3 + Math.random() * 0.3) + 's';
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 700);
+            }
+            
+            // Flash sur la tuile
+            tile.classList.remove('tile-moved');
+            void tile.offsetWidth;
+            tile.classList.add('tile-moved');
+            setTimeout(() => tile.classList.remove('tile-moved'), 400);
+        });
+    })();
 
+    // ══════════════════════════════════════════════
+    // 🏆 VICTOIRE CINÉMATIQUE MAXIMALE
+    // ══════════════════════════════════════════════
+    const _origCompletePuzzle = completePuzzle;
+    completePuzzle = function() {
+        // Call original first
+        _origCompletePuzzle();
+        
+        // Déclencher la séquence cinématique
+        setTimeout(() => triggerVictoryCinematic(), 200);
+    };
+    
+    function triggerVictoryCinematic() {
+        const vc = document.getElementById('victory-cinematic');
+        if (!vc) return;
+        vc.style.display = 'block';
+        vc.style.pointerEvents = 'none';
+        
+        // 1. SHOCKWAVE
+        const sw = document.getElementById('shockwave');
+        if (sw) {
+            sw.style.animation = 'shockwaveExpand 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards';
+        }
+        
+        // 2. LIGHTNING BOLTS
+        setTimeout(() => {
+            const svg = document.getElementById('lightning-svg');
+            if (svg) {
+                svg.style.opacity = '1';
+                svg.style.transition = 'opacity 0.1s';
+                ['bolt1','bolt2','bolt3'].forEach((id, i) => {
+                    const b = document.getElementById(id);
+                    if (b) {
+                        setTimeout(() => {
+                            b.style.opacity = '0.8';
+                            setTimeout(() => { b.style.opacity = '0'; }, 80);
+                            setTimeout(() => { b.style.opacity = '0.6'; }, 160);
+                            setTimeout(() => { b.style.opacity = '0'; }, 240);
+                        }, i * 100);
+                    }
+                });
+                setTimeout(() => { svg.style.opacity = '0'; }, 600);
+            }
+        }, 300);
+        
+        // 3. PARTICLE BURST
+        setTimeout(() => launchParticleBurst(), 200);
+        
+        // 4. CONFETTIS 3D MASSIFS
+        setTimeout(() => launch3DConfetti(120), 400);
+        
+        // 5. Glitch logo
+        setTimeout(() => {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                logo.classList.add('glitching');
+                setTimeout(() => logo.classList.remove('glitching'), 1000);
+            }
+        }, 500);
+        
+        // 6. Hide cinematic after 3s
+        setTimeout(() => {
+            vc.style.transition = 'opacity 0.8s ease';
+            vc.style.opacity = '0';
+            setTimeout(() => { vc.style.display = 'none'; vc.style.opacity = '1'; }, 800);
+        }, 3000);
+    }
+    
+    function launchParticleBurst() {
+        const canvas = document.getElementById('burst-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const cx = canvas.width / 2, cy = canvas.height / 2;
+        const particles = [];
+        const colors = ['#FFD700','#00D4FF','#0066FF','#00ff88','#FF6B35','#FF00FF','#ffffff'];
+        
+        for (let i = 0; i < 200; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 3 + Math.random() * 12;
+            particles.push({
+                x: cx, y: cy,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed - Math.random() * 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                size: 3 + Math.random() * 8,
+                life: 1,
+                gravity: 0.15 + Math.random() * 0.2,
+                trail: []
+            });
+        }
+        
+        let frame = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let alive = false;
+            particles.forEach(p => {
+                if (p.life <= 0) return;
+                alive = true;
+                p.trail.push({ x: p.x, y: p.y, life: p.life });
+                if (p.trail.length > 8) p.trail.shift();
+                
+                // Draw trail
+                p.trail.forEach((tp, ti) => {
+                    ctx.beginPath();
+                    ctx.arc(tp.x, tp.y, p.size * 0.5 * (ti / p.trail.length), 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = tp.life * (ti / p.trail.length) * 0.4;
+                    ctx.fill();
+                });
+                
+                // Draw particle
+                ctx.globalAlpha = p.life;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+                
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.vx *= 0.98;
+                p.life -= 0.016;
+                p.size *= 0.995;
+            });
+            
+            if (alive && frame < 200) {
+                frame++;
+                requestAnimationFrame(animate);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+        animate();
+    }
+    
+    function launch3DConfetti(count) {
+        const colors = ['#FFD700','#00D4FF','#0066FF','#00ff88','#FF6B35','#FF00FF','#FF4444','#ffffff'];
+        const shapes = ['▪','▸','◆','●','★','⬟'];
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const el = document.createElement('div');
+                el.className = 'confetti-3d';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.left = (Math.random() * 110 - 5) + 'vw';
+                el.style.top = '-5vh';
+                el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                el.style.fontSize = (12 + Math.random() * 24) + 'px';
+                el.style.setProperty('--dur', (2 + Math.random() * 3) + 's');
+                el.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+                el.style.setProperty('--spin', (Math.random() * 720 - 360) + 'deg');
+                el.style.animationDelay = (Math.random() * 1) + 's';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 5000);
+            }, i * 15);
+        }
+    }
+    
+    // ══════════════════════════════════════════════
+    // 👑 ALERTE RECORD DRAMATIQUE
+    // ══════════════════════════════════════════════
+    function showRecordAlert(playerName) {
+        const alert = document.getElementById('record-alert');
+        const inner = document.getElementById('record-alert-inner');
+        const nameEl = document.getElementById('record-name');
+        if (!alert || !inner) return;
+        
+        if (nameEl) nameEl.textContent = playerName ? (playerName + ' 🔥 Imbattable !') : '';
+        
+        alert.style.display = 'flex';
+        alert.style.background = 'rgba(0,0,0,0)';
+        
+        // Animate in
+        setTimeout(() => {
+            inner.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease';
+            inner.style.transform = 'scale(1) rotate(0deg)';
+            inner.style.opacity = '1';
+            alert.style.transition = 'background 0.5s ease';
+            alert.style.background = 'rgba(0,0,0,0.75)';
+        }, 50);
+        
+        // Sound fanfare
+        try {
+            const actx = new (window.AudioContext || window.webkitAudioContext)();
+            const fanfareNotes = [523, 659, 784, 1047, 1319, 1047, 1319, 1568];
+            fanfareNotes.forEach((freq, i) => {
+                const osc = actx.createOscillator();
+                const gain = actx.createGain();
+                osc.connect(gain); gain.connect(actx.destination);
+                osc.frequency.value = freq;
+                osc.type = 'triangle';
+                const t = actx.currentTime + i * 0.12;
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(0.4, t + 0.05);
+                gain.gain.linearRampToValueAtTime(0, t + 0.25);
+                osc.start(t); osc.stop(t + 0.3);
+            });
+        } catch(e) {}
+        
+        // Animate out
+        setTimeout(() => {
+            inner.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            inner.style.transform = 'scale(0) rotate(10deg)';
+            inner.style.opacity = '0';
+            alert.style.background = 'rgba(0,0,0,0)';
+            setTimeout(() => { alert.style.display = 'none'; inner.style.transform = 'scale(0)'; }, 500);
+        }, 3000);
+    }
+    
+    // ══════════════════════════════════════════════
+    // 🔗 INTERCEPT LEADERBOARD POUR RECORD ALERT
+    // ══════════════════════════════════════════════
+    const _origShowLeaderboardWithSheets = showLeaderboardWithSheets;
+    showLeaderboardWithSheets = function(leaderboard, currentRank, isRecord, newBadges, stats) {
+        if (isRecord) {
+            showRecordAlert(currentPlayerName || stats.name || '');
+            setTimeout(() => _origShowLeaderboardWithSheets(leaderboard, currentRank, isRecord, newBadges, stats), 1500);
+        } else {
+            _origShowLeaderboardWithSheets(leaderboard, currentRank, isRecord, newBadges, stats);
+        }
+    };
+
+    // ══════════════════════════════════════════════
+    // 🌡️ PARTICULES RÉACTIVES AU TEMPO
+    // ══════════════════════════════════════════════
+    (function() {
+        const canvas = document.getElementById('particle-canvas');
+        if (!canvas) return;
+        
+        // Augmenter l'opacité et la vitesse selon le temps écoulé
+        const origStartTimer = startTimer;
+        let timerBoostInterval = null;
+        
+        // Override particle speed based on game time
+        const checkBoost = setInterval(() => {
+            if (typeof seconds !== 'undefined' && seconds > 0 && canvas) {
+                const urgency = Math.min(1, seconds / 120);
+                canvas.style.opacity = (0.3 + urgency * 0.4).toString();
+                // Le fond passe doucement au rouge sous la pression
+                if (urgency > 0.5) {
+                    const redIntensity = Math.floor((urgency - 0.5) * 2 * 40);
+                    document.body.style.backgroundImage = 
+                        'linear-gradient(135deg, #0A0E27 0%, rgb(' + redIntensity + ', 14, 39) 50%, #0A0E27 100%)';
+                }
+            }
+        }, 2000);
+    })();
+
+    console.log('🎆 Pack Visuel MAX chargé : Aurora, Cursor Trail, Countdown, Victory Cinematic, Record Alert, Holographic tiles !');
     </script>
 
     <!-- 🎧 Popup recommandation musique -->
@@ -3252,6 +4062,514 @@
             }
         }, 8000);
     </script>
+
+<!-- ════════════════════════════════════════════════════════
+     🔥 BONUS PACK ULTRA — 5 Effets Wow pour Épater l'Équipe
+     ════════════════════════════════════════════════════════ -->
+
+<!-- 🎯 BONUS 1 : COMBO STREAK — multiplicateur de tuiles consécutives -->
+<style>
+    #combo-display {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 99999;
+        pointer-events: none;
+        font-family: 'Righteous', cursive;
+        font-size: 5rem;
+        font-weight: 900;
+        text-align: center;
+        transition: none;
+        text-shadow:
+            0 0 30px currentColor,
+            0 0 60px currentColor,
+            0 0 90px currentColor;
+        will-change: transform, opacity;
+    }
+    #combo-display.show {
+        animation: comboPop 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes comboPop {
+        0%   { transform: translate(-50%,-50%) scale(0) rotate(-15deg); opacity:1; }
+        20%  { transform: translate(-50%,-50%) scale(1.2) rotate(5deg);  opacity:1; }
+        50%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity:1; }
+        80%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity:1; }
+        100% { transform: translate(-50%,-50%) scale(0.5) rotate(0deg);  opacity:0; }
+    }
+
+    /* BONUS 2 : BARRE DE PUISSANCE DYNAMIQUE */
+    #power-bar-wrap {
+        position: fixed;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        pointer-events: none;
+    }
+    #power-bar-label {
+        font-size: 0.55rem;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+    }
+    #power-bar-track {
+        width: 8px;
+        height: 120px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.15);
+        position: relative;
+    }
+    #power-bar-fill {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 0%;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #FFD700, #00D4FF, #0066FF);
+        transition: height 0.4s ease;
+        box-shadow: 0 0 12px rgba(0,212,255,0.8);
+    }
+    #power-bar-glow {
+        font-size: 1rem;
+    }
+
+    /* BONUS 3 : COMMENTATEUR VOCAL — toast flottant */
+    #voice-toast {
+        position: fixed;
+        top: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(-120px);
+        z-index: 99990;
+        background: linear-gradient(135deg, rgba(10,14,39,0.97), rgba(26,31,58,0.97));
+        border: 2px solid var(--secondary);
+        border-radius: 50px;
+        padding: 0.7rem 2rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: white;
+        box-shadow: 0 8px 40px rgba(0,212,255,0.5);
+        transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease;
+        opacity: 0;
+        white-space: nowrap;
+        pointer-events: none;
+        text-shadow: 0 0 10px rgba(0,212,255,0.6);
+    }
+    #voice-toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+
+    /* BONUS 4 : KONAMI CODE EASTER EGG — explosion nucléaire */
+    #konami-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        background: radial-gradient(ellipse at center, #FFD700 0%, #FF6600 30%, #FF0000 60%, #000 100%);
+        animation: konamiNuke 2s ease forwards;
+        pointer-events: none;
+    }
+    @keyframes konamiNuke {
+        0%   { opacity:0; transform: scale(0); }
+        30%  { opacity:1; transform: scale(1); }
+        70%  { opacity:1; transform: scale(1.05); }
+        100% { opacity:0; transform: scale(1.1); }
+    }
+    #konami-text {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        font-family: 'Righteous', cursive;
+        font-size: clamp(2rem, 8vw, 6rem);
+        color: white;
+        text-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px #FFD700;
+        text-align: center;
+        animation: konamiTextPop 2s ease forwards;
+        letter-spacing: 5px;
+    }
+    @keyframes konamiTextPop {
+        0%   { opacity:0; transform: translate(-50%,-50%) scale(0); }
+        40%  { opacity:1; transform: translate(-50%,-50%) scale(1.2); }
+        100% { opacity:0; transform: translate(-50%,-50%) scale(0.8); }
+    }
+
+    /* BONUS 5 : LASER SCAN au hover sur la grille */
+    #puzzle-grid {
+        position: relative;
+    }
+    #laser-scan {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 3px;
+        background: linear-gradient(90deg, transparent, #00D4FF, #FFD700, #00D4FF, transparent);
+        box-shadow: 0 0 20px #00D4FF, 0 0 40px #0066FF;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .puzzle-grid:hover #laser-scan { opacity: 1; }
+
+    /* BONUS 6 : MILESTONE FLASH — flash coloré tous les 25 mouvements */
+    #milestone-flash {
+        position: fixed;
+        inset: 0;
+        z-index: 88888;
+        pointer-events: none;
+        opacity: 0;
+        mix-blend-mode: screen;
+    }
+    #milestone-flash.flash-anim {
+        animation: milestoneFlash 0.8s ease forwards;
+    }
+    @keyframes milestoneFlash {
+        0%   { opacity:0; }
+        20%  { opacity:0.35; }
+        100% { opacity:0; }
+    }
+</style>
+
+<!-- DOM elements pour les bonus -->
+<div id="combo-display"></div>
+<div id="power-bar-wrap">
+    <div id="power-bar-label">Boost</div>
+    <div id="power-bar-track"><div id="power-bar-fill"></div></div>
+    <div id="power-bar-glow">⚡</div>
+</div>
+<div id="voice-toast">🔥</div>
+<div id="konami-overlay"><div id="konami-text">🔓 CHEAT CODE !<br>BONUS ACTIVÉ !</div></div>
+<div id="milestone-flash"></div>
+
+<script>
+// ════════════════════════════════════════════════
+// 🎯 BONUS 1 — COMBO STREAK (tuiles consécutives)
+// ════════════════════════════════════════════════
+(function() {
+    let streak = 0;
+    let streakTimer = null;
+    const comboEl = document.getElementById('combo-display');
+    const comboColors = ['#00D4FF','#00ff88','#FFD700','#FF6B35','#FF00FF','#FF4444'];
+    const comboLabels = ['','','NICE! x2','HOT! x3','FIRE! x4','LEGEND x5','GOD MODE! x6'];
+    
+    function showCombo(n) {
+        if (n < 2) return;
+        const label = comboLabels[Math.min(n, comboLabels.length-1)] || `COMBO x${n}!`;
+        const color = comboColors[(n-2) % comboColors.length];
+        comboEl.textContent = label;
+        comboEl.style.color = color;
+        comboEl.style.fontSize = Math.min(3 + n * 0.5, 7) + 'rem';
+        comboEl.classList.remove('show');
+        void comboEl.offsetWidth; // force reflow
+        comboEl.classList.add('show');
+        
+        // Son combo
+        try {
+            const ac = new (window.AudioContext || window.webkitAudioContext)();
+            [440 + n*60, 550 + n*60, 660 + n*60].forEach((f, i) => {
+                const o = ac.createOscillator();
+                const g = ac.createGain();
+                o.connect(g); g.connect(ac.destination);
+                o.frequency.value = f;
+                o.type = 'triangle';
+                const t = ac.currentTime + i * 0.08;
+                g.gain.setValueAtTime(0, t);
+                g.gain.linearRampToValueAtTime(0.3, t + 0.04);
+                g.gain.linearRampToValueAtTime(0, t + 0.2);
+                o.start(t); o.stop(t + 0.25);
+            });
+        } catch(e){}
+    }
+    
+    // Observer sur les mouvements du puzzle — on écoute les tiles qui deviennent "correct"
+    const observer = new MutationObserver((muts) => {
+        let gotCorrect = false;
+        muts.forEach(m => {
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+                const el = m.target;
+                if (el.classList.contains('correct') && !el.dataset.streakCounted) {
+                    el.dataset.streakCounted = '1';
+                    gotCorrect = true;
+                }
+            }
+        });
+        if (gotCorrect) {
+            streak++;
+            clearTimeout(streakTimer);
+            showCombo(streak);
+            streakTimer = setTimeout(() => { streak = 0; }, 4000);
+        }
+    });
+    
+    // Attach observer once grid is rendered
+    const attachObs = setInterval(() => {
+        const grid = document.getElementById('puzzle-grid');
+        if (grid && grid.children.length > 0) {
+            observer.observe(grid, { subtree: true, attributes: true, attributeFilter: ['class'] });
+            clearInterval(attachObs);
+        }
+    }, 500);
+    
+    // Reset streak on shuffle
+    const origShuffle = document.getElementById('shuffle-btn');
+    if (origShuffle) origShuffle.addEventListener('click', () => {
+        streak = 0;
+        document.querySelectorAll('.puzzle-tile').forEach(t => delete t.dataset.streakCounted);
+    });
+})();
+
+// ════════════════════════════════════════════════
+// 💪 BONUS 2 — BARRE DE PUISSANCE DYNAMIQUE
+// ════════════════════════════════════════════════
+(function() {
+    const fill = document.getElementById('power-bar-fill');
+    const glow = document.getElementById('power-bar-glow');
+    const glowEmojis = ['💤','🌀','⚡','🔥','💥','👑'];
+    
+    function updatePower() {
+        // Basé sur les tuiles correctement placées
+        const total = document.querySelectorAll('.puzzle-tile:not(.empty)').length;
+        const correct = document.querySelectorAll('.puzzle-tile.correct').length;
+        if (total === 0) return;
+        const pct = Math.round((correct / total) * 100);
+        fill.style.height = pct + '%';
+        const idx = Math.floor((pct / 100) * (glowEmojis.length - 1));
+        glow.textContent = glowEmojis[idx];
+        
+        // Couleur progressive
+        if (pct < 33) fill.style.background = 'linear-gradient(180deg, #00D4FF, #0066FF)';
+        else if (pct < 66) fill.style.background = 'linear-gradient(180deg, #FFD700, #00D4FF)';
+        else fill.style.background = 'linear-gradient(180deg, #00ff88, #FFD700)';
+    }
+    setInterval(updatePower, 400);
+})();
+
+// ════════════════════════════════════════════════
+// 🎙️ BONUS 3 — COMMENTATEUR VOCAL (Web Speech)
+// ════════════════════════════════════════════════
+(function() {
+    const toast = document.getElementById('voice-toast');
+    let lastMsg = '';
+    let shown = false;
+    
+    const messages = {
+        start: ['🚀 C\'est parti !', '💪 Let\'s go !', '🎯 Top chrono !'],
+        moving: ['🔥 T\'assures !', '⚡ Excellent !', '💡 Brillant !', '🎯 Bien joué !', '🚀 Continues !'],
+        halfway: ['⚡ Déjà à moitié !', '💥 Mi-chemin !', '🏃 Accélère !'],
+        almost: ['🔥 Presque là !', '👑 C\'est imminent !', '💎 Encore un effort !'],
+        slow: ['🤔 Réfléchis...', '💡 Tu peux le faire !', '🧩 Analyse !']
+    };
+    
+    function showToast(msg) {
+        if (msg === lastMsg) return;
+        lastMsg = msg;
+        toast.textContent = msg;
+        toast.classList.remove('show');
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2800);
+        
+        // Speech si dispo
+        if ('speechSynthesis' in window) {
+            try {
+                const clean = msg.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').trim();
+                if (clean) {
+                    const utt = new SpeechSynthesisUtterance(clean);
+                    utt.lang = 'fr-FR';
+                    utt.volume = 0.5;
+                    utt.rate = 1.1;
+                    speechSynthesis.speak(utt);
+                }
+            } catch(e){}
+        }
+    }
+    
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    
+    // Hook sur le démarrage du jeu
+    const origStartGame = window.startGame;
+    window.startGame = function() {
+        origStartGame && origStartGame.apply(this, arguments);
+        setTimeout(() => showToast(pick(messages.start)), 1500);
+    };
+    
+    // Surveiller progression
+    setInterval(() => {
+        const total = document.querySelectorAll('.puzzle-tile:not(.empty)').length;
+        const correct = document.querySelectorAll('.puzzle-tile.correct').length;
+        if (total === 0 || shown) return;
+        const pct = correct / total;
+        if (pct >= 0.45 && pct < 0.55 && !window._toastHalf) {
+            window._toastHalf = true;
+            showToast(pick(messages.halfway));
+        }
+        if (pct >= 0.8 && !window._toastAlmost) {
+            window._toastAlmost = true;
+            showToast(pick(messages.almost));
+        }
+    }, 3000);
+    
+    // Encouragement aléatoire pendant le jeu
+    let moveCount = 0;
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.puzzle-tile:not(.empty)')) {
+            moveCount++;
+            if (moveCount % 10 === 0) showToast(pick(messages.moving));
+        }
+    });
+})();
+
+// ════════════════════════════════════════════════
+// 🕹️ BONUS 4 — KONAMI CODE EASTER EGG
+// ════════════════════════════════════════════════
+(function() {
+    const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let idx = 0;
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === code[idx]) {
+            idx++;
+            if (idx === code.length) {
+                idx = 0;
+                triggerKonami();
+            }
+        } else {
+            idx = (e.key === code[0]) ? 1 : 0;
+        }
+    });
+    
+    function triggerKonami() {
+        const overlay = document.getElementById('konami-overlay');
+        overlay.style.display = 'block';
+        
+        // Son épique
+        try {
+            const ac = new (window.AudioContext || window.webkitAudioContext)();
+            const sequence = [261,329,392,523,659,784,1047,784,659,523,784,1047];
+            sequence.forEach((freq, i) => {
+                const o = ac.createOscillator();
+                const g = ac.createGain();
+                o.connect(g); g.connect(ac.destination);
+                o.frequency.value = freq;
+                o.type = 'square';
+                const t = ac.currentTime + i * 0.1;
+                g.gain.setValueAtTime(0.2, t);
+                g.gain.linearRampToValueAtTime(0, t + 0.15);
+                o.start(t); o.stop(t + 0.2);
+            });
+        } catch(e) {}
+        
+        // Confetti nuclear
+        if (typeof launch3DConfetti === 'function') {
+            for (let i = 0; i < 3; i++) setTimeout(() => launch3DConfetti(80), i * 400);
+        }
+        
+        // Enlever overlay
+        setTimeout(() => { overlay.style.display = 'none'; }, 2200);
+        
+        // Bonus : timer figé 5s en récompense (easter egg)
+        if (typeof timerInterval !== 'undefined') {
+            clearInterval(timerInterval);
+            setTimeout(() => {
+                if (typeof startTimer === 'function') startTimer();
+            }, 5000);
+        }
+    }
+})();
+
+// ════════════════════════════════════════════════
+// ⚡ BONUS 5 — LASER SCAN ANIMÉ sur le puzzle
+// ════════════════════════════════════════════════
+(function() {
+    // Injecter le laser dans la grille quand elle est prête
+    const inject = setInterval(() => {
+        const grid = document.getElementById('puzzle-grid');
+        if (grid) {
+            // S'assurer que la grille est relative
+            grid.style.position = 'relative';
+            const laser = document.createElement('div');
+            laser.id = 'laser-scan';
+            laser.style.cssText = `
+                position:absolute; top:0; left:0;
+                width:100%; height:3px;
+                background:linear-gradient(90deg,transparent,#00D4FF,#FFD700,#00D4FF,transparent);
+                box-shadow:0 0 20px #00D4FF, 0 0 40px #0066FF;
+                pointer-events:none; z-index:100;
+                opacity:0; transition:opacity 0.3s;
+            `;
+            grid.appendChild(laser);
+            
+            let pos = 0; let dir = 1;
+            function scanLoop() {
+                const h = grid.clientHeight;
+                pos += dir * 2.5;
+                if (pos > h - 3) { pos = h - 3; dir = -1; }
+                if (pos < 0) { pos = 0; dir = 1; }
+                laser.style.top = pos + 'px';
+                requestAnimationFrame(scanLoop);
+            }
+            scanLoop();
+            
+            grid.addEventListener('mouseenter', () => { laser.style.opacity = '1'; });
+            grid.addEventListener('mouseleave', () => { laser.style.opacity = '0'; });
+            clearInterval(inject);
+        }
+    }, 600);
+})();
+
+// ════════════════════════════════════════════════
+// 💥 BONUS 6 — MILESTONE FLASH tous les 25 mouvements
+// ════════════════════════════════════════════════
+(function() {
+    const flashEl = document.getElementById('milestone-flash');
+    const milestoneColors = [
+        'radial-gradient(ellipse, rgba(0,212,255,0.5) 0%, transparent 70%)',
+        'radial-gradient(ellipse, rgba(255,215,0,0.5) 0%, transparent 70%)',
+        'radial-gradient(ellipse, rgba(0,255,136,0.5) 0%, transparent 70%)',
+        'radial-gradient(ellipse, rgba(255,107,53,0.5) 0%, transparent 70%)',
+    ];
+    let lastFlashMove = 0;
+    let colorIdx = 0;
+    
+    const checkMilestone = setInterval(() => {
+        if (typeof moves === 'undefined') return;
+        if (moves > 0 && moves % 25 === 0 && moves !== lastFlashMove) {
+            lastFlashMove = moves;
+            flashEl.style.background = milestoneColors[colorIdx % milestoneColors.length];
+            colorIdx++;
+            flashEl.classList.remove('flash-anim');
+            void flashEl.offsetWidth;
+            flashEl.classList.add('flash-anim');
+            
+            // Son milestone
+            try {
+                const ac = new (window.AudioContext || window.webkitAudioContext)();
+                [880, 1100, 1320].forEach((f, i) => {
+                    const o = ac.createOscillator();
+                    const g = ac.createGain();
+                    o.connect(g); g.connect(ac.destination);
+                    o.frequency.value = f;
+                    o.type = 'sine';
+                    const t = ac.currentTime + i * 0.07;
+                    g.gain.setValueAtTime(0.25, t);
+                    g.gain.linearRampToValueAtTime(0, t + 0.2);
+                    o.start(t); o.stop(t + 0.25);
+                });
+            } catch(e) {}
+        }
+    }, 500);
+})();
+
+console.log('🔥 BONUS PACK ULTRA chargé : Combo Streak, Power Bar, Commentateur, Konami Code (↑↑↓↓←→←→BA), Laser Scan, Milestone Flash !');
+</script>
 
 </body>
 </html>
