@@ -604,7 +604,11 @@
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.6rem;
+        }
+        
+        .controls .btn:first-child {
+            /* Plus besoin de grid-column */
         }
 
         .btn {
@@ -634,6 +638,41 @@
         .btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Auto Win Button */
+        .btn-autowin {
+            background: linear-gradient(135deg, #ff0080 0%, #ff8c00 50%, #ff0080 100%) !important;
+            background-size: 200% 200% !important;
+            color: white !important;
+            border: 2px solid #ff0080 !important;
+            animation: autowinPulse 2s ease-in-out infinite !important;
+        }
+
+        @keyframes autowinPulse {
+            0%, 100% {
+                background-position: 0% 50%;
+                box-shadow: 0 5px 20px rgba(255, 0, 128, 0.5);
+            }
+            50% {
+                background-position: 100% 50%;
+                box-shadow: 0 8px 30px rgba(255, 140, 0, 0.7);
+            }
+        }
+
+        .btn-autowin:hover {
+            transform: translateY(-3px) scale(1.08) !important;
+            box-shadow: 0 12px 40px rgba(255, 0, 128, 0.8) !important;
+        }
+
+        .btn-autowin.solving {
+            animation: solvingPulse 0.5s ease-in-out infinite !important;
+            pointer-events: none;
+        }
+
+        @keyframes solvingPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         /* Right Panel - Puzzle */
@@ -1811,6 +1850,7 @@
                 <div class="controls">
                     <button class="btn btn-primary" id="shuffle-btn">🔀 Mélanger</button>
                     <button class="btn btn-secondary" id="hint-btn">💡 Indice</button>
+                    <button class="btn btn-autowin" id="autowin-btn">🏆 Auto Win</button>
                 </div>
             </div>
         </div>
@@ -2005,6 +2045,48 @@
             }
             moves = 0;
             document.getElementById('moves').textContent = moves;
+        }
+
+        // Auto Win Function
+        function autoWin() {
+            const autoWinBtn = document.getElementById('autowin-btn');
+            if (!autoWinBtn) return;
+            
+            autoWinBtn.classList.add('solving');
+            autoWinBtn.textContent = '⚡ Résolution...';
+            
+            const solveInterval = setInterval(() => {
+                if (checkWin()) {
+                    clearInterval(solveInterval);
+                    autoWinBtn.classList.remove('solving');
+                    autoWinBtn.textContent = '🏆 Auto Win';
+                    completePuzzle();
+                    return;
+                }
+                
+                const validMoves = getValidMoves();
+                if (validMoves.length > 0) {
+                    let bestMove = validMoves[0];
+                    let bestScore = 999;
+                    
+                    for (const move of validMoves) {
+                        let score = 0;
+                        for (let i = 0; i < totalTiles; i++) {
+                            if (tiles[i] === i) score++;
+                        }
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestMove = move;
+                        }
+                    }
+                    
+                    swapTiles(emptyIndex, bestMove);
+                    moves++;
+                    document.getElementById('moves').textContent = moves;
+                    renderPuzzle();
+                    if (typeof playMoveSound === 'function') playMoveSound();
+                }
+            }, 150);
         }
 
         function getValidMoves() {
@@ -2451,6 +2533,11 @@
                     randomTile.style.animation = '';
                 }, 500);
             }
+        });
+
+        document.getElementById('autowin-btn').addEventListener('click', () => {
+            resetActivityTimer();
+            autoWin();
         });
 
         document.getElementById('close-btn').addEventListener('click', () => {
