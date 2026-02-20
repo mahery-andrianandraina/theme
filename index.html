@@ -666,7 +666,7 @@
         .stat-box {
             flex: 1;
             background: rgba(0, 0, 0, 0.7);
-            padding: 1rem;
+            padding: 0.6rem 0.8rem;
             border-radius: 12px;
             border: 2px solid rgba(0, 212, 255, 0.5);
             backdrop-filter: blur(10px);
@@ -681,13 +681,13 @@
         .stat-label {
             color: var(--accent);
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: var(--secondary);
             font-weight: 700;
             text-shadow: 0 0 10px var(--secondary);
@@ -695,11 +695,11 @@
 
         .progress-bar {
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
         }
 
         .progress-fill {
@@ -776,29 +776,49 @@
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
         }
 
-        /* Auto Win Button */
+        /* Auto Win Button - THEME BLUE - Spectaculaire et remarquable */
         .btn-autowin {
-            background: linear-gradient(135deg, #ff0080 0%, #ff8c00 50%, #ff0080 100%) !important;
-            background-size: 200% 200% !important;
+            background: linear-gradient(135deg, #0066FF 0%, #00D4FF 50%, #0099FF 100%) !important;
+            background-size: 300% 300% !important;
             color: white !important;
-            border: 2px solid #ff0080 !important;
-            animation: autowinPulse 2s ease-in-out infinite !important;
+            border: 2px solid #00D4FF !important;
+            box-shadow: 0 5px 25px rgba(0, 102, 255, 0.6), inset 0 0 20px rgba(0, 212, 255, 0.2) !important;
+            animation: autowinPulse 2.5s ease-in-out infinite !important;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .btn-autowin::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: autowinShimmer 3s infinite;
+        }
+
+        @keyframes autowinShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         @keyframes autowinPulse {
             0%, 100% {
                 background-position: 0% 50%;
-                box-shadow: 0 5px 20px rgba(255, 0, 128, 0.5);
+                box-shadow: 0 5px 25px rgba(0, 102, 255, 0.6), inset 0 0 20px rgba(0, 212, 255, 0.2);
             }
             50% {
                 background-position: 100% 50%;
-                box-shadow: 0 8px 30px rgba(255, 140, 0, 0.7);
+                box-shadow: 0 10px 40px rgba(0, 212, 255, 0.8), inset 0 0 30px rgba(0, 212, 255, 0.4);
             }
         }
 
         .btn-autowin:hover {
             transform: translateY(-3px) scale(1.08) !important;
-            box-shadow: 0 12px 40px rgba(255, 0, 128, 0.8) !important;
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 1), inset 0 0 30px rgba(0, 212, 255, 0.5) !important;
         }
 
         .btn-autowin.solving {
@@ -809,6 +829,20 @@
         @keyframes solvingPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
+        }
+
+        /* Shuffle Button - Discret et secondaire */
+        .btn-shuffle {
+            background: linear-gradient(45deg, rgba(0, 102, 255, 0.3), rgba(0, 212, 255, 0.2)) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            border: 1.5px solid rgba(0, 212, 255, 0.4) !important;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3) !important;
+        }
+
+        .btn-shuffle:hover {
+            background: linear-gradient(45deg, rgba(0, 102, 255, 0.5), rgba(0, 212, 255, 0.4)) !important;
+            border-color: rgba(0, 212, 255, 0.6) !important;
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4) !important;
         }
 
         /* Right Panel - Puzzle */
@@ -3113,7 +3147,6 @@
                 <div class="stats-controls-row">
                     <div class="stats-container">
                         <div class="stat-box">
-                            <div class="stat-icon">⏱️</div>
                             <div class="stat-label">Temps</div>
                             <div class="stat-value" id="timer">00:00</div>
                             <div class="progress-bar">
@@ -3121,13 +3154,12 @@
                             </div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-icon">🔄</div>
                             <div class="stat-label">Mouvements</div>
                             <div class="stat-value" id="moves">0</div>
                         </div>
                     </div>
                     <div class="controls-side">
-                        <button class="btn btn-primary" id="shuffle-btn">Mélanger</button>
+                        <button class="btn btn-shuffle" id="shuffle-btn">Mélanger</button>
                         <button class="btn btn-autowin" id="autowin-btn">Auto Win</button>
                     </div>
                 </div>
@@ -3137,7 +3169,7 @@
         <!-- Right Panel - Puzzle -->
         <div class="right-panel">
             <div class="puzzle-header">
-                <h3 class="puzzle-title">N'équipe Stylée</h3>
+                <h3 class="puzzle-title">Photo de l'équipe</h3>
             </div>
             <div class="puzzle-wrapper">
                 <div class="puzzle-grid" id="puzzle-grid"></div>
@@ -3178,16 +3210,16 @@
                 <div class="modal-col-info">
                     <div class="modal-theme-badge">
                         <div class="modal-theme-badge-label">THÈME DE LA SEMAINE</div>
-                        <div class="modal-theme-badge-name">🔵 ALERTE BLEUE — OPÉRATION “SCHTROUMPF” 🔵</div>
+                        <div class="modal-theme-badge-name">BLEU</div>
                         <div class="modal-theme-badge-sub">Dress code confirmé</div>
                     </div>
                     <div class="blue-theme-info">
                         <div class="blue-theme-icon">◈</div>
                         <div class="blue-theme-text">
                             <strong>Code vestimentaire</strong><br>
-                            Pour tous , porte du <span class="blue-highlight">bleu en haut </span> —
-                             le bas style de votre choix.
-                            La seule règle : tout le monde en bleu en haut.
+                            Portez du <span class="blue-highlight">bleu de la tête aux pieds</span> —
+                            haut et bas bleus, au style de votre choix.
+                            La seule règle : tout le monde en bleu.
                         </div>
                     </div>
                     <button class="btn btn-primary modal-cta-btn" id="close-btn" onclick="onCloseModal()">
@@ -3199,21 +3231,28 @@
     </div>
 
     <!-- Auto Win Confirmation Modal -->
-    <div id="autowin-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:20000;align-items:center;justify-content:center;">
-        <div style="background:linear-gradient(135deg,#0A0E27,#1a1f3a);border:3px solid #ff0080;border-radius:24px;padding:2rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 60px rgba(255,0,128,0.5);animation:modalSlideIn 0.4s ease;">
-            <div style="font-size:3rem;margin-bottom:0.8rem;">⚠️</div>
-            <h2 style="color:#FFD700;font-size:1.4rem;margin-bottom:0.8rem;text-shadow:0 0 20px rgba(255,215,0,0.6);">Attention !</h2>
-            <p style="color:rgba(255,255,255,0.9);font-size:0.95rem;line-height:1.7;margin-bottom:1.2rem;">
-                En utilisant <strong style="color:#ff0080;">Auto Win</strong>, votre résolution sera marquée comme<br>
-                <strong style="color:#ff6b6b;">✗ Réussi grâce à Auto Win</strong><br><br>
-                Vous <strong>ne serez pas classé</strong> dans le classement officiel de l'équipe.<br>
-                <span style="color:rgba(255,255,255,0.5);font-size:0.85rem;">Seules les parties résolues manuellement comptent.</span>
+    <div id="autowin-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:20000;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+        <div style="background:linear-gradient(135deg,rgba(0,102,255,0.15) 0%,rgba(0,212,255,0.08) 50%,rgba(0,102,255,0.15) 100%);border:2px solid rgba(0,212,255,0.5);border-radius:24px;padding:2.5rem;max-width:450px;width:90%;text-align:center;box-shadow:0 0 60px rgba(0,212,255,0.4), inset 0 0 30px rgba(0,212,255,0.05);animation:modalSlideIn 0.4s ease;backdrop-filter:blur(10px);">
+            <div style="font-size:3rem;margin-bottom:0.8rem;animation:warningBounce 0.8s cubic-bezier(0.68,-0.55,0.265,1.55);">⚠️</div>
+            <h2 style="color:#00D4FF;font-size:1.5rem;margin-bottom:0.8rem;text-shadow:0 0 20px rgba(0,212,255,0.6);letter-spacing:1px;">Attention !</h2>
+            <p style="color:rgba(255,255,255,0.9);font-size:0.95rem;line-height:1.8;margin-bottom:1.5rem;background:rgba(0,212,255,0.05);padding:1rem;border-radius:12px;border-left:3px solid #00D4FF;">
+                En utilisant <strong style="color:#00D4FF;">Auto Win</strong>, votre résolution sera marquée comme<br>
+                <strong style="color:#0099FF;">✗ Réussi grâce à Auto Win</strong><br><br>
+                <span style="font-size:0.9rem;">Vous <strong>ne serez pas classé</strong> dans le classement officiel de l'équipe.</span><br>
+                <span style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Seules les parties résolues manuellement comptent.</span>
             </p>
-            <div style="display:flex;gap:1rem;justify-content:center;">
-                <button onclick="confirmAutoWin()" style="padding:0.7rem 1.5rem;background:linear-gradient(135deg,#ff0080,#ff8c00);border:none;border-radius:40px;color:white;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:'Poppins',sans-serif;letter-spacing:1px;">🏆 Continuer quand même</button>
-                <button onclick="document.getElementById('autowin-modal').style.display='none'" style="padding:0.7rem 1.5rem;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);border-radius:40px;color:white;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:'Poppins',sans-serif;">✖ Annuler</button>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <button onclick="confirmAutoWin()" style="padding:0.8rem 1.8rem;background:linear-gradient(135deg,#0066FF,#00D4FF);border:2px solid rgba(0,212,255,0.6);border-radius:40px;color:white;font-weight:800;font-size:0.95rem;cursor:pointer;font-family:'Poppins',sans-serif;letter-spacing:1.5px;box-shadow:0 5px 25px rgba(0,212,255,0.5);transition:all 0.3s ease;text-transform:uppercase;">🏆 Continuer quand même</button>
+                <button onclick="document.getElementById('autowin-modal').style.display='none'" style="padding:0.8rem 1.8rem;background:rgba(255,255,255,0.1);border:2px solid rgba(0,212,255,0.3);border-radius:40px;color:rgba(255,255,255,0.9);font-weight:700;font-size:0.9rem;cursor:pointer;font-family:'Poppins',sans-serif;transition:all 0.3s ease;text-transform:uppercase;">✖ Annuler</button>
             </div>
         </div>
+        <style>
+            @keyframes warningBounce {
+                0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            }
+        </style>
     </div>
 
     <!-- Inactivity modal (caché, gardé pour compat JS) -->
@@ -4090,7 +4129,6 @@
             const score = { name, time, moves, date: Date.now(), id: Date.now() };
             leaderboardData.scores.push(score);
             leaderboardData.scores.sort((a, b) => a.time !== b.time ? a.time - b.time : a.moves - b.moves);
-            leaderboardData.scores = leaderboardData.scores.slice(0, 10);
             
             leaderboardData.analytics.totalSolves++;
             leaderboardData.analytics.totalTime += time;
@@ -4340,9 +4378,13 @@
                     btn.textContent = 'Copié !';
                     btn.style.background = 'linear-gradient(135deg,#00c853,#69f0ae)';
                     setTimeout(() => {
-                        btn.textContent = 'Copier mon score';
-                        btn.style.background = '';
-                    }, 2000);
+                        // Close popup after copy confirmation
+                        const popup = document.getElementById('share-float-popup');
+                        if (popup) {
+                            popup.classList.remove('sfp-visible');
+                            setTimeout(() => popup.remove(), 400);
+                        }
+                    }, 1500);
                 }
             }).catch(() => {});
         }
@@ -4371,14 +4413,6 @@
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => popup.classList.add('sfp-visible'));
             });
-
-            // Auto-dismiss after 12s
-            setTimeout(() => {
-                if (popup.parentNode) {
-                    popup.classList.remove('sfp-visible');
-                    setTimeout(() => popup.remove(), 400);
-                }
-            }, 12000);
         }
 
         // ══ completePuzzle finale (tous effets + sauvegarde) ══
@@ -4475,7 +4509,7 @@
                         seenPlayers.add(s.name.toLowerCase());
                     }
                 }
-                cachedLeaderboard = uniqueScores.slice(0, 10);
+                cachedLeaderboard = uniqueScores;
                 lastFetchTime = now;
                 console.log('Leaderboard charge: ' + cachedLeaderboard.length + ' scores');
                 return cachedLeaderboard;
@@ -4505,7 +4539,32 @@
         function showLoader(message) {
             const loader = document.createElement('div');
             loader.id = 'api-loader';
-            loader.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10002;"><div style="background:linear-gradient(135deg,#0A0E27,#1a1f3a);padding:2rem;border-radius:20px;border:2px solid var(--secondary);text-align:center;"><div style="font-size:3rem;margin-bottom:1rem;">⏳</div><div style="color:white;font-size:1.2rem;">' + message + '</div></div></div>';
+            loader.innerHTML = `
+                <div class="loader-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <div class="loader-spectacular">
+                    <div class="loader-container">
+                        <div class="loader-core"></div>
+                        <div class="loader-orbit orbit-1"></div>
+                        <div class="loader-orbit orbit-2"></div>
+                        <div class="loader-orbit orbit-3"></div>
+                        <div class="orbit-dot dot-1"></div>
+                        <div class="orbit-dot dot-2"></div>
+                        <div class="orbit-dot dot-3"></div>
+                    </div>
+                    <div class="loader-message">
+                        <div class="loader-title">${message.split(' ')[0]}</div>
+                        <div class="loader-subtitle">${message.substring(message.indexOf(' ') + 1)}</div>
+                        <div class="loader-bar">
+                            <div class="loader-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
             document.body.appendChild(loader);
         }
 
@@ -6505,7 +6564,7 @@ console.log('🔥 BONUS PACK ULTRA chargé : Combo Streak, Power Bar, Commentate
 }
 @keyframes devCardIn {
     from { transform: scale(0.7) translateY(40px); opacity: 0; }
-    to   { transform: scale(1) transacity: 1; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 /* Animated border glow */
@@ -6811,6 +6870,277 @@ console.log('🔥 BONUS PACK ULTRA chargé : Combo Streak, Power Bar, Commentate
     pointer-events: none;
     animation: devClickRipple 0.5s ease-out forwards;
 }
+
+/* ══════════════════════════════════════════════════════
+   SPECTACULAR LEADERBOARD LOADER ANIMATION
+   ══════════════════════════════════════════════════════ */
+
+#api-loader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(5, 10, 30, 0.95) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10002 !important;
+    backdrop-filter: blur(8px) !important;
+    animation: loaderFadeIn 0.4s ease-out !important;
+}
+
+@keyframes loaderFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.loader-spectacular {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    perspective: 1000px;
+}
+
+.loader-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+/* Centre core pulsing */
+.loader-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #00D4FF, #0066FF);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #00D4FF, 0 0 60px rgba(0, 212, 255, 0.5);
+    animation: corePulse 2s ease-in-out infinite;
+}
+
+@keyframes corePulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* Orbital rings */
+.loader-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 2px solid;
+    border-radius: 50%;
+    animation: orbit linear infinite;
+}
+
+.orbit-1 {
+    width: 80px;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    border-color: transparent #00D4FF transparent transparent;
+    animation-duration: 3s;
+}
+
+.orbit-2 {
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%);
+    border-color: transparent transparent #0066FF transparent;
+    animation-duration: 4s;
+    animation-direction: reverse;
+}
+
+.orbit-3 {
+    width: 140px;
+    height: 140px;
+    transform: translate(-50%, -50%);
+    border-color: #FFD700 transparent transparent transparent;
+    animation-duration: 5s;
+}
+
+@keyframes orbit {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Orbital dots */
+.orbit-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #00D4FF;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+}
+
+.dot-1 {
+    top: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -40px;
+    background: #FFD700;
+    animation: dotFloat1 3s ease-in-out infinite;
+}
+
+.dot-2 {
+    top: 50%;
+    left: 100%;
+    margin-left: -55px;
+    margin-top: -4px;
+    background: #00D4FF;
+    animation: dotFloat2 4s ease-in-out infinite;
+}
+
+.dot-3 {
+    top: 100%;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -35px;
+    background: #0066FF;
+    animation: dotFloat3 5s ease-in-out infinite;
+}
+
+@keyframes dotFloat1 {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+@keyframes dotFloat2 {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+}
+
+@keyframes dotFloat3 {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Message text */
+.loader-message {
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+.loader-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #FFD700, #00D4FF, #0066FF, #FFD700);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease infinite;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0%; }
+    50% { background-position: 100%; }
+    100% { background-position: 0%; }
+}
+
+.loader-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Loading bar */
+.loader-bar {
+    width: 280px;
+    height: 6px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.loader-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0066FF, #00D4FF, #FFD700);
+    background-size: 200%;
+    border-radius: 10px;
+    animation: barFill 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+}
+
+@keyframes barFill {
+    0% { width: 0%; }
+    50% { width: 100%; }
+    100% { width: 0%; }
+}
+
+/* Floating particles */
+.loader-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00D4FF;
+    border-radius: 50%;
+    animation: particleFloat 4s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+    left: 20%;
+    top: 30%;
+    animation-delay: 0s;
+    opacity: 0.6;
+}
+
+.particle:nth-child(2) {
+    left: 80%;
+    top: 40%;
+    animation-delay: 0.5s;
+    opacity: 0.5;
+}
+
+.particle:nth-child(3) {
+    left: 30%;
+    top: 70%;
+    animation-delay: 1s;
+    opacity: 0.7;
+}
+
+.particle:nth-child(4) {
+    left: 75%;
+    top: 75%;
+    animation-delay: 1.5s;
+    opacity: 0.6;
+}
+
+@keyframes particleFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+    50% { transform: translateY(-60px) scale(1.2); opacity: 1; }
+}
+
 </style>
 
 <!-- Easter egg modal -->
