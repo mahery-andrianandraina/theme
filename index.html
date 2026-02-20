@@ -521,28 +521,138 @@
             margin-bottom: 1.2rem;
         }
 
-        .instructions-box {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 1.3rem;
-            border-radius: 15px;
-            border: 2px solid rgba(0, 212, 255, 0.5);
+        /* ── Intel Mission Card (replaces instructions-box) ── */
+        .intel-card {
+            background: rgba(0,0,0,0.55);
+            border-radius: 14px;
+            border: 1px solid rgba(0,212,255,0.3);
+            border-left: 3px solid var(--secondary);
+            margin-bottom: 0.9rem;
+            overflow: hidden;
             backdrop-filter: blur(10px);
-            margin-bottom: 1.2rem;
+            position: relative;
         }
 
-        .instructions-title {
-            font-size: 1.4rem;
-            color: #FFD700;
-            margin-bottom: 0.8rem;
+        .intel-card-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            padding: 0.55rem 1rem;
+            background: rgba(0,212,255,0.07);
+            border-bottom: 1px solid rgba(0,212,255,0.15);
         }
 
-        .instructions-text {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.9);
+        .intel-live-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--secondary);
+            box-shadow: 0 0 8px var(--secondary);
+            animation: sfpDotPulse 1.5s ease-in-out infinite;
+        }
+
+        .intel-card-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--secondary);
+            text-transform: uppercase;
+        }
+
+        .intel-card-body {
+            padding: 0.7rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .intel-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            padding: 0.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .intel-line:last-child { border-bottom: none; }
+
+        .intel-key {
+            color: rgba(255,255,255,0.38);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        .intel-val {
+            color: rgba(255,255,255,0.85);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .intel-card-footer {
+            padding: 0.4rem 1rem;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-top: 1px solid rgba(0,212,255,0.08);
+        }
+
+        .intel-scan-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .intel-scan-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -40%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            animation: scanSlide 2s linear infinite;
+        }
+
+        @keyframes scanSlide {
+            0%   { left: -40%; }
+            100% { left: 140%; }
+        }
+
+        .intel-scan-text {
+            font-size: 0.55rem;
+            color: rgba(0,212,255,0.4);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        /* Live rank teaser */
+        .rank-teaser {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.5);
+            padding: 0.4rem 0.8rem;
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .rank-teaser-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 6px var(--accent);
+            flex-shrink: 0;
+            animation: sfpDotPulse 2s ease-in-out infinite;
         }
 
         /* Stats */
@@ -828,68 +938,374 @@
             pointer-events: all;
         }
 
+        /* ══ FÉLICITATIONS MODAL — WIDE 2-COLUMN ══ */
         .modal-content {
-            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
-            padding: 2rem;
-            border-radius: 30px;
-            text-align: center;
-            max-width: 90vw;
-            max-height: 90vh;
-            width: auto;
-            border: 3px solid var(--secondary);
-            box-shadow: 0 20px 80px rgba(0, 212, 255, 0.6);
-            animation: modalSlideIn 0.5s ease-out;
-            overflow-y: auto;
+            background: linear-gradient(135deg, #0A0E27 0%, #0d1535 50%, #1a1f3a 100%);
+            border-radius: 24px;
+            width: min(880px, 94vw);
+            max-height: 94vh;
+            border: 2px solid rgba(0,212,255,0.4);
+            box-shadow: 0 0 0 1px rgba(0,212,255,0.1), 0 30px 100px rgba(0,102,255,0.5), 0 0 80px rgba(0,212,255,0.15);
+            animation: modalSlideIn 0.5s cubic-bezier(0.22,1,0.36,1);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         @keyframes modalSlideIn {
-            from { transform: scale(0.8) translateY(-50px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
+            from { transform: scale(0.88) translateY(-30px); opacity: 0; }
+            to   { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        .modal h2 {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        /* Top banner */
+        .modal-top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.6rem 0.9rem;
+            background: linear-gradient(90deg, rgba(0,102,255,0.2), rgba(0,212,255,0.12), rgba(0,102,255,0.2));
+            border-bottom: 1px solid rgba(0,212,255,0.18);
+            flex-shrink: 0;
+        }
+
+        .modal-confetti-strip { display: none; }
+
+        .modal-banner-center { text-align: center; }
+
+        .modal-title-main {
+            font-family: 'Righteous', cursive;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldShimmer 2.5s ease infinite;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        @keyframes goldShimmer {
+            0%,100% { background-position: 0% 50%; filter: drop-shadow(0 0 12px rgba(255,215,0,0.7)); }
+            50%      { background-position: 100% 50%; filter: drop-shadow(0 0 20px rgba(255,165,0,1)); }
+        }
+
+        .modal-theme-line {
+            margin-top: 0.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        /* 2-column body */
+        .modal-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Left col: image */
+        .modal-col-img {
+            padding: 1.2rem 1rem 1.2rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            border-right: 1px solid rgba(0,212,255,0.15);
+        }
+
+        .modal-img-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
         }
 
         .modal-image {
             width: 100%;
-            max-width: min(600px, 70vw);
-            max-height: 50vh;
+            max-width: 360px;
+            max-height: 38vh;
             height: auto;
-            object-fit: contain;
-            border-radius: 15px;
-            margin: 1rem auto;
-            border: 3px solid var(--secondary);
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(0,212,255,0.5);
+            display: block;
         }
 
-        .modal-stats {
+        .modal-img-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            box-shadow: inset 0 0 30px rgba(0,212,255,0.2);
+            pointer-events: none;
+        }
+
+        /* Stats row under image */
+        .modal-stats-row {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 14px;
+            padding: 0.7rem 1.2rem;
         }
 
-        .modal-stat {
+        .modal-stat-card {
+            flex: 1;
             text-align: center;
         }
 
-        .modal-stat-label {
-            color: var(--secondary);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
+        .modal-stat-icon { font-size: 1.2rem; margin-bottom: 0.1rem; }
 
         .modal-stat-value {
-            font-size: 2rem;
+            font-size: 1.6rem;
+            font-weight: 800;
             color: var(--accent);
+            line-height: 1;
+            font-family: 'Righteous', cursive;
+        }
+
+        .modal-stat-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.15rem;
+        }
+
+        .modal-stat-divider {
+            width: 1px;
+            height: 40px;
+            background: rgba(0,212,255,0.2);
+            flex-shrink: 0;
+        }
+
+        /* Right col: info */
+        .modal-col-info {
+            padding: 1.2rem 1.4rem 1.2rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            justify-content: center;
+        }
+
+        /* Theme badge */
+        .modal-theme-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0,102,255,0.25), rgba(0,212,255,0.15));
+            border: 1.5px solid rgba(0,212,255,0.45);
+            border-radius: 16px;
+            padding: 1.1rem 1rem 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-theme-badge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.03));
+        }
+
+        .modal-theme-badge-label {
+            font-size: 0.58rem;
+            color: rgba(255,255,255,0.38);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-theme-badge-name {
+            font-family: 'Righteous', cursive;
+            font-size: 2.4rem;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, #0099ff, #00D4FF, #66e0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(0,212,255,0.9));
+            animation: blueGlow 2s ease-in-out infinite;
+            line-height: 1;
+        }
+
+        .modal-theme-badge-sub {
+            font-size: 0.6rem;
+            color: rgba(0,212,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.35rem;
+        }
+
+        @keyframes blueGlow {
+            0%,100% { filter: drop-shadow(0 0 8px rgba(0,212,255,0.6)); }
+            50%      { filter: drop-shadow(0 0 20px rgba(0,212,255,1)); }
+        }
+
+        /* Modal CTA button */
+        .modal-cta-btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5);
+            animation: ctaPulse 2s ease-in-out infinite;
+            white-space: nowrap;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4); transform: scale(1); }
+            50%       { box-shadow: 0 8px 35px rgba(0, 212, 255, 0.85); transform: scale(1.02); }
+        }
+
+        /* Redesigned share card */
+        .share-card {
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(0,102,255,0.18), rgba(0,212,255,0.1));
+            border-radius: 14px;
+            border: 1.5px solid rgba(0,212,255,0.35);
+            padding: 0.8rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .share-mahery-msg {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.5;
+        }
+
+        .share-mahery-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px rgba(0,212,255,0.4);
+        }
+
+        .share-mahery-bubble {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0 10px 10px 10px;
+            padding: 0.4rem 0.6rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.8);
+            position: relative;
+        }
+
+        .share-mahery-name {
+            font-size: 0.62rem;
+            color: var(--secondary);
+            font-weight: 700;
+            font-style: normal;
+            display: block;
+            margin-bottom: 0.15rem;
+            letter-spacing: 0.5px;
+        }
+
+        .share-title {
+            font-size: 0.72rem;
+            color: var(--accent);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share-btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .share-btn-copy {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0E27;
+            border: none;
+            box-shadow: 0 3px 15px rgba(255,215,0,0.35);
+        }
+
+        .share-btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,215,0,0.6);
+        }
+
+        .share-btn-copy:active {
+            transform: scale(0.97);
+        }
+
+        /* Blue theme info */
+        .blue-theme-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            background: rgba(0, 102, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            border-left: 3px solid var(--secondary);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            text-align: left;
+            animation: blueThemePop 0.5s ease 1.5s both;
+        }
+
+        @keyframes blueThemePop {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .blue-theme-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            color: var(--secondary);
+            opacity: 0.7;
+            margin-top: 1px;
+            font-style: normal;
+        }
+
+        .blue-theme-text {
+            font-size: 0.77rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .blue-highlight {
+            color: var(--secondary);
             font-weight: 700;
         }
 
@@ -1182,81 +1598,86 @@
 
         #coach-bubble {
             position: fixed;
-            top: 1.2rem;
+            bottom: 1.5rem;
             right: 1.4rem;
+            top: auto;
             z-index: 99998;
             display: flex;
             align-items: flex-end;
-            gap: 0.7rem;
-            transform: translateX(140%);
-            transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+            gap: 0.6rem;
+            transform: translateX(120%) translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
             opacity: 0;
             pointer-events: none;
+            max-width: 300px;
         }
         #coach-bubble.show {
-            transform: translateX(0);
+            transform: translateX(0) translateY(0);
             opacity: 1;
             pointer-events: auto;
         }
         .coach-msg {
             background: linear-gradient(135deg, #0d1230, #1a2050);
-            border: 2px solid var(--secondary);
-            border-radius: 18px 18px 4px 18px;
-            padding: 0.85rem 1.1rem 0.85rem 1rem;
-            max-width: 230px;
-            box-shadow: 0 8px 32px rgba(0,212,255,0.4), 0 2px 8px rgba(0,0,0,0.5);
+            border: 1.5px solid var(--secondary);
+            border-radius: 14px 14px 4px 14px;
+            padding: 0.75rem 1rem;
+            max-width: 210px;
+            box-shadow: 0 6px 24px rgba(0,212,255,0.35), 0 2px 8px rgba(0,0,0,0.5);
             position: relative;
         }
         .coach-msg::after {
             content: '';
             position: absolute;
-            bottom: 0; right: -10px;
+            bottom: 0; right: -8px;
             width: 0; height: 0;
-            border-left: 10px solid #00D4FF;
-            border-bottom: 10px solid transparent;
+            border-left: 8px solid #00D4FF;
+            border-bottom: 8px solid transparent;
         }
         .coach-msg-name {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
             color: var(--secondary);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
         }
         .coach-msg-text {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: white;
-            line-height: 1.5;
+            line-height: 1.45;
         }
         .coach-msg-dismiss {
             display: inline-block;
-            margin-top: 0.6rem;
-            font-size: 0.72rem;
-            color: rgba(255,255,255,0.45);
+            margin-top: 0.5rem;
+            font-size: 0.68rem;
+            color: rgba(255,255,255,0.4);
             cursor: pointer;
             text-decoration: underline;
             transition: color 0.2s;
         }
         .coach-msg-dismiss:hover { color: var(--accent); }
         .coach-avatar {
-            width: 58px;
-            height: 58px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: 3px solid var(--secondary);
-            box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,102,255,0.3);
+            border: 2px solid rgba(0,212,255,0.5);
+            box-shadow: 0 0 14px rgba(0,212,255,0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-family: 'Righteous', cursive;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
             flex-shrink: 0;
             animation: coachPulse 2.5s ease-in-out infinite;
             cursor: pointer;
         }
         @keyframes coachPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(0,212,255,0.6); transform: scale(1); }
-            50%       { box-shadow: 0 0 30px rgba(0,212,255,0.9), 0 0 50px rgba(0,102,255,0.4); transform: scale(1.05); }
+            0%, 100% { box-shadow: 0 0 10px rgba(0,212,255,0.5); transform: scale(1); }
+            50%       { box-shadow: 0 0 22px rgba(0,212,255,0.85); transform: scale(1.04); }
         }
         .coach-typing { display: flex; gap: 4px; align-items: center; padding: 0.4rem 0.2rem; }
         .coach-typing span {
@@ -1619,66 +2040,119 @@
         }
 
         /* Share card — minimal */
-        .share-card {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(0,102,255,0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(0,212,255,0.2);
-            padding: 0.45rem 0.7rem;
-        }
-
-        .share-title {
-            font-size: 0.72rem;
-            color: var(--accent);
-            margin: 0;
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .share-btn {
-            padding: 0.3rem 0.8rem;
-            border: none;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .share-btn-copy {
-            background: rgba(255,215,0,0.15);
-            color: var(--accent);
-            border: 1px solid rgba(255,215,0,0.4);
-        }
-
-        .share-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
-        }
-
-        /* ── Footer: close + credit ── */
+        /* ── Footer: close + credit + avatar popup ── */
         .leaderboard-footer {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.55rem 1.2rem;
+            flex-direction: column;
+            gap: 0.45rem;
+            padding: 0.6rem 1.2rem 0.7rem;
             border-top: 1px solid rgba(0,212,255,0.1);
             flex-shrink: 0;
+            position: relative;
+        }
+
+        .leaderboard-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .leaderboard-footer .btn {
             padding: 0.45rem 1.4rem;
             font-size: 0.8rem;
         }
+
+        /* ── Avatar popup share ── */
+        .avatar-share-zone {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.6rem;
+            position: relative;
+        }
+
+        .avatar-share-figure {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-share-orb {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066FF, #00D4FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 0 0 3px rgba(0,212,255,0.25), 0 4px 16px rgba(0,102,255,0.5);
+            animation: avatarFloat 3s ease-in-out infinite;
+            cursor: default;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes avatarFloat {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-4px); }
+        }
+
+        /* The chat bubble popup */
+        .avatar-chat-bubble {
+            background: linear-gradient(135deg, #0d1a3d, #162545);
+            border: 1.5px solid rgba(0,212,255,0.45);
+            border-radius: 14px 14px 14px 4px;
+            padding: 0.55rem 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            box-shadow: 0 4px 20px rgba(0,102,255,0.3), 0 0 0 1px rgba(0,212,255,0.08);
+            animation: bubblePop 0.45s cubic-bezier(0.22,1,0.36,1) both;
+            flex: 1;
+        }
+
+        @keyframes bubblePop {
+            from { opacity: 0; transform: translateX(-10px) scale(0.95); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        .avatar-bubble-sender {
+            font-size: 0.62rem;
+            color: var(--secondary);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .avatar-bubble-text {
+            font-size: 0.74rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.45;
+        }
+
+        .avatar-bubble-cta {
+            align-self: flex-start;
+            padding: 0.35rem 1rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 30px;
+            color: #0A0E27;
+            font-weight: 800;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 12px rgba(255,215,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .avatar-bubble-cta:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.65);
+        }
+
+        .avatar-bubble-cta:active { transform: scale(0.96); }
 
         /* Name Input Modal */
         .name-input-modal {
@@ -2228,6 +2702,290 @@
             margin-left: 5px; text-transform: uppercase;
         }
 
+        /* ══ FLOATING SHARE POPUP — top right ══ */
+        #share-float-popup {
+            position: fixed;
+            top: 1.2rem;
+            right: 1.2rem;
+            z-index: 99999;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, #0d1a40, #0a1530);
+            border: 1.5px solid rgba(0,212,255,0.5);
+            border-radius: 18px;
+            padding: 1rem 1.1rem 1rem 1rem;
+            max-width: 300px;
+            box-shadow:
+                0 0 0 1px rgba(0,212,255,0.08),
+                0 8px 40px rgba(0,102,255,0.45),
+                0 0 60px rgba(0,212,255,0.15);
+            transform: translateX(130%) scale(0.92);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        #share-float-popup.sfp-visible {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            pointer-events: all;
+            animation: sfpPulseGlow 2.5s ease-in-out 0.6s infinite;
+        }
+
+        @keyframes sfpPulseGlow {
+            0%,100% { box-shadow: 0 0 0 1px rgba(0,212,255,0.08), 0 8px 40px rgba(0,102,255,0.45), 0 0 60px rgba(0,212,255,0.15); }
+            50%      { box-shadow: 0 0 0 3px rgba(0,212,255,0.2), 0 8px 40px rgba(0,102,255,0.6), 0 0 80px rgba(0,212,255,0.35); }
+        }
+
+        /* Top attention bar */
+        #share-float-popup::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 18px 18px 0 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200%;
+            animation: sfpBarSlide 2s linear infinite;
+        }
+
+        @keyframes sfpBarSlide {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .sfp-avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .sfp-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066FF, #00D4FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Righteous', cursive;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 0 2px rgba(0,212,255,0.3), 0 4px 16px rgba(0,102,255,0.5);
+            animation: sfpAvatarFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes sfpAvatarFloat {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-3px); }
+        }
+
+        .sfp-online-dot {
+            position: absolute;
+            bottom: 1px; right: 1px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #00e676;
+            border: 2px solid #0d1a40;
+            box-shadow: 0 0 6px #00e676;
+            animation: sfpDotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes sfpDotPulse {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.5; }
+        }
+
+        .sfp-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            min-width: 0;
+        }
+
+        .sfp-sender {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--secondary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .sfp-msg {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.45;
+        }
+
+        .sfp-btn {
+            margin-top: 0.3rem;
+            padding: 0.42rem 1rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 30px;
+            color: #0A0E27;
+            font-weight: 800;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 12px rgba(255,215,0,0.4);
+            align-self: flex-start;
+        }
+
+        .sfp-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.65);
+        }
+
+        .sfp-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.6rem;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .sfp-close:hover { color: rgba(255,255,255,0.7); }
+
+        /* ══ BLUE INSPIRATION PANEL ══ */
+        #blue-inspo-panel {
+            position: fixed; inset: 0; z-index: 99997;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
+        }
+        #blue-inspo-panel.bip-visible { opacity: 1; pointer-events: all; }
+        .bip-backdrop { position: absolute; inset: 0; background: rgba(5,10,30,0.88); backdrop-filter: blur(6px); }
+        .bip-card {
+            position: relative; z-index: 2;
+            background: linear-gradient(160deg, #0a1535, #0d1a3a, #0a1535);
+            border: 1.5px solid rgba(0,212,255,0.35); border-radius: 22px;
+            padding: 1.5rem 1.6rem 1.3rem;
+            width: min(560px, 94vw);
+            box-shadow: 0 30px 80px rgba(0,102,255,0.4), 0 0 0 1px rgba(0,212,255,0.08);
+            animation: bipSlideIn 0.4s cubic-bezier(0.22,1,0.36,1);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        @keyframes bipSlideIn {
+            from { transform: translateY(20px) scale(0.97); opacity: 0; }
+            to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .bip-header { display: flex; align-items: center; gap: 0.8rem; }
+        .bip-header-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--secondary); box-shadow: 0 0 10px var(--secondary);
+            flex-shrink: 0; animation: sfpDotPulse 2s ease-in-out infinite;
+        }
+        .bip-title {
+            font-family: 'Righteous', cursive; font-size: 1.1rem;
+            background: linear-gradient(90deg, #0099ff, #00D4FF);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .bip-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.5px; margin-top: 0.1rem; }
+        .bip-close {
+            margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.3);
+            font-size: 1.2rem; cursor: pointer; padding: 0.2rem 0.4rem;
+            border-radius: 6px; transition: color 0.2s; line-height: 1;
+        }
+        .bip-close:hover { color: rgba(255,255,255,0.7); }
+        .bip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .bip-card-link {
+            display: flex; align-items: center; gap: 0.7rem;
+            padding: 0.7rem 0.9rem;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px; text-decoration: none; color: white;
+            transition: all 0.22s ease; cursor: pointer;
+        }
+        .bip-card-link:hover {
+            background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.3);
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,102,255,0.25);
+        }
+        .bip-card-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.85rem; flex-shrink: 0; font-family: 'Righteous', cursive;
+        }
+        .bip-icon-p { background: linear-gradient(135deg,#e60023,#ad081b); color: white; }
+        .bip-icon-g { background: linear-gradient(135deg,#4285f4,#34a853); color: white; }
+        .bip-icon-z { background: #111; color: white; border: 1px solid rgba(255,255,255,0.15); }
+        .bip-icon-i { background: linear-gradient(135deg,#f09433,#dc2743,#bc1888); color: white; }
+        .bip-icon-a { background: linear-gradient(135deg,#ff6b6b,#ee0979); color: white; }
+        .bip-icon-h { background: #cc0000; color: white; }
+        .bip-card-info { flex: 1; min-width: 0; }
+        .bip-card-name { font-size: 0.82rem; font-weight: 700; color: white; }
+        .bip-card-desc { font-size: 0.68rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .bip-arrow { font-size: 0.9rem; color: rgba(0,212,255,0.4); flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+        .bip-card-link:hover .bip-arrow { color: var(--secondary); transform: translate(2px,-2px); }
+        .bip-tip {
+            display: flex; align-items: flex-start; gap: 0.7rem;
+            background: rgba(0,102,255,0.08); border-radius: 10px; padding: 0.6rem 0.8rem;
+        }
+        .bip-tip-bar { width: 3px; border-radius: 3px; background: var(--secondary); align-self: stretch; flex-shrink: 0; }
+        .bip-tip-text { font-size: 0.75rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+        .bip-dismiss {
+            align-self: flex-end; padding: 0.45rem 1.4rem;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 30px; color: rgba(255,255,255,0.55); font-size: 0.8rem;
+            cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s;
+        }
+        .bip-dismiss:hover { background: rgba(255,255,255,0.1); color: white; }
+
+        /* ══ ÉPOUSTOUFLANT — Mouse particle trail ══ */
+        .mouse-particle {
+            position: fixed; width: 5px; height: 5px; border-radius: 50%;
+            pointer-events: none; z-index: 99996;
+            transform: translate(-50%,-50%);
+            animation: particleFade 0.65s ease forwards;
+        }
+        @keyframes particleFade {
+            0%   { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%,-50%) scale(0); }
+        }
+
+        /* ══ ÉPOUSTOUFLANT — Tile ripple ══ */
+        .tile-ripple {
+            position: absolute; border-radius: 50%;
+            background: rgba(0,212,255,0.2); pointer-events: none;
+            animation: tileRippleAnim 0.5s ease-out forwards;
+            transform: translate(-50%,-50%) scale(0);
+        }
+        @keyframes tileRippleAnim { to { transform: translate(-50%,-50%) scale(3); opacity: 0; } }
+
+        /* ══ ÉPOUSTOUFLANT — Progress ring ══ */
+        #progress-ring-wrap {
+            position: fixed; bottom: 1.2rem; left: 50%;
+            transform: translateX(-50%); z-index: 9000;
+            display: flex; align-items: center; gap: 0.6rem;
+            background: rgba(10,14,39,0.85); border: 1px solid rgba(0,212,255,0.2);
+            border-radius: 30px; padding: 0.35rem 0.9rem 0.35rem 0.5rem;
+            backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+        }
+        #progress-ring-wrap.visible { opacity: 1; }
+        #progress-ring { position: relative; width: 36px; height: 36px; }
+        #progress-ring svg { width: 36px; height: 36px; transform: rotate(-90deg); }
+        .ring-bg { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 3; }
+        .ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.4s ease; }
+        .ring-pct {
+            position: absolute; inset: 0; display: flex; align-items: center;
+            justify-content: center; font-size: 0.58rem; font-weight: 800; color: var(--secondary);
+        }
+        #progress-ring-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; font-weight: 600; }
+
+        @keyframes almostDone {
+            0%,100% { filter: drop-shadow(0 0 20px rgba(0,212,255,0.6)); }
+            50%      { filter: drop-shadow(0 0 45px rgba(0,212,255,1)) drop-shadow(0 0 80px rgba(0,102,255,0.5)); }
+        }
+
         </style>
 <body>
     <!-- Cinematic Warning Screen -->
@@ -2313,16 +3071,41 @@
         <div class="left-panel">
             <div class="top-section">
                 <h1 class="logo" id="dev-logo" title="👀">TEAM CHECKERS</h1>
-                <p class="subtitle">Puzzle Challenge - Révèle la Photo d'Équipe !</p>
+                <p class="subtitle">Puzzle Challenge · Révèle le thème de la semaine</p>
 
-                <div class="instructions-box">
-                    <h2 class="instructions-title">
-                        <span>🎯</span> But du jeu
-                    </h2>
-                    <p class="instructions-text">
-                        Resolvez le puzzle pour decouvrir le theme pour lundi 
-                    <i>Reconstitue l'image dans le bon ordre pour révéler la photo de notre équipe ! </i>
-                    </p>
+                <div class="intel-card">
+                    <div class="intel-card-header">
+                        <div class="intel-live-dot"></div>
+                        <span class="intel-card-label">MISSION CLASSIFIÉE</span>
+                    </div>
+                    <div class="intel-card-body">
+                        <div class="intel-line">
+                            <span class="intel-key">Objectif</span>
+                            <span class="intel-val">Reconstituer l'image cryptée</span>
+                        </div>
+                        <div class="intel-line">
+                            <span class="intel-key">Méthode</span>
+                            <span class="intel-val">Glisser les tuiles dans l'ordre</span>
+                        </div>
+                        <div class="intel-line">
+                            <span class="intel-key">Enjeu</span>
+                            <span class="intel-val">Le thème lundi se cache ici</span>
+                        </div>
+                        <div class="intel-line">
+                            <span class="intel-key">Classement</span>
+                            <span class="intel-val">Temps + mouvements comptent</span>
+                        </div>
+                    </div>
+                    <div class="intel-card-footer">
+                        <div class="intel-scan-bar"></div>
+                        <span class="intel-scan-text">ANALYSE EN COURS...</span>
+                    </div>
+                </div>
+
+                <!-- Live rank teaser -->
+                <div class="rank-teaser" id="rank-teaser">
+                    <div class="rank-teaser-dot"></div>
+                    <span id="rank-teaser-text">Chargement du classement...</span>
                 </div>
             </div>
 
@@ -2344,9 +3127,8 @@
                         </div>
                     </div>
                     <div class="controls-side">
-                        <button class="btn btn-primary" id="shuffle-btn">🔀 Mélanger</button>
-                        <button class="btn btn-secondary" id="hint-btn">💡 Indice</button>
-                        <button class="btn btn-autowin" id="autowin-btn">🏆 Auto Win</button>
+                        <button class="btn btn-primary" id="shuffle-btn">Mélanger</button>
+                        <button class="btn btn-autowin" id="autowin-btn">Auto Win</button>
                     </div>
                 </div>
             </div>
@@ -2363,25 +3145,56 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Félicitations -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2>🎉 Félicitations !</h2>
-            <p style="color: var(--secondary); font-size: 0.95rem; margin-bottom: 0.5rem;">🔓 Le thème mystère est révélé...</p>
-            <div class="theme-reveal-text" id="theme-typewriter"></div>
-            <div style="height:0.8rem"></div>
-            <img class="modal-image" id="revealed-image" src="" alt="Photo d'Équipe Révélée">
-            <div class="modal-stats">
-                <div class="modal-stat">
-                    <div class="modal-stat-label">⏱️ Temps</div>
-                    <div class="modal-stat-value" id="final-time">00:00</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-label">🔄 Mouvements</div>
-                    <div class="modal-stat-value" id="final-moves">0</div>
+            <div class="modal-top-banner">
+                <div class="modal-banner-center">
+                    <h2 class="modal-title-main">Félicitations</h2>
+                    <div class="modal-theme-line">
+                        <span style="color:rgba(255,255,255,0.45);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;">Thème révélé</span>
+                        <div class="theme-reveal-text" id="theme-typewriter" style="display:inline;margin-left:0.6rem;"></div>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-primary" id="close-btn" onclick="onCloseModal()">✨ Voir le classement</button>
+            <div class="modal-body-grid">
+                <div class="modal-col-img">
+                    <div class="modal-img-wrapper">
+                        <img class="modal-image" id="revealed-image" src="" alt="Photo d'équipe">
+                        <div class="modal-img-glow"></div>
+                    </div>
+                    <div class="modal-stats-row">
+                        <div class="modal-stat-card">
+                            <div class="modal-stat-value" id="final-time">00:00</div>
+                            <div class="modal-stat-label">Temps</div>
+                        </div>
+                        <div class="modal-stat-divider"></div>
+                        <div class="modal-stat-card">
+                            <div class="modal-stat-value" id="final-moves">0</div>
+                            <div class="modal-stat-label">Mouvements</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-col-info">
+                    <div class="modal-theme-badge">
+                        <div class="modal-theme-badge-label">THÈME DE LA SEMAINE</div>
+                        <div class="modal-theme-badge-name">BLEU</div>
+                        <div class="modal-theme-badge-sub">Dress code confirmé</div>
+                    </div>
+                    <div class="blue-theme-info">
+                        <div class="blue-theme-icon">◈</div>
+                        <div class="blue-theme-text">
+                            <strong>Code vestimentaire</strong><br>
+                            Portez du <span class="blue-highlight">bleu de la tête aux pieds</span> —
+                            haut et bas bleus, au style de votre choix.
+                            La seule règle : tout le monde en bleu.
+                        </div>
+                    </div>
+                    <button class="btn btn-primary modal-cta-btn" id="close-btn" onclick="onCloseModal()">
+                        Voir le classement
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2414,13 +3227,13 @@
     <!-- ⭐ AVATAR COACH — bulle haut droite -->
     <div id="coach-bubble">
         <div class="coach-msg">
-            <div class="coach-msg-name">⚡ Mahery</div>
+            <div class="coach-msg-name">Mahery · Coach</div>
             <div id="coach-msg-text" class="coach-msg-text">
                 <div class="coach-typing"><span></span><span></span><span></span></div>
             </div>
-            <span class="coach-msg-dismiss" onclick="dismissCoach()">OK, je continue ! 💪</span>
+            <span class="coach-msg-dismiss" onclick="dismissCoach()">Compris, je continue</span>
         </div>
-        <div class="coach-avatar" onclick="dismissCoach()">🧑‍💼</div>
+        <div class="coach-avatar" onclick="dismissCoach()">M</div>
     </div>
 
     <script>
@@ -2499,8 +3312,9 @@
         // Inactivity tracking
         let lastActivityTime = Date.now();
         let inactivityCheckInterval = null;
-        const INACTIVITY_THRESHOLD = 8000; // 5 seconds in milliseconds
+        const INACTIVITY_THRESHOLD = 5000; // 5s — fires when player hesitates
         let inactivityModalShown = false;
+        let _firstMoveMade = false; // coach only shows after player has started
 
         const puzzleGrid = document.getElementById('puzzle-grid');
         const img = new Image();
@@ -2753,6 +3567,7 @@
             const validMoves = getValidMoves();
             
             if (validMoves.includes(clickedIndex)) {
+                _firstMoveMade = true; // coach can now activate
                 swapTiles(emptyIndex, clickedIndex);
                 moves++;
                 document.getElementById('moves').textContent = moves;
@@ -3034,21 +3849,24 @@
             const currentTime = Date.now();
             const inactiveTime = currentTime - lastActivityTime;
             
-            if (inactiveTime >= INACTIVITY_THRESHOLD && !inactivityModalShown && !document.getElementById('modal').classList.contains('active')) {
+            if (_firstMoveMade && inactiveTime >= INACTIVITY_THRESHOLD && !inactivityModalShown && !document.getElementById('modal').classList.contains('active')) {
                 showInactivityModal();
                 inactivityModalShown = true;
             }
         }
 
-        // ── COACH AVATAR (remplace showInactivityModal) ──
+        // ── COACH AVATAR ──
         const _coachMessages = [
-            "Hé {name} ! 💪 T'es trop proche du but pour lâcher maintenant !",
-            "Allez {name}, chaque pièce compte — t'abandonnes pas ! 🔥",
-            "{name}, les champions finissent ce qu'ils commencent. C'est toi ça ! 🏆",
-            "Ne t'inquiète pas {name}, le puzzle attend juste le bon mouvement. Réfléchis ! 🧩",
-            "{name}, ton équipe te regarde. Montre-leur de quoi tu es capable ! 👊",
-            "Respire, {name}. La solution est là, juste devant toi ! ✨",
-            "Pas question d'abandonner {name} ! Les meilleurs se battent jusqu'au bout. 💥",
+            "{name}, ta to-do list peut attendre — cette pièce ne se placera pas toute seule.",
+            "Pause café terminée, {name} ! Les KPI du puzzle ne sont pas bons.",
+            "{name}, le compte-rendu de réunion peut attendre. Le puzzle, lui, est urgent.",
+            "On a un standup dans 2 minutes {name} — finissons ça avant le boss.",
+            "{name}, ce puzzle a un meilleur taux de conversion que ton dernier deck.",
+            "Ton pipeline commercial est bloqué {name} — exactement comme cette pièce.",
+            "{name}, on est en Q4 ! Chaque mouvement compte pour les objectifs.",
+            "Le client attend {name}, mais le puzzle attend aussi. Priorise intelligemment.",
+            "{name}, d'après mes analytics, tu hésites trop. Action, action, action !",
+            "Relance de {name} en cours... Confirme ta disponibilité en bougeant une pièce.",
         ];
         let _coachCallCount = 0;
 
@@ -3120,19 +3938,6 @@
             shufflePuzzle();
             renderPuzzle();
             seconds = 0;
-        });
-
-        document.getElementById('hint-btn').addEventListener('click', () => {
-            resetActivityTimer();
-            // Highlight a tile that's not in correct position
-            const tiles = document.querySelectorAll('.puzzle-tile:not(.empty):not(.correct)');
-            if (tiles.length > 0) {
-                const randomTile = tiles[Math.floor(Math.random() * tiles.length)];
-                randomTile.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    randomTile.style.animation = '';
-                }, 500);
-            }
         });
 
         document.getElementById('autowin-btn').addEventListener('click', () => {
@@ -3379,29 +4184,29 @@
             ).join('');
 
             const efficiency = Math.min(100, Math.max(0, 100 - time/3 - moves/2));
-            const speed = time < 60 ? '🔥 Ultra' : time < 120 ? '⚡ Rapide' : time < 180 ? '✅ Bon' : '🐢 Moyen';
+            const speed = time < 60 ? 'Ultra' : time < 120 ? 'Rapide' : time < 180 ? 'Bon' : 'Moyen';
 
             modal.innerHTML = `
                 <div class="leaderboard-content">
                     <div class="leaderboard-header">
                         <div>
-                            <h2 class="leaderboard-title">🏆 Classement</h2>
-                            <p class="leaderboard-subtitle">Top des meilleurs scores</p>
+                            <h2 class="leaderboard-title">Classement</h2>
+                            <p class="leaderboard-subtitle">Meilleurs scores</p>
                         </div>
                         <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.4);">Rang <strong style="color:var(--accent);font-size:1rem;">#${currentRank}</strong></div>
                     </div>
                     <div class="leaderboard-body">
                         <div class="lb-col-left">
-                            <div class="lb-col-title">🏅 Classement</div>
+                            <div class="lb-col-title">Classement</div>
                             <ul class="leaderboard-list">${listHtml}</ul>
                         </div>
                         <div class="lb-col-right">
                             <div class="badges-container">
-                                <div class="badges-title">🏅 Badges (${leaderboardData.badges.length}/${Object.keys(BADGES).length})</div>
+                                <div class="badges-title">Badges (${leaderboardData.badges.length}/${Object.keys(BADGES).length})</div>
                                 <div class="badges-grid">${badgesHtml}</div>
                             </div>
                             <div class="analytics-panel">
-                                <div class="analytics-title">📊 Tes Stats</div>
+                                <div class="analytics-title">Statistiques</div>
                                 <div class="analytics-grid">
                                     <div class="analytics-item">
                                         <div class="analytics-label">Efficacité</div>
@@ -3414,7 +4219,7 @@
                                     </div>
                                     <div class="analytics-item">
                                         <div class="analytics-label">Style</div>
-                                        <div class="analytics-value" style="font-size:0.65rem">${moves < 40 ? '🧠 Stratège' : moves < 60 ? '🎯 Méthodique' : '🔄 Explorateur'}</div>
+                                        <div class="analytics-value" style="font-size:0.65rem">${moves < 40 ? 'Stratège' : moves < 60 ? 'Méthodique' : 'Explorateur'}</div>
                                     </div>
                                     <div class="analytics-item">
                                         <div class="analytics-label">Parties</div>
@@ -3422,22 +4227,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="share-card">
-                                <h3 class="share-title">📢 Partager</h3>
-                                <div class="share-buttons">
-                                    <button class="share-btn share-btn-copy" onclick="copyScore(${time},${moves},${currentRank})">📋 Copier</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="leaderboard-footer">
-                        <div class="dev-credit-footer" style="margin:0;padding:0;border:none;">
-                            <span class="dev-credit-line">Développé par</span>
-                            <a class="dev-credit-name" href="https://mahery-andrianandraina.github.io/card" target="_blank" rel="noopener">
-                                <span class="dev-credit-dot"></span>Mahery Andrianandraina<span class="dev-credit-arrow">↗</span>
-                            </a>
+                        <div class="leaderboard-footer-row">
+                            <div class="dev-credit-footer" style="margin:0;padding:0;border:none;">
+                                <span class="dev-credit-line">Développé par</span>
+                                <a class="dev-credit-name" href="https://mahery-andrianandraina.github.io/card" target="_blank" rel="noopener">
+                                    <span class="dev-credit-dot"></span>Mahery Andrianandraina<span class="dev-credit-arrow">↗</span>
+                                </a>
+                            </div>
+                            <button class="btn btn-primary" onclick="closeLeaderboard()">Fermer</button>
                         </div>
-                        <button class="btn btn-primary" onclick="closeLeaderboard()">✨ Fermer</button>
                     </div>
                 </div>
             `;
@@ -3448,11 +4249,136 @@
 
         function closeLeaderboard() {
             document.querySelector('.leaderboard-modal')?.remove();
+            document.getElementById('share-float-popup')?.remove();
+            setTimeout(() => showBlueInspirationPanel(), 400);
+        }
+
+        function showBlueInspirationPanel() {
+            if (document.getElementById('blue-inspo-panel')) return;
+            const panel = document.createElement('div');
+            panel.id = 'blue-inspo-panel';
+            panel.innerHTML = `
+                <div class="bip-backdrop" onclick="document.getElementById('blue-inspo-panel').remove()"></div>
+                <div class="bip-card">
+                    <div class="bip-header">
+                        <div class="bip-header-dot"></div>
+                        <div>
+                            <div class="bip-title">Inspirations — Thème Bleu</div>
+                            <div class="bip-subtitle">Trouvez votre tenue sur ces plateformes</div>
+                        </div>
+                        <button class="bip-close" onclick="document.getElementById('blue-inspo-panel').remove()">×</button>
+                    </div>
+                    <div class="bip-grid">
+                        <a class="bip-card-link" href="https://www.pinterest.com/search/pins/?q=tenue+bleue+casual" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-p">P</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">Pinterest</div>
+                                <div class="bip-card-desc">Tenues bleues homme & femme</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                        <a class="bip-card-link" href="https://www.google.com/search?q=tenue+bleue+casual+bureau&tbm=isch" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-g">G</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">Google Images</div>
+                                <div class="bip-card-desc">Looks bleus bureau & casual</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                        <a class="bip-card-link" href="https://www.zara.com/fr/" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-z">Z</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">Zara</div>
+                                <div class="bip-card-desc">Pièces bleues tendance</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                        <a class="bip-card-link" href="https://www.instagram.com/explore/tags/ootdblue/" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-i">In</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">Instagram</div>
+                                <div class="bip-card-desc">#ootdblue — outfits du jour</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                        <a class="bip-card-link" href="https://www.asos.com/fr/search/?q=blue+outfit" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-a">A</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">ASOS</div>
+                                <div class="bip-card-desc">Sélection blue outfits</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                        <a class="bip-card-link" href="https://www2.hm.com/fr_fr/femme.html" target="_blank" rel="noopener">
+                            <div class="bip-card-icon bip-icon-h">H</div>
+                            <div class="bip-card-info">
+                                <div class="bip-card-name">H&M</div>
+                                <div class="bip-card-desc">Pièces accessibles & stylées</div>
+                            </div>
+                            <span class="bip-arrow">↗</span>
+                        </a>
+                    </div>
+                    <div class="bip-tip">
+                        <div class="bip-tip-bar"></div>
+                        <div class="bip-tip-text"><strong>Rappel :</strong> haut bleu + bas bleu, au style de votre choix — du navy au bleu ciel en passant par le cobalt.</div>
+                    </div>
+                    <button class="bip-dismiss" onclick="document.getElementById('blue-inspo-panel').remove()">Fermer</button>
+                </div>
+            `;
+            document.body.appendChild(panel);
+            requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add('bip-visible')));
         }
 
         function copyScore(time, moves, rank) {
-            const text = `🎉 J'ai résolu le puzzle en ${Math.floor(time/60)}:${(time%60).toString().padStart(2,'0')} avec ${moves} mouvements! Rang: #${rank} 🏆`;
-            navigator.clipboard.writeText(text).then(() => alert('✅ Copié!')).catch(() => alert('❌ Erreur'));
+            const mins = Math.floor(time/60);
+            const secs = String(time%60).padStart(2,'0');
+            const text = `J'ai résolu le puzzle en ${mins}:${secs} avec ${moves} mouvements — Rang #${rank} au classement TEAM CHECKERS !`;
+            navigator.clipboard.writeText(text).then(() => {
+                // Flash the popup button as confirmation
+                const btn = document.getElementById('share-popup-btn');
+                if (btn) {
+                    btn.textContent = 'Copié !';
+                    btn.style.background = 'linear-gradient(135deg,#00c853,#69f0ae)';
+                    setTimeout(() => {
+                        btn.textContent = 'Copier mon score';
+                        btn.style.background = '';
+                    }, 2000);
+                }
+            }).catch(() => {});
+        }
+
+        function showSharePopup(time, moves, rank) {
+            // Remove any existing
+            document.getElementById('share-float-popup')?.remove();
+
+            const popup = document.createElement('div');
+            popup.id = 'share-float-popup';
+            popup.innerHTML = `
+                <div class="sfp-avatar-wrap">
+                    <div class="sfp-avatar">M</div>
+                    <div class="sfp-online-dot"></div>
+                </div>
+                <div class="sfp-body">
+                    <div class="sfp-sender">Mahery · Dev</div>
+                    <div class="sfp-msg">Partagez votre score avec l'équipe !</div>
+                    <button id="share-popup-btn" class="sfp-btn" onclick="copyScore(${time},${moves},${rank})">Copier mon score</button>
+                </div>
+                <button class="sfp-close" onclick="document.getElementById('share-float-popup').remove()">×</button>
+            `;
+            document.body.appendChild(popup);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => popup.classList.add('sfp-visible'));
+            });
+
+            // Auto-dismiss after 12s
+            setTimeout(() => {
+                if (popup.parentNode) {
+                    popup.classList.remove('sfp-visible');
+                    setTimeout(() => popup.remove(), 400);
+                }
+            }, 12000);
         }
 
         // ══ completePuzzle finale (tous effets + sauvegarde) ══
@@ -3900,56 +4826,55 @@
             ).join('');
 
             const efficiency = Math.min(100, Math.max(0, 100 - stats.time/3 - stats.moves/2));
-            const speed = stats.time < 60 ? '🔥 Ultra' : stats.time < 120 ? '⚡ Rapide' : stats.time < 180 ? '✅ Bon' : '🐢 Moyen';
-            const strategie = stats.moves < 40 ? '🧠 Stratège' : stats.moves < 60 ? '🎯 Méthodique' : '🔄 Explorateur';
+            const speed = stats.time < 60 ? 'Ultra' : stats.time < 120 ? 'Rapide' : stats.time < 180 ? 'Bon' : 'Moyen';
+            const strategie = stats.moves < 40 ? 'Stratège' : stats.moves < 60 ? 'Méthodique' : 'Explorateur';
 
             modal.innerHTML =
                 '<div class="leaderboard-content">' +
-                // Header
                 '<div class="leaderboard-header">' +
-                '<div><h2 class="leaderboard-title">🏆 Classement Global</h2><p class="leaderboard-subtitle">🌐 Partagé avec toute l\'équipe</p></div>' +
-                '<div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.4);">Rang <strong style="color:var(--accent);font-size:1rem;">#' + currentRank + (stats.autowin ? ' 🤖' : '') + '</strong></div>' +
+                '<div><h2 class="leaderboard-title">Classement Global</h2><p class="leaderboard-subtitle">Partagé avec toute l\'équipe</p></div>' +
+                '<div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.4);">Rang <strong style="color:var(--accent);font-size:1rem;">#' + currentRank + (stats.autowin ? ' ·auto' : '') + '</strong></div>' +
                 '</div>' +
-                // Body 2 columns
                 '<div class="leaderboard-body">' +
-                // Left: ranking list
                 '<div class="lb-col-left">' +
-                '<div class="lb-col-title">🏅 Classement</div>' +
+                '<div class="lb-col-title">Classement</div>' +
                 '<ul class="leaderboard-list">' + listHtml + '</ul>' +
                 '</div>' +
-                // Right: everything else
                 '<div class="lb-col-right">' +
                 autowinNoticeHtml +
                 (rivalryHtml || historyHtml ? (rivalryHtml || '') + (historyHtml || '') : '') +
                 podiumCompact +
                 '<div class="badges-container">' +
-                '<div class="badges-title">🏅 Badges (' + leaderboardData.badges.length + '/' + Object.keys(BADGES).length + ')</div>' +
+                '<div class="badges-title">Badges (' + leaderboardData.badges.length + '/' + Object.keys(BADGES).length + ')</div>' +
                 '<div class="badges-grid">' + badgesHtml + '</div></div>' +
                 '<div class="analytics-panel">' +
-                '<div class="analytics-title">📊 Tes Stats</div>' +
+                '<div class="analytics-title">Statistiques</div>' +
                 '<div class="analytics-grid">' +
                 '<div class="analytics-item"><div class="analytics-label">Efficacité</div><div class="analytics-value">' + Math.round(efficiency) + '%</div><div class="analytics-bar"><div class="analytics-bar-fill" style="width:' + efficiency + '%"></div></div></div>' +
                 '<div class="analytics-item"><div class="analytics-label">Vitesse</div><div class="analytics-value" style="font-size:0.7rem">' + speed + '</div></div>' +
                 '<div class="analytics-item"><div class="analytics-label">Style</div><div class="analytics-value" style="font-size:0.65rem">' + strategie + '</div></div>' +
                 '<div class="analytics-item"><div class="analytics-label">Parties</div><div class="analytics-value">' + leaderboardData.analytics.totalSolves + '</div></div>' +
                 '</div></div>' +
-                '<div class="share-card"><span class="share-title">📢 Partager</span><div class="share-buttons"><button class="share-btn share-btn-copy" onclick="copyScore(' + stats.time + ',' + stats.moves + ',' + currentRank + ')">📋 Copier</button></div></div>' +
-                '</div>' + // end col-right
-                '</div>' + // end body
-                // Footer
+                '</div>' +
+                '</div>' +
                 '<div class="leaderboard-footer">' +
+                '<div class="leaderboard-footer-row">' +
                 '<div class="dev-credit-footer" style="margin:0;padding:0;border:none;">' +
                 '<span class="dev-credit-line">Développé par</span>' +
                 '<a class="dev-credit-name" href="https://mahery-andrianandraina.github.io/card" target="_blank" rel="noopener">' +
                 '<span class="dev-credit-dot"></span>Mahery Andrianandraina<span class="dev-credit-arrow">↗</span>' +
                 '</a></div>' +
-                '<button class="btn btn-primary" onclick="closeLeaderboard()">✨ Fermer</button>' +
+                '<button class="btn btn-primary" onclick="closeLeaderboard()">Fermer</button>' +
+                '</div>' +
                 '</div>' +
                 '</div>';
 
             document.body.appendChild(modal);
             if (isRecord) { createConfetti(); playVictorySound(true); }
             else { playVictorySound(false); }
+
+            // Show floating share popup after a short delay
+            setTimeout(() => showSharePopup(stats.time, stats.moves, currentRank), 1200);
         };
 
         // ══ Intercept completePuzzle pour effets visuels ══
@@ -3986,6 +4911,175 @@
         // Les notifications live sont intégrées dans le startGame principal (pack visuel MAX)
 
         console.log('🚀 10 améliorations époustouflantes chargées !');
+
+        // ══ ÉPOUSTOUFLANT 1 — Mouse particle trail ══
+        (function() {
+            const colors = ['#0066FF','#00D4FF','#66e0ff','#ffffff','#0099cc'];
+            let lastParticle = 0;
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                if (now - lastParticle < 40) return; // throttle
+                lastParticle = now;
+                const p = document.createElement('div');
+                p.className = 'mouse-particle';
+                p.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;background:${colors[Math.floor(Math.random()*colors.length)]};`;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 700);
+            });
+        })();
+
+        // ══ ÉPOUSTOUFLANT 2 — Tile ripple on click ══
+        document.addEventListener('click', (e) => {
+            const tile = e.target.closest('.puzzle-tile');
+            if (!tile) return;
+            const rect = tile.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            ripple.className = 'tile-ripple';
+            const size = Math.max(rect.width, rect.height) * 1.5;
+            ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left}px;top:${e.clientY - rect.top}px;`;
+            tile.style.position = 'relative';
+            tile.style.overflow = 'hidden';
+            tile.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 550);
+        });
+
+        // ══ ÉPOUSTOUFLANT 3 — Keyboard arrow navigation ══
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('modal')?.classList.contains('active')) return;
+            if (document.querySelector('.leaderboard-modal')) return;
+            const keyMap = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' };
+            const dir = keyMap[e.key];
+            if (!dir) return;
+            e.preventDefault();
+            // Find which tile can swap with the empty one
+            const ei = typeof emptyIndex !== 'undefined' ? emptyIndex : -1;
+            if (ei < 0) return;
+            const size = typeof gridSize !== 'undefined' ? gridSize : 3;
+            const row = Math.floor(ei / size), col = ei % size;
+            let targetIdx = -1;
+            if (dir === 'up'    && row < size-1) targetIdx = ei + size;
+            if (dir === 'down'  && row > 0)      targetIdx = ei - size;
+            if (dir === 'left'  && col < size-1) targetIdx = ei + 1;
+            if (dir === 'right' && col > 0)      targetIdx = ei - 1;
+            if (targetIdx >= 0) {
+                const tiles_el = document.querySelectorAll('.puzzle-tile');
+                if (tiles_el[targetIdx]) tiles_el[targetIdx].click();
+            }
+        });
+
+        // ══ ÉPOUSTOUFLANT 4 — Progress ring ══
+        (function() {
+            // Inject ring HTML
+            const wrap = document.createElement('div');
+            wrap.id = 'progress-ring-wrap';
+            wrap.innerHTML = `
+                <div id="progress-ring">
+                    <svg viewBox="0 0 36 36">
+                        <defs>
+                            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0066FF"/>
+                                <stop offset="100%" stop-color="#00D4FF"/>
+                            </linearGradient>
+                        </defs>
+                        <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+                        <circle class="ring-fill" id="ring-fill-el" cx="18" cy="18" r="15.9"
+                            stroke-dasharray="100" stroke-dashoffset="100"/>
+                    </svg>
+                    <div class="ring-pct" id="ring-pct-el">0%</div>
+                </div>
+                <div id="progress-ring-label">Complété</div>
+            `;
+            document.body.appendChild(wrap);
+
+            function updateRing() {
+                if (typeof tiles === 'undefined' || typeof totalTiles === 'undefined') return;
+                let correct = 0;
+                for (let i = 0; i < tiles.length; i++) { if (tiles[i] === i) correct++; }
+                const pct = Math.round((correct / totalTiles) * 100);
+                const circumference = 2 * Math.PI * 15.9;
+                const offset = circumference - (pct / 100) * circumference;
+                const fill = document.getElementById('ring-fill-el');
+                const pctEl = document.getElementById('ring-pct-el');
+                if (fill) { fill.style.strokeDasharray = circumference; fill.style.strokeDashoffset = offset; }
+                if (pctEl) pctEl.textContent = pct + '%';
+                if (pct > 0) wrap.classList.add('visible');
+                if (pct >= 100) wrap.classList.remove('visible');
+            }
+
+            // Hook into renderPuzzle via MutationObserver
+            const grid = document.getElementById('puzzle-grid');
+            if (grid) {
+                new MutationObserver(updateRing).observe(grid, { childList: true, subtree: true, attributes: true });
+            }
+        })();
+
+        // ══ ÉPOUSTOUFLANT 5 — Live rank teaser on left panel ══
+        (function() {
+            setTimeout(async () => {
+                const el = document.getElementById('rank-teaser-text');
+                if (!el) return;
+                try {
+                    const res = await fetch(typeof APPS_SCRIPT_URL !== 'undefined' ? APPS_SCRIPT_URL : '');
+                    const data = await res.json();
+                    const rows = (data.values || []).slice(1).filter(r => r[1] && r[2]);
+                    if (rows.length === 0) { el.textContent = 'Sois le premier à finir !'; return; }
+                    const best = rows.reduce((b,r) => parseInt(r[2]) < parseInt(b[2]) ? r : b, rows[0]);
+                    const name = best[1]; const t = parseInt(best[2]);
+                    const fmt = Math.floor(t/60) + ':' + String(t%60).padStart(2,'0');
+                    el.textContent = `Record à battre : ${name} — ${fmt}`;
+                    el.style.color = 'rgba(255,215,0,0.8)';
+                } catch(e) { el.textContent = 'Classement en direct actif'; }
+            }, 1500);
+        })();
+
+        // ══ ÉPOUSTOUFLANT 6 — Tile hover 3D tilt effect ══
+        (function() {
+            function applyTilt(tile) {
+                tile.addEventListener('mousemove', (e) => {
+                    const rect = tile.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
+                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -18;
+                    tile.style.transform = `perspective(400px) rotateX(${y}deg) rotateY(${x}deg) scale(1.06)`;
+                    tile.style.zIndex = '5';
+                    tile.style.boxShadow = `${-x/2}px ${y/2}px 20px rgba(0,212,255,0.35)`;
+                });
+                tile.addEventListener('mouseleave', () => {
+                    tile.style.transform = '';
+                    tile.style.zIndex = '';
+                    tile.style.boxShadow = '';
+                });
+            }
+            // Apply to current and future tiles via MutationObserver
+            const grid = document.getElementById('puzzle-grid');
+            if (grid) {
+                const attachAll = () => grid.querySelectorAll('.puzzle-tile:not(.empty)').forEach(applyTilt);
+                attachAll();
+                new MutationObserver(attachAll).observe(grid, { childList: true });
+            }
+        })();
+
+        // ══ ÉPOUSTOUFLANT 7 — Combo streak (handled by BONUS 1 pack below) ══
+        // (duplicate disabled)
+
+        // ══ ÉPOUSTOUFLANT 8 — Dynamic puzzle glow based on completion ══
+        (function() {
+            const grid = document.getElementById('puzzle-grid');
+            if (!grid) return;
+            new MutationObserver(() => {
+                if (typeof tiles === 'undefined' || typeof totalTiles === 'undefined') return;
+                let correct = 0;
+                for (let i = 0; i < tiles.length; i++) { if (tiles[i] === i) correct++; }
+                const pct = correct / totalTiles;
+                const hue = Math.round(200 + pct * 40); // cyan → teal as you progress
+                const intensity = 0.2 + pct * 0.6;
+                grid.style.filter = `drop-shadow(0 0 ${Math.round(8 + pct * 30)}px hsla(${hue},100%,60%,${intensity.toFixed(2)}))`;
+                if (pct >= 0.8) {
+                    grid.style.animation = 'almostDone 1s ease-in-out infinite';
+                } else {
+                    grid.style.animation = '';
+                }
+            }).observe(grid, { childList: true, subtree: true, attributes: true });
+        })();
 
     </script>
 
@@ -4818,31 +5912,62 @@
 <style>
     #combo-display {
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
+        bottom: 5rem;
+        left: 1.2rem;
         z-index: 99999;
         pointer-events: none;
         font-family: 'Righteous', cursive;
-        font-size: 5rem;
-        font-weight: 900;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        background: rgba(10, 14, 39, 0.92);
+        border-radius: 40px;
+        padding: 0.5rem 1.1rem 0.5rem 0.6rem;
+        border: 1.5px solid currentColor;
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        transform: translateX(-30px) scale(0.9);
         transition: none;
-        text-shadow:
-            0 0 30px currentColor,
-            0 0 60px currentColor,
-            0 0 90px currentColor;
-        will-change: transform, opacity;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        white-space: nowrap;
     }
     #combo-display.show {
-        animation: comboPop 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        animation: comboToastIn 1.4s ease forwards;
     }
-    @keyframes comboPop {
-        0%   { transform: translate(-50%,-50%) scale(0) rotate(-15deg); opacity:1; }
-        20%  { transform: translate(-50%,-50%) scale(1.2) rotate(5deg);  opacity:1; }
-        50%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity:1; }
-        80%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity:1; }
-        100% { transform: translate(-50%,-50%) scale(0.5) rotate(0deg);  opacity:0; }
+    @keyframes comboToastIn {
+        0%   { opacity: 0; transform: translateX(-30px) scale(0.9); }
+        15%  { opacity: 1; transform: translateX(0) scale(1.04); }
+        30%  { transform: translateX(0) scale(1); }
+        70%  { opacity: 1; transform: translateX(0) scale(1); }
+        100% { opacity: 0; transform: translateX(-10px) scale(0.95); }
+    }
+    #combo-icon {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+        background: currentColor;
+    }
+    #combo-icon-inner {
+        font-family: 'Righteous', cursive;
+        font-size: 0.75rem;
+        font-weight: 900;
+        color: #0A0E27;
+    }
+    #combo-label {
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    #combo-sub {
+        font-size: 0.62rem;
+        opacity: 0.55;
+        letter-spacing: 1.5px;
+        font-family: 'Poppins', sans-serif;
+        display: block;
+        margin-top: -2px;
     }
 
     /* BONUS 2 : BARRE DE PUISSANCE DYNAMIQUE */
@@ -4986,7 +6111,13 @@
 </style>
 
 <!-- DOM elements pour les bonus -->
-<div id="combo-display"></div>
+<div id="combo-display">
+    <div id="combo-icon"><span id="combo-icon-inner">x2</span></div>
+    <div>
+        <div id="combo-label">COMBO</div>
+        <span id="combo-sub">SÉRIE EN COURS</span>
+    </div>
+</div>
 <div id="power-bar-wrap">
     <div id="power-bar-label">Boost</div>
     <div id="power-bar-track"><div id="power-bar-fill"></div></div>
@@ -5003,35 +6134,41 @@
 (function() {
     let streak = 0;
     let streakTimer = null;
-    const comboEl = document.getElementById('combo-display');
-    const comboColors = ['#00D4FF','#00ff88','#FFD700','#FF6B35','#FF00FF','#FF4444'];
-    const comboLabels = ['','','NICE! x2','HOT! x3','FIRE! x4','LEGEND x5','GOD MODE! x6'];
-    
+    const comboEl  = document.getElementById('combo-display');
+    const iconEl   = document.getElementById('combo-icon-inner');
+    const labelEl  = document.getElementById('combo-label');
+    const subEl    = document.getElementById('combo-sub');
+    const comboColors = ['#00D4FF','#00ff88','#FFD700','#FF6B35','#FF4444','#FF00FF'];
+    const comboLabels = ['','','NICE','HOT','FIRE','LEGEND','GODMODE'];
+    const comboSubs   = ['','','Bon rythme !','Tu enchaînes !','En feu !','Imbattable !','Mode Dieu !'];
+
     function showCombo(n) {
         if (n < 2) return;
-        const label = comboLabels[Math.min(n, comboLabels.length-1)] || `COMBO x${n}!`;
+        const label = comboLabels[Math.min(n, comboLabels.length-1)] || `COMBO`;
+        const sub   = comboSubs[Math.min(n, comboSubs.length-1)] || `x${n} de suite`;
         const color = comboColors[(n-2) % comboColors.length];
-        comboEl.textContent = label;
         comboEl.style.color = color;
-        comboEl.style.fontSize = Math.min(3 + n * 0.5, 7) + 'rem';
+        comboEl.style.borderColor = color;
+        comboEl.style.boxShadow = `0 4px 24px rgba(0,0,0,0.4), 0 0 20px ${color}44`;
+        if (iconEl) iconEl.textContent = `x${n}`;
+        if (labelEl) labelEl.textContent = label;
+        if (subEl) subEl.textContent = sub;
         comboEl.classList.remove('show');
-        void comboEl.offsetWidth; // force reflow
+        void comboEl.offsetWidth;
         comboEl.classList.add('show');
-        
-        // Son combo
+
+        // Subtle sound
         try {
             const ac = new (window.AudioContext || window.webkitAudioContext)();
-            [440 + n*60, 550 + n*60, 660 + n*60].forEach((f, i) => {
-                const o = ac.createOscillator();
-                const g = ac.createGain();
+            [440 + n*40, 550 + n*40].forEach((f, i) => {
+                const o = ac.createOscillator(), g = ac.createGain();
                 o.connect(g); g.connect(ac.destination);
-                o.frequency.value = f;
-                o.type = 'triangle';
-                const t = ac.currentTime + i * 0.08;
+                o.frequency.value = f; o.type = 'sine';
+                const t = ac.currentTime + i * 0.07;
                 g.gain.setValueAtTime(0, t);
-                g.gain.linearRampToValueAtTime(0.3, t + 0.04);
-                g.gain.linearRampToValueAtTime(0, t + 0.2);
-                o.start(t); o.stop(t + 0.25);
+                g.gain.linearRampToValueAtTime(0.12, t + 0.04);
+                g.gain.linearRampToValueAtTime(0, t + 0.18);
+                o.start(t); o.stop(t + 0.2);
             });
         } catch(e){}
     }
@@ -5368,7 +6505,7 @@ console.log('🔥 BONUS PACK ULTRA chargé : Combo Streak, Power Bar, Commentate
 }
 @keyframes devCardIn {
     from { transform: scale(0.7) translateY(40px); opacity: 0; }
-    to   { transform: scale(1) translateY(0); opacity: 1; }
+    to   { transform: scale(1) transacity: 1; }
 }
 
 /* Animated border glow */
