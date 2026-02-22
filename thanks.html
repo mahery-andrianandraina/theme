@@ -280,6 +280,219 @@
 </head>
 <body>
 
+    <!-- ══ LOADING SCREEN ══ -->
+    <div id="loading-screen" style="
+        position:fixed;inset:0;z-index:100;
+        background:#0A0E27;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        overflow:hidden;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    ">
+        <!-- Animated grid background -->
+        <canvas id="loading-canvas" style="position:absolute;inset:0;opacity:0.4;"></canvas>
+
+        <!-- Shockwave rings -->
+        <div id="rings-container" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+            <div class="shock-ring" style="--d:0s"></div>
+            <div class="shock-ring" style="--d:0.4s"></div>
+            <div class="shock-ring" style="--d:0.8s"></div>
+            <div class="shock-ring" style="--d:1.2s"></div>
+            <div class="shock-ring" style="--d:1.6s"></div>
+        </div>
+
+        <!-- Central logo / icon -->
+        <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2rem;">
+            <!-- Spinning hexagon -->
+            <div id="hex-spinner" style="width:120px;height:120px;position:relative;">
+                <svg viewBox="0 0 120 120" style="width:100%;height:100%;animation:hexSpin 4s linear infinite;">
+                    <defs>
+                        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#0066FF"/>
+                            <stop offset="50%" stop-color="#00D4FF"/>
+                            <stop offset="100%" stop-color="#FFD700"/>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    <polygon points="60,8 104,32 104,88 60,112 16,88 16,32"
+                        fill="none" stroke="url(#hexGrad)" stroke-width="3"
+                        filter="url(#glow)" style="animation:hexPulse 2s ease-in-out infinite;"/>
+                    <polygon points="60,22 92,40 92,80 60,98 28,80 28,40"
+                        fill="none" stroke="rgba(0,212,255,0.4)" stroke-width="1.5"/>
+                    <!-- Inner rotating element -->
+                    <g style="transform-origin:60px 60px;animation:innerSpin 2s linear infinite reverse;">
+                        <line x1="60" y1="28" x2="60" y2="42" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                        <line x1="60" y1="78" x2="60" y2="92" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                        <line x1="34" y1="44" x2="44" y2="50" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                        <line x1="76" y1="70" x2="86" y2="76" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                        <line x1="34" y1="76" x2="44" y2="70" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                        <line x1="76" y1="50" x2="86" y2="44" stroke="#FFD700" stroke-width="2" opacity="0.8"/>
+                    </g>
+                    <circle cx="60" cy="60" r="10" fill="rgba(0,212,255,0.2)" stroke="#00D4FF" stroke-width="1.5"/>
+                    <circle cx="60" cy="60" r="4" fill="#00D4FF"/>
+                </svg>
+            </div>
+
+            <!-- Glitch text -->
+            <div style="text-align:center;">
+                <div id="glitch-text" style="
+                    font-family:'Poppins',sans-serif;
+                    font-size:clamp(1.4rem,5vw,2.2rem);
+                    font-weight:700;
+                    color:white;
+                    letter-spacing:0.25em;
+                    text-transform:uppercase;
+                    position:relative;
+                    animation:glitchAnim 3s infinite;
+                " data-text="FÉLICITATIONS">FÉLICITATIONS</div>
+                <div style="
+                    font-family:'Poppins',sans-serif;
+                    font-size:clamp(0.7rem,2vw,0.9rem);
+                    color:rgba(0,212,255,0.7);
+                    letter-spacing:0.4em;
+                    text-transform:uppercase;
+                    margin-top:0.5rem;
+                    animation:fadeInUp 1s ease both;
+                    animation-delay:0.5s;
+                    opacity:0;
+                ">Votre vidéo surprise arrive...</div>
+
+                <!-- Indicateur vidéo -->
+                <div style="
+                    margin-top:1.2rem;
+                    display:flex;align-items:center;gap:0.8rem;
+                    background:rgba(255,255,255,0.05);
+                    border:1px solid rgba(0,212,255,0.25);
+                    border-radius:12px;
+                    padding:0.7rem 1.2rem;
+                    animation:fadeInUp 1s ease both;
+                    animation-delay:1s;
+                    opacity:0;
+                ">
+                    <!-- Icône play animée -->
+                    <div style="
+                        width:36px;height:36px;
+                        border-radius:50%;
+                        background:linear-gradient(135deg,#0066FF,#00D4FF);
+                        display:flex;align-items:center;justify-content:center;
+                        flex-shrink:0;
+                        box-shadow:0 0 16px rgba(0,212,255,0.5);
+                        animation:playPulse 1.5s ease-in-out infinite;
+                    ">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+                            <polygon points="3,1 13,7 3,13"/>
+                        </svg>
+                    </div>
+                    <div style="text-align:left;">
+                        <div style="font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:700;color:white;letter-spacing:0.05em;">Vidéo en cours de chargement</div>
+                        <div style="font-family:'Poppins',sans-serif;font-size:0.65rem;color:rgba(255,215,0,0.8);letter-spacing:0.05em;margin-top:2px;">🎵 Préparez vos oreilles !</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div style="width:280px;position:relative;">
+                <div style="
+                    height:3px;background:rgba(255,255,255,0.1);
+                    border-radius:2px;overflow:hidden;
+                ">
+                    <div id="progress-bar" style="
+                        height:100%;width:0%;
+                        background:linear-gradient(90deg,#0066FF,#00D4FF,#FFD700);
+                        background-size:200% 100%;
+                        border-radius:2px;
+                        transition:width 0.3s ease;
+                        animation:progressGlow 1.5s ease-in-out infinite;
+                    "></div>
+                </div>
+                <!-- Percentage -->
+                <div id="progress-pct" style="
+                    font-family:'Poppins',sans-serif;
+                    font-size:0.7rem;font-weight:600;
+                    color:rgba(0,212,255,0.6);
+                    letter-spacing:0.2em;
+                    text-align:center;
+                    margin-top:0.7rem;
+                ">0%</div>
+            </div>
+
+            <!-- Floating emoji particles -->
+            <div id="emoji-float" style="position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:300px;height:80px;pointer-events:none;overflow:visible;">
+            </div>
+        </div>
+
+        <!-- Corner decorations -->
+        <div style="position:absolute;top:20px;left:20px;width:40px;height:40px;border-top:2px solid rgba(0,212,255,0.5);border-left:2px solid rgba(0,212,255,0.5);animation:cornerPulse 2s ease-in-out infinite;"></div>
+        <div style="position:absolute;top:20px;right:20px;width:40px;height:40px;border-top:2px solid rgba(0,212,255,0.5);border-right:2px solid rgba(0,212,255,0.5);animation:cornerPulse 2s ease-in-out infinite 0.5s;"></div>
+        <div style="position:absolute;bottom:20px;left:20px;width:40px;height:40px;border-bottom:2px solid rgba(0,212,255,0.5);border-left:2px solid rgba(0,212,255,0.5);animation:cornerPulse 2s ease-in-out infinite 1s;"></div>
+        <div style="position:absolute;bottom:20px;right:20px;width:40px;height:40px;border-bottom:2px solid rgba(0,212,255,0.5);border-right:2px solid rgba(0,212,255,0.5);animation:cornerPulse 2s ease-in-out infinite 1.5s;"></div>
+
+        <!-- Scanning line -->
+        <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.8),transparent);animation:scanLine 2.5s ease-in-out infinite;pointer-events:none;"></div>
+    </div>
+
+    <style>
+        .shock-ring {
+            position:absolute;
+            width:80px;height:80px;
+            border:2px solid rgba(0,212,255,0.8);
+            border-radius:50%;
+            animation:shockwave 2.5s ease-out infinite;
+            animation-delay:var(--d);
+        }
+        @keyframes shockwave {
+            0%   { transform:scale(0.5);opacity:0.8; }
+            100% { transform:scale(8);opacity:0; }
+        }
+        @keyframes hexSpin {
+            0%   { transform:rotate(0deg); }
+            100% { transform:rotate(360deg); }
+        }
+        @keyframes innerSpin {
+            0%   { transform:rotate(0deg); }
+            100% { transform:rotate(360deg); }
+        }
+        @keyframes hexPulse {
+            0%,100% { opacity:1;stroke-width:3; }
+            50%      { opacity:0.6;stroke-width:5; }
+        }
+        @keyframes glitchAnim {
+            0%,95%,100% { text-shadow:none;transform:none; }
+            96% { text-shadow:-3px 0 #FF003C,3px 0 #00D4FF;transform:skewX(-5deg); }
+            97% { text-shadow:3px 0 #FF003C,-3px 0 #00D4FF;transform:skewX(5deg); }
+            98% { text-shadow:none;transform:none; }
+            99% { text-shadow:-2px 0 #FFD700;transform:skewX(-2deg); }
+        }
+        @keyframes fadeInUp {
+            from { opacity:0;transform:translateY(10px); }
+            to   { opacity:1;transform:translateY(0); }
+        }
+        @keyframes progressGlow {
+            0%,100% { background-position:0% 0%;box-shadow:0 0 8px rgba(0,212,255,0.5); }
+            50%      { background-position:200% 0%;box-shadow:0 0 20px rgba(0,212,255,0.9); }
+        }
+        @keyframes cornerPulse {
+            0%,100% { opacity:0.5;box-shadow:none; }
+            50%      { opacity:1;box-shadow:0 0 12px rgba(0,212,255,0.6); }
+        }
+        @keyframes scanLine {
+            0%   { top:-2px;opacity:0; }
+            10%  { opacity:1; }
+            90%  { opacity:1; }
+            100% { top:100%;opacity:0; }
+        }
+        @keyframes emojiFloat {
+            0%   { transform:translateY(0) scale(1);opacity:1; }
+            100% { transform:translateY(-80px) scale(1.3);opacity:0; }
+        }
+        @keyframes playPulse {
+            0%,100% { transform:scale(1);box-shadow:0 0 16px rgba(0,212,255,0.5); }
+            50%      { transform:scale(1.12);box-shadow:0 0 28px rgba(0,212,255,0.9); }
+        }
+    </style>
+
     <!-- Full-screen video via Google Drive direct link -->
     <div class="video-bg">
         <video
@@ -289,7 +502,7 @@
             controls
             style="width:100%;height:100%;object-fit:cover;display:block;"
         >
-            <source src="files/Tyla%20-%20%22Everything%20Goes%20With%20Blue%22%20(from%20the%20Smurfs%20Soundtrack)%20(Lyric%20Video)_2.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/djz4uow1p/video/upload/v1771772281/tila_cl25vj.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -324,23 +537,106 @@
     <a href="index.html" class="replay-link"><span class="replay-icon">↺</span> Rejouer</a>
 
     <script>
+        // ══ LOADING SCREEN LOGIC ══
+        const loadingScreen = document.getElementById('loading-screen');
+        const progressBar   = document.getElementById('progress-bar');
+        const progressPct   = document.getElementById('progress-pct');
+        const emojiFloat    = document.getElementById('emoji-float');
+        const emojis = ['🎉','💙','🏆','✨','🎊','⭐','🎮','💫'];
+
+        // Floating emoji every 400ms
+        const emojiInterval = setInterval(() => {
+            const e = document.createElement('span');
+            e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+            e.style.cssText = `
+                position:absolute;
+                left:${10+Math.random()*80}%;
+                bottom:0;
+                font-size:${1.2+Math.random()}rem;
+                animation:emojiFloat ${1.2+Math.random()*0.8}s ease-out forwards;
+            `;
+            emojiFloat.appendChild(e);
+            setTimeout(() => e.remove(), 2000);
+        }, 350);
+
+        // Loading canvas animated grid
+        const lc = document.getElementById('loading-canvas');
+        const lctx = lc.getContext('2d');
+        lc.width = window.innerWidth; lc.height = window.innerHeight;
+        let gridOffset = 0;
+        function drawGrid() {
+            lctx.clearRect(0,0,lc.width,lc.height);
+            lctx.strokeStyle = 'rgba(0,212,255,0.15)';
+            lctx.lineWidth = 1;
+            const size = 50;
+            const ox = gridOffset % size;
+            for(let x = ox - size; x < lc.width + size; x += size) {
+                lctx.beginPath(); lctx.moveTo(x,0); lctx.lineTo(x,lc.height); lctx.stroke();
+            }
+            for(let y = ox - size; y < lc.height + size; y += size) {
+                lctx.beginPath(); lctx.moveTo(0,y); lctx.lineTo(lc.width,y); lctx.stroke();
+            }
+            gridOffset += 0.3;
+            if(loadingScreen.style.display !== 'none') requestAnimationFrame(drawGrid);
+        }
+        drawGrid();
+
+        // Dismiss loading screen
+        let dismissed = false;
+        let prog = 0;
+        const videoEl = document.getElementById('main-video');
+
+        function dismissLoader() {
+            if(dismissed) return;
+            dismissed = true;
+            clearInterval(emojiInterval);
+            prog = 100;
+            progressBar.style.width = '100%';
+            progressPct.textContent = '100%';
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    // Lance la vidéo ici, après que le loading screen est caché
+                    videoEl.muted = true;
+                    videoEl.play().then(() => {
+                        // Tente de démuter après un court délai
+                        setTimeout(() => { videoEl.muted = false; }, 300);
+                    }).catch(err => {
+                        console.warn('Autoplay bloqué:', err);
+                        videoEl.muted = true;
+                        videoEl.play();
+                    });
+                }, 800);
+            }, 400);
+        }
+
+        // Animate progress bar realistically
+        const fakeProgress = setInterval(() => {
+            if(dismissed) { clearInterval(fakeProgress); return; }
+            const target = videoEl.readyState >= 3 ? 100 :
+                           videoEl.readyState >= 2 ? 80 :
+                           videoEl.readyState >= 1 ? 50 : Math.min(prog + 1, 45);
+            if(prog < target) prog = Math.min(prog + (Math.random() * 3), target);
+            progressBar.style.width = prog + '%';
+            progressPct.textContent = Math.floor(prog) + '%';
+            if(prog >= 100) { clearInterval(fakeProgress); dismissLoader(); }
+        }, 80);
+
+        videoEl.addEventListener('canplay', dismissLoader);
+        videoEl.addEventListener('canplaythrough', dismissLoader);
+        // Fallback: 5s max
+        setTimeout(dismissLoader, 5000);
+
+        // Premier clic pour démuter si nécessaire
+        document.addEventListener('click', () => {
+            videoEl.muted = false;
+            videoEl.play();
+        }, { once: true });
+
         // Auto-launch confetti on load
         window.addEventListener('load', launchConfetti);
-
-        // Try autoplay with sound
-        const video = document.getElementById('main-video');
-        video.muted = false;
-        video.play().catch(() => {
-            // Browser blocked — play muted first, user gesture will unmute
-            video.muted = true;
-            video.play();
-        });
-
-        // First click anywhere unmutes
-        document.addEventListener('click', () => {
-            video.muted = false;
-            video.play();
-        }, { once: true });
 
         // Particles
         const canvas = document.getElementById('particle-canvas');
