@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Merci ! - SALES & MKTG</title>
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Merci !</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0066FF;
@@ -13,483 +13,366 @@
             --dark: #0A0E27;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 50%, #0A0E27 100%);
+            background: var(--dark);
             color: white;
+            width: 100vw;
             height: 100vh;
             overflow: hidden;
             position: relative;
+        }
+
+        /* Full-screen video */
+        .video-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Gradient overlay — stronger at bottom for ticker */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 14, 39, 0.3) 0%,
+                rgba(10, 14, 39, 0.05) 40%,
+                rgba(10, 14, 39, 0.05) 55%,
+                rgba(10, 14, 39, 0.7) 80%,
+                rgba(10, 14, 39, 0.85) 100%
+            );
+        }
+
+        /* Particles */
+        #particle-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        /* Neon border frame */
+        .neon-frame {
+            position: absolute;
+            inset: 12px;
+            z-index: 4;
+            border: 2px solid rgba(0, 212, 255, 0.35);
+            border-radius: 18px;
+            box-shadow:
+                inset 0 0 30px rgba(0, 212, 255, 0.08),
+                0 0 40px rgba(0, 212, 255, 0.15);
+            pointer-events: none;
+            animation: framePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes framePulse {
+            0%, 100% { border-color: rgba(0,212,255,0.35); box-shadow: inset 0 0 30px rgba(0,212,255,0.08), 0 0 40px rgba(0,212,255,0.15); }
+            50% { border-color: rgba(0,212,255,0.6); box-shadow: inset 0 0 40px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.3); }
+        }
+
+        /* Confetti layer */
+        .confetti-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* ── TV NEWS TICKER ── */
+        .ticker-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 6;
+            animation: tickerIn 0.8s ease both;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes tickerIn {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top accent bar */
+        .ticker-accent {
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--secondary), var(--primary));
+            background-size: 200% 100%;
+            animation: accentSlide 3s linear infinite;
+        }
+
+        @keyframes accentSlide {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        /* Label + ticker row */
+        .ticker-bar {
+            display: flex;
+            align-items: stretch;
+            background: rgba(5, 8, 28, 0.92);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+            height: 52px;
+            overflow: hidden;
+        }
+
+        .ticker-label {
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* Particle Canvas Background */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        /* Main Container */
-        .thank-you-container {
+            padding: 0 1.2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            gap: 0.4rem;
             position: relative;
-            z-index: 10;
-            max-width: 800px;
-            max-height: 95vh;
-            width: 90%;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 30px;
-            border: 3px solid rgba(0, 212, 255, 0.6);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 80px rgba(0, 212, 255, 0.4);
-            text-align: center;
-            animation: slideIn 0.8s ease-out;
-            overflow-y: auto;
+            z-index: 1;
         }
 
-        /* Custom Scrollbar */
-        .thank-you-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .thank-you-container::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-        }
-
-        .thank-you-container::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
-
-        .thank-you-container::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, var(--secondary), var(--primary));
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Logo */
-        .logo {
-            font-family: 'Righteous', cursive;
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: gradientMove 3s ease infinite;
-            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.8));
-            margin-bottom: 0.5rem;
-        }
-
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Success Icon */
-        .success-icon {
-            font-size: 3rem;
-            animation: bounce 1s ease-in-out infinite;
-            margin: 0.5rem 0;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Title */
-        .thank-you-title {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
-            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 1); }
-        }
-
-        /* Message */
-        .thank-you-message {
-            font-size: 1rem;
-            color: var(--secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .message-highlight {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: rgba(0, 102, 255, 0.15);
-            border: 2px solid rgba(0, 212, 255, 0.5);
-            border-radius: 15px;
-            padding: 1rem;
-            margin: 1rem 0;
-            backdrop-filter: blur(5px);
-        }
-
-        .info-title {
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .info-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-        }
-
-        /* Decorative Elements */
-        .decorative-line {
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-            margin: 1rem auto;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: scaleX(1); }
-            50% { opacity: 1; transform: scaleX(1.2); }
-        }
-
-        /* Button */
-        .btn {
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
-        }
-
-        /* Confetti Animation */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--accent);
+        /* Angled right edge of label */
+        .ticker-label::after {
+            content: '';
             position: absolute;
-            animation: confetti-fall 3s linear infinite;
+            right: -14px;
+            top: 0;
+            bottom: 0;
+            width: 28px;
+            background: linear-gradient(135deg, var(--secondary) 50%, transparent 50%);
+            z-index: 2;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff3b3b;
+            border-radius: 50%;
+            animation: liveBlink 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes liveBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .ticker-track {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .ticker-text {
+            white-space: nowrap;
+            display: inline-block;
+            font-size: clamp(0.82rem, 2vw, 1rem);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: white;
+            animation: tickerScroll 22s linear infinite;
+        }
+
+        .ticker-text .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .ticker-text .separator {
+            color: var(--secondary);
+            margin: 0 1.5rem;
+            opacity: 0.6;
+        }
+
+        @keyframes tickerScroll {
+            0%   { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Replay */
+        .replay-link {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.8rem;
+            z-index: 7;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: white;
+            text-decoration: none;
+            padding: 0.55rem 1.4rem;
+            border: 2px solid rgba(0, 212, 255, 0.7);
+            border-radius: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.3);
+            animation: replayPulse 2.5s ease-in-out infinite, fadeInBtn 1s ease both;
+            animation-delay: 0s, 1.5s;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .replay-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            border-color: var(--secondary);
+        }
+
+        .replay-icon {
+            display: inline-block;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes replayPulse {
+            0%, 100% {
+                box-shadow: 0 0 18px rgba(0, 212, 255, 0.3);
+                border-color: rgba(0, 212, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(0, 212, 255, 0.7), 0 0 60px rgba(0, 102, 255, 0.3);
+                border-color: var(--secondary);
+            }
+        }
+
+        @keyframes fadeInBtn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Stats Display */
-        .stats-display {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1rem;
-            border-radius: 15px;
-            border: 2px solid rgba(0, 212, 255, 0.5);
-            min-width: 130px;
-        }
-
-        .stat-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .stat-label {
-            color: var(--secondary);
-            font-size: 0.8rem;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            color: var(--accent);
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .thank-you-container {
-                padding: 1.5rem 1rem;
-                width: 95%;
-                max-height: 98vh;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .success-icon {
-                font-size: 2.5rem;
-                margin: 0.3rem 0;
-            }
-
-            .thank-you-title {
-                font-size: 1.6rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .thank-you-message {
-                font-size: 0.9rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .info-title {
-                font-size: 1rem;
-                margin-bottom: 0.3rem;
-            }
-
-            .info-text {
-                font-size: 0.85rem;
-            }
-
-            .info-box {
-                padding: 0.8rem;
-                margin: 0.8rem 0;
-            }
-
-            .decorative-line {
-                margin: 0.8rem auto;
-            }
-
-            .stats-display {
-                gap: 1rem;
-                margin: 0.8rem 0;
-            }
-
-            .stat-item {
-                min-width: 110px;
-                padding: 0.8rem;
-            }
-
-            .stat-icon {
-                font-size: 1.3rem;
-            }
-
-            .stat-value {
-                font-size: 1.3rem;
-            }
-
-            .stat-label {
-                font-size: 0.75rem;
-            }
-
-            .btn {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.85rem;
-                margin-top: 0.8rem;
-            }
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
         @media (max-width: 480px) {
-            .thank-you-container {
-                padding: 1rem 0.8rem;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-            }
-
-            .success-icon {
-                font-size: 2rem;
-            }
-
-            .thank-you-title {
-                font-size: 1.4rem;
-            }
-
-            .thank-you-message {
-                font-size: 0.85rem;
-            }
-
-            .info-title {
-                font-size: 0.95rem;
-            }
-
-            .info-text {
-                font-size: 0.8rem;
-            }
-
-            .stat-item {
-                min-width: 90px;
-                padding: 0.6rem;
-            }
-
-            .stat-icon {
-                font-size: 1.2rem;
-            }
-
-            .stat-value {
-                font-size: 1.1rem;
-            }
-
-            .btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.8rem;
-            }
+            .ticker-bar { height: 44px; }
+            .ticker-label { padding: 0 0.8rem; font-size: 0.62rem; }
+            .ticker-text { font-size: 0.78rem; }
+            .neon-frame { inset: 6px; }
         }
     </style>
 </head>
 <body>
-    <!-- Particle Canvas Background -->
-    <canvas id="particle-canvas"></canvas>
 
-    <!-- Main Container -->
-    <div class="thank-you-container">
-        <div class="logo">🧩 SALES & MKTG</div>
-        
-        <div class="success-icon">🎉</div>
-        
-        <h1 class="thank-you-title">Merci !</h1>
-        
-        <p class="thank-you-message">
-            Merci d'avoir résolu le puzzle et révélé le thème ! <br>
-            <span class="message-highlight">Le thème pour lundi est BLEU</span>
-        </p>
-
-        <div class="decorative-line"></div>
-
-        <div class="info-box">
-            <h2 class="info-title">📅 N'oubliez pas !</h2>
-            <p class="info-text">
-                Portez du <strong>BLEU</strong> lundi pour participer à notre journée thématique d'équipe. 
-                Que ce soit un t-shirt, une chemise, un accessoire ou même juste des chaussettes - 
-                toute touche de bleu est la bienvenue ! 💙
-            </p>
-        </div>
-
-        <div class="info-box" style="margin-top: 1.5rem;">
-            <h2 class="info-title">🎮 À bientôt !</h2>
-            <p class="info-text">
-                On a hâte de vous revoir avec un nouveau jeu de révélation de thèmes !<br>
-                Envoyez-nous votre photo en bleu 📸
-            </p>
-        </div>
-
-        <div class="stats-display">
-            <div class="stat-item">
-                <div class="stat-icon">🎯</div>
-                <div class="stat-label">Défi</div>
-                <div class="stat-value">Réussi ✓</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">👕</div>
-                <div class="stat-label">Thème</div>
-                <div class="stat-value">BLEU</div>
-            </div>
-        </div>
-
-        <a href="index.html" class="btn">🔄 Rejouer</a>
+    <!-- Full-screen video via Google Drive direct link -->
+    <div class="video-bg">
+        <video
+            id="main-video"
+            autoplay
+            playsinline
+            controls
+            style="width:100%;height:100%;object-fit:cover;display:block;"
+        >
+            <source src="files/Tyla%20-%20%22Everything%20Goes%20With%20Blue%22%20(from%20the%20Smurfs%20Soundtrack)%20(Lyric%20Video)_2.mp4" type="video/mp4">
+        </video>
     </div>
 
+    <div class="overlay"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="neon-frame"></div>
+    <div class="confetti-layer" id="confetti-layer"></div>
+
+    <!-- TV News Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker-accent"></div>
+        <div class="ticker-bar">
+            <div class="ticker-label">
+                <div class="live-dot"></div>
+                FLASH
+            </div>
+            <div class="ticker-track">
+                <span class="ticker-text">
+                    🎉 Félicitations ! Vous avez résolu le puzzle et révélé notre thème du lundi.
+                    <span class="separator">◆</span>
+                    💙 Rappel : portez du <span class="highlight">BLEU</span> lundi — t-shirt, chemise, accessoire, tout compte !
+                    <span class="separator">◆</span>
+                    🎮 On a hâte de vous revoir avec de nouveaux jeux de révélation de thèmes !
+                    <span class="separator">◆</span>
+                    📸 Envoyez-nous votre photo en bleu !
+                    <span class="separator">◆</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="replay-link"><span class="replay-icon">↺</span> Rejouer</a>
+
     <script>
-        // Particle Animation (same as puzzle page)
+        // Auto-launch confetti on load
+        window.addEventListener('load', launchConfetti);
+
+        // Try autoplay with sound
+        const video = document.getElementById('main-video');
+        video.muted = false;
+        video.play().catch(() => {
+            // Browser blocked — play muted first, user gesture will unmute
+            video.muted = true;
+            video.play();
+        });
+
+        // First click anywhere unmutes
+        document.addEventListener('click', () => {
+            video.muted = false;
+            video.play();
+        }, { once: true });
+
+        // Particles
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = 100;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
-                this.color = `rgba(0, ${Math.random() * 100 + 155}, 255, ${Math.random() * 0.5 + 0.2})`;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-            }
-
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2.5 + 0.5,
+                speedX: Math.random() * 1.5 - 0.75,
+                speedY: Math.random() * 1.5 - 0.75,
+                color: `rgba(0, ${Math.floor(Math.random() * 100 + 155)}, 255, ${Math.random() * 0.5 + 0.2})`
+            });
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
+            particles.forEach(p => {
+                p.x += p.speedX; p.y += p.speedY;
+                if (p.x > canvas.width || p.x < 0) p.speedX *= -1;
+                if (p.y > canvas.height || p.y < 0) p.speedY *= -1;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
             });
             requestAnimationFrame(animateParticles);
         }
-
         animateParticles();
 
         window.addEventListener('resize', () => {
@@ -497,31 +380,30 @@
             canvas.height = window.innerHeight;
         });
 
-        // Create floating confetti
-        function createConfetti() {
-            const colors = ['#FFD700', '#0066FF', '#00D4FF'];
-            for (let i = 0; i < 50; i++) {
+        // Confetti
+        const layer = document.getElementById('confetti-layer');
+        const colors = ['#FFD700', '#0066FF', '#00D4FF'];
+
+        function launchConfetti() {
+            for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.width = '10px';
-                    confetti.style.height = '10px';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animation = `confetti-fall ${3 + Math.random() * 2}s linear`;
-                    confetti.style.zIndex = '5';
-                    confetti.style.opacity = '0.8';
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => confetti.remove(), 5000);
-                }, i * 100);
+                    const c = document.createElement('div');
+                    c.style.cssText = `
+                        position:absolute;
+                        left:${Math.random()*100}%;
+                        top:-10px;
+                        width:10px; height:10px;
+                        background:${colors[Math.floor(Math.random()*3)]};
+                        border-radius:${Math.random()>0.5?'50%':'0'};
+                        animation:confetti-fall ${3+Math.random()*2}s linear forwards;
+                        opacity:0.85;
+                    `;
+                    layer.appendChild(c);
+                    setTimeout(() => c.remove(), 5500);
+                }, i * 80);
             }
         }
 
-        // Trigger confetti on page load
-        window.addEventListener('load', createConfetti);
     </script>
 </body>
 </html>
