@@ -4453,83 +4453,12 @@
         function closeLeaderboard() {
             document.querySelector('.leaderboard-modal')?.remove();
             document.getElementById('share-float-popup')?.remove();
-            setTimeout(() => showBlueInspirationPanel(), 400);
+            window.location.href = 'thanks.html';
         }
 
         function showBlueInspirationPanel() {
-            if (document.getElementById('blue-inspo-panel')) return;
-            const panel = document.createElement('div');
-            panel.id = 'blue-inspo-panel';
-            panel.innerHTML = `
-                <div class="bip-backdrop" onclick="document.getElementById('blue-inspo-panel').remove()"></div>
-                <div class="bip-card">
-                    <div class="bip-header">
-                        <div class="bip-header-dot"></div>
-                        <div>
-                            <div class="bip-title">Inspirations — Thème Bleu</div>
-                            <div class="bip-subtitle">Trouvez votre tenue sur ces plateformes</div>
-                        </div>
-                        <button class="bip-close" onclick="document.getElementById('blue-inspo-panel').remove()">×</button>
-                    </div>
-                    <div class="bip-grid">
-                        <a class="bip-card-link" href="https://www.pinterest.com/search/pins/?q=tenue+bleue+casual" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-p">P</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">Pinterest</div>
-                                <div class="bip-card-desc">Tenues bleues homme & femme</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                        <a class="bip-card-link" href="https://www.google.com/search?q=tenue+bleue+casual+bureau&tbm=isch" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-g">G</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">Google Images</div>
-                                <div class="bip-card-desc">Looks bleus bureau & casual</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                        <a class="bip-card-link" href="https://www.zara.com/fr/" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-z">Z</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">Zara</div>
-                                <div class="bip-card-desc">Pièces bleues tendance</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                        <a class="bip-card-link" href="https://www.instagram.com/explore/tags/ootdblue/" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-i">In</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">Instagram</div>
-                                <div class="bip-card-desc">#ootdblue — outfits du jour</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                        <a class="bip-card-link" href="https://www.asos.com/fr/search/?q=blue+outfit" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-a">A</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">ASOS</div>
-                                <div class="bip-card-desc">Sélection blue outfits</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                        <a class="bip-card-link" href="https://www2.hm.com/fr_fr/femme.html" target="_blank" rel="noopener">
-                            <div class="bip-card-icon bip-icon-h">H</div>
-                            <div class="bip-card-info">
-                                <div class="bip-card-name">H&M</div>
-                                <div class="bip-card-desc">Pièces accessibles & stylées</div>
-                            </div>
-                            <span class="bip-arrow">↗</span>
-                        </a>
-                    </div>
-                    <div class="bip-tip">
-                        <div class="bip-tip-bar"></div>
-                        <div class="bip-tip-text"><strong>Rappel :</strong> haut bleu + bas bleu, au style de votre choix — du navy au bleu ciel en passant par le cobalt.</div>
-                    </div>
-                    <button class="bip-dismiss" onclick="document.getElementById('blue-inspo-panel').remove()">Fermer</button>
-                </div>
-            `;
-            document.body.appendChild(panel);
-            requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add('bip-visible')));
+            // Pop-up inspiration désactivé - Redirection vers thanks.html à la place
+            return;
         }
 
         function copyScore(time, moves, rank) {
@@ -4705,29 +4634,9 @@
             const loader = document.createElement('div');
             loader.id = 'api-loader';
             loader.innerHTML = `
-                <div class="loader-particles">
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                </div>
-                <div class="loader-spectacular">
-                    <div class="loader-container">
-                        <div class="loader-core"></div>
-                        <div class="loader-orbit orbit-1"></div>
-                        <div class="loader-orbit orbit-2"></div>
-                        <div class="loader-orbit orbit-3"></div>
-                        <div class="orbit-dot dot-1"></div>
-                        <div class="orbit-dot dot-2"></div>
-                        <div class="orbit-dot dot-3"></div>
-                    </div>
-                    <div class="loader-message">
-                        <div class="loader-title">${message.split(' ')[0]}</div>
-                        <div class="loader-subtitle">${message.substring(message.indexOf(' ') + 1)}</div>
-                        <div class="loader-bar">
-                            <div class="loader-bar-fill"></div>
-                        </div>
-                    </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; position: relative; z-index: 1;">
+                    <div class="ls-spinner"></div>
+                    <span style="font-size: 1rem; color: rgba(0,212,255,0.8); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px rgba(0,212,255,0.8);">${message}</span>
                 </div>
             `;
             document.body.appendChild(loader);
@@ -4930,6 +4839,14 @@
                     const firstMsg = document.getElementById('ls-first-player');
                     if(firstMsg) firstMsg.style.display = 'block';
                     if(updated) updated.textContent = 'aucun score encore';
+                    
+                    // Remove the global loading overlay
+                    const overlay = document.getElementById('lb-loading-overlay');
+                    if(overlay) {
+                        overlay.style.transition = 'opacity 0.4s ease';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.remove(), 400);
+                    }
                     return;
                 }
 
@@ -4958,11 +4875,27 @@
                 if(updated) updated.textContent = 'mis à jour à ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
                 const nameForm = document.getElementById('ls-name-form');
                 if(nameForm) nameForm.style.display = 'block';
+                
+                // Remove the global loading overlay
+                const overlay = document.getElementById('lb-loading-overlay');
+                if(overlay) {
+                    overlay.style.transition = 'opacity 0.4s ease';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 400);
+                }
 
             } catch(e) {
                 if(loading) loading.innerHTML = '🌐 Classement partagé en temps réel';
                 const nameForm = document.getElementById('ls-name-form');
                 if(nameForm) nameForm.style.display = 'block';
+                
+                // Remove the global loading overlay even on error
+                const overlay = document.getElementById('lb-loading-overlay');
+                if(overlay) {
+                    overlay.style.transition = 'opacity 0.4s ease';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 400);
+                }
             }
         }
 
@@ -5101,6 +5034,34 @@
                 '</div>';
 
             document.body.appendChild(modal);
+            
+            // Create Schtroumpf-themed loading overlay with creative animation
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.id = 'lb-loading-overlay';
+            loadingOverlay.className = 'leaderboard-loading-overlay';
+            loadingOverlay.innerHTML = `
+                <div class="schtroumpf-particle"></div>
+                <div class="schtroumpf-particle"></div>
+                <div class="schtroumpf-particle"></div>
+                <div class="schtroumpf-particle"></div>
+                <div class="leaderboard-loading-content">
+                    <div class="schtroumpf-spinner">
+                        <div class="schtroumpf-eyes">
+                            <div class="schtroumpf-eye"></div>
+                            <div class="schtroumpf-eye"></div>
+                        </div>
+                        <div class="schtroumpf-hat">
+                            <div class="schtroumpf-pompom"></div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size:1.3rem;color:#00D4FF;letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 20px rgba(0,212,255,1),0 0 40px rgba(0,180,255,0.8);font-weight:700;margin-bottom:0.8rem;font-family:'Righteous',cursive;animation:schtroumpfGlitchText 3s ease-in-out infinite;">🧠 Schtroumpf Stats 🧠</div>
+                        <div style="font-size:0.9rem;color:rgba(0,212,255,0.7);letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 10px rgba(0,212,255,0.8);">Récupération du classement magique...</div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(loadingOverlay);
+            
             if (isRecord) { createConfetti(); playVictorySound(true); }
             else { playVictorySound(false); }
 
@@ -5572,23 +5533,315 @@
 
         /* ── LIVE STATS SPINNER ── */
         .ls-spinner {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 3px solid transparent;
+            border: 4px solid transparent;
             border-top-color: #00D4FF;
             border-right-color: rgba(0,212,255,0.4);
             animation: lsSpinRotate 0.9s linear infinite;
             box-shadow:
-                0 0 12px rgba(0,212,255,0.9),
-                0 0 24px rgba(0,212,255,0.5),
-                inset 0 0 10px rgba(0,212,255,0.2);
-            filter: drop-shadow(0 0 8px rgba(0,212,255,1));
+                0 0 30px rgba(0,212,255,1),
+                0 0 60px rgba(0,212,255,0.8),
+                0 0 100px rgba(0,212,255,0.6),
+                inset 0 0 20px rgba(0,212,255,0.4);
+            filter: drop-shadow(0 0 20px rgba(0,212,255,1)) drop-shadow(0 0 40px rgba(0,212,255,0.8));
         }
         @keyframes lsSpinRotate {
-            0%   { transform: rotate(0deg);   box-shadow: 0 0 12px rgba(0,212,255,0.9), 0 0 24px rgba(0,212,255,0.5); }
-            50%  { transform: rotate(180deg); box-shadow: 0 0 20px rgba(0,212,255,1),   0 0 40px rgba(0,212,255,0.7); }
-            100% { transform: rotate(360deg); box-shadow: 0 0 12px rgba(0,212,255,0.9), 0 0 24px rgba(0,212,255,0.5); }
+            0%   { transform: rotate(0deg);   box-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.8), 0 0 100px rgba(0,212,255,0.6); }
+            50%  { transform: rotate(180deg); box-shadow: 0 0 50px rgba(0,212,255,1),   0 0 100px rgba(0,212,255,0.9), 0 0 150px rgba(0,212,255,0.7); }
+            100% { transform: rotate(360deg); box-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.8), 0 0 100px rgba(0,212,255,0.6); }
+        }
+
+        /* ── LEADERBOARD LOADING OVERLAY (centered, no card) ── */
+        .leaderboard-loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 30%, rgba(0, 180, 255, 0.4) 0%, rgba(10, 14, 39, 0.8) 60%, rgba(10, 14, 39, 0.95) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 10001;
+            backdrop-filter: blur(12px);
+            animation: schtroumpfCloudFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, schtroumpfCloudFadeOut 1s ease-in 9s forwards;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        /* Nuage magique Schtroumpf */
+        .leaderboard-loading-overlay::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: schtroumpfCloudFloat 6s ease-in-out infinite;
+        }
+
+        .leaderboard-loading-overlay::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: 10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 180, 255, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: schtroumpfCloudFloat 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes schtroumpfCloudFadeIn {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+            }
+            100% {
+                opacity: 1;
+                backdrop-filter: blur(12px);
+            }
+        }
+
+        @keyframes schtroumpfCloudFadeOut {
+            0% {
+                opacity: 1;
+                backdrop-filter: blur(12px);
+            }
+            100% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+                pointer-events: none;
+            }
+        }
+
+        @keyframes schtroumpfCloudFloat {
+            0%, 100% {
+                transform: translateY(0px) translateX(-50%);
+            }
+            50% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+        }
+
+        .leaderboard-loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            animation: contentBounceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+            opacity: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes contentBounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(40px);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Schtroumpf Head - cercle bleu */
+        .schtroumpf-spinner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066FF 0%, #00D4FF 50%, #0066FF 100%);
+            background-size: 200% 200%;
+            position: relative;
+            animation: schtroumpfPulse 2s ease-in-out infinite;
+            box-shadow: 
+                0 0 40px rgba(0, 212, 255, 1),
+                0 0 80px rgba(0, 180, 255, 0.8),
+                0 0 120px rgba(0, 150, 255, 0.6),
+                inset -10px -10px 30px rgba(0, 0, 0, 0.3),
+                inset 10px 10px 20px rgba(255, 255, 255, 0.2);
+            filter: drop-shadow(0 10px 30px rgba(0, 212, 255, 0.7));
+        }
+
+        /* Schtroumpf Hat - petit chapeau blanc */
+        .schtroumpf-hat {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65px;
+            height: 40px;
+            background: linear-gradient(to bottom, #FFFFFF 0%, #F0F0F0 100%);
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                inset -5px -5px 10px rgba(0, 0, 0, 0.2),
+                inset 5px 5px 10px rgba(255, 255, 255, 0.4);
+            animation: schtroumpfHatBounce 2s ease-in-out infinite;
+        }
+
+        /* Pom-pom sur le chapeau */
+        .schtroumpf-pompom {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 50%, #FF6B6B 100%);
+            box-shadow: 
+                0 0 15px rgba(255, 107, 107, 0.9),
+                0 0 30px rgba(255, 107, 107, 0.6);
+            animation: schtroumpfPompomBounce 1.5s ease-in-out infinite;
+        }
+
+        /* Eyes Schtroumpf */
+        .schtroumpf-eyes {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+
+        .schtroumpf-eye {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: black;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+            animation: schtroumpfBlink 3s ease-in-out infinite;
+        }
+
+        .schtroumpf-eye:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        @keyframes schtroumpfBlink {
+            0%, 10%, 100% { transform: scaleY(1); }
+            5% { transform: scaleY(0.1); }
+        }
+
+        /* Animations */
+        @keyframes schtroumpfPulse {
+            0%, 100% {
+                transform: scale(1);
+                background-position: 0% 50%;
+            }
+            50% {
+                transform: scale(1.08);
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes schtroumpfHatBounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0px) rotateZ(0deg);
+            }
+            25% {
+                transform: translateX(-50%) translateY(-5px) rotateZ(-2deg);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-8px) rotateZ(0deg);
+            }
+            75% {
+                transform: translateX(-50%) translateY(-4px) rotateZ(2deg);
+            }
+        }
+
+        @keyframes schtroumpfPompomBounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-6px) scale(1.1);
+            }
+        }
+
+        /* Particules Schtroumpf volantes */
+        .schtroumpf-particle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 1), rgba(0, 100, 200, 0.8));
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+            opacity: 0.7;
+            filter: blur(0.5px);
+        }
+
+        .schtroumpf-particle:nth-child(1) {
+            width: 8px; height: 8px;
+            left: 15%; top: 20%;
+            animation: schtroumpfFloat 4s ease-in-out infinite;
+        }
+        .schtroumpf-particle:nth-child(2) {
+            width: 10px; height: 10px;
+            right: 12%; top: 25%;
+            animation: schtroumpfFloat 5s ease-in-out infinite reverse;
+        }
+        .schtroumpf-particle:nth-child(3) {
+            width: 9px; height: 9px;
+            left: 10%; bottom: 20%;
+            animation: schtroumpfFloat 4.5s ease-in-out infinite;
+        }
+        .schtroumpf-particle:nth-child(4) {
+            width: 11px; height: 11px;
+            right: 15%; bottom: 15%;
+            animation: schtroumpfFloat 5.5s ease-in-out infinite reverse;
+        }
+
+        @keyframes schtroumpfFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(20px, -30px) scale(1.2);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes schtroumpfGlitchText {
+            0%, 100% {
+                text-shadow: 
+                    0 0 20px rgba(0,212,255,1),
+                    0 0 40px rgba(0,180,255,0.8),
+                    -2px 0 rgba(255, 0, 255, 0.3),
+                    2px 0 rgba(0, 255, 255, 0.3);
+                letter-spacing: 3px;
+            }
+            33% {
+                text-shadow: 
+                    0 0 30px rgba(0,180,255,1),
+                    0 0 60px rgba(0,150,255,0.9),
+                    -3px 2px rgba(255, 0, 255, 0.4),
+                    3px -2px rgba(0, 255, 255, 0.4);
+                letter-spacing: 4px;
+            }
+            66% {
+                text-shadow: 
+                    0 0 25px rgba(0,150,255,1),
+                    0 0 50px rgba(0,180,255,0.7),
+                    -1px -1px rgba(255, 0, 255, 0.3),
+                    1px 1px rgba(0, 255, 255, 0.3);
+                letter-spacing: 2.5px;
+            }
         }
 
         /* ── TILE HIGHLIGHT on Move ── */
