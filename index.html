@@ -48,6 +48,8 @@
             height: 100vh;
             padding: 1rem;
             gap: 1rem;
+            opacity: 0;
+            pointer-events: none;
         }
 
         /* Left Panel - Instructions */
@@ -283,19 +285,27 @@
         }
 
         .cinematic-btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
+            padding: 0.7rem 1.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             border: none;
-            border-radius: 50px;
+            border-radius: 45px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-family: 'Poppins', sans-serif;
             position: relative;
             overflow: hidden;
             z-index: 1;
+            min-width: 160px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            box-shadow: 
+                0 6px 20px rgba(0, 102, 255, 0.3),
+                0 0 12px rgba(0, 212, 255, 0.2);
         }
 
         .cinematic-btn::before {
@@ -306,32 +316,57 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            transition: width 0.6s ease-out, height 0.6s ease-out;
             z-index: -1;
         }
 
         .cinematic-btn:hover::before {
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
         }
 
         .btn-accept {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--primary) 100%);
+            background-size: 200% 200%;
             color: white;
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
-            animation: glowPulse 2s ease-in-out infinite;
+            box-shadow: 
+                0 8px 30px rgba(0, 212, 255, 0.35),
+                0 0 20px rgba(0, 180, 255, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            animation: glowPulse 2.5s ease-in-out infinite;
+            border: 1px solid rgba(0, 212, 255, 0.3);
         }
 
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4); }
-            50% { box-shadow: 0 15px 60px rgba(0, 212, 255, 0.7); }
+            0%, 100% { 
+                box-shadow: 
+                    0 8px 30px rgba(0, 212, 255, 0.35),
+                    0 0 20px rgba(0, 180, 255, 0.2),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+                background-position: 0% 50%;
+            }
+            50% { 
+                box-shadow: 
+                    0 10px 40px rgba(0, 212, 255, 0.5),
+                    0 0 30px rgba(0, 180, 255, 0.35),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+                background-position: 100% 50%;
+            }
         }
 
         .btn-accept:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 60px rgba(0, 212, 255, 0.8);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 
+                0 10px 40px rgba(0, 212, 255, 0.5),
+                0 0 30px rgba(0, 180, 255, 0.35),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .btn-accept:active {
+            transform: translateY(0px) scale(0.97);
         }
 
         .btn-decline {
@@ -851,19 +886,19 @@
             width: 65%;
             display: flex;
             flex-direction: column;
-            padding: 0.8rem;
+            padding: 0.5rem;
             min-height: 0;
         }
 
         .puzzle-header {
             text-align: center;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.4rem;
             flex-shrink: 0;
         }
 
         .puzzle-title {
             color: var(--accent);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
@@ -880,17 +915,17 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 3px;
+            gap: 2px;
             background: rgba(0, 0, 0, 0.9);
-            padding: 0.8rem;
-            border-radius: 20px;
-            border: 3px solid rgba(0, 212, 255, 0.6);
+            padding: 0.5rem;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 212, 255, 0.6);
             backdrop-filter: blur(10px);
             box-shadow: 0 15px 60px rgba(0, 0, 0, 0.8);
             width: 100%;
             height: 100%;
-            max-width: min(calc(100vh - 4rem), 100%);
-            max-height: min(calc(100vh - 4rem), 100%);
+            max-width: min(calc(100vh - 3rem), 100%);
+            max-height: min(calc(100vh - 3rem), 100%);
             aspect-ratio: 1;
         }
 
@@ -1122,10 +1157,10 @@
 
         /* Right col: info */
         .modal-col-info {
-            padding: 0.8rem 1.4rem 0.8rem 1rem;
+            padding: 0.5rem 0.9rem 0.5rem 0.7rem;
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.4rem;
             justify-content: center;
         }
 
@@ -1136,47 +1171,40 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, rgba(0,102,255,0.25), rgba(0,212,255,0.15));
-            border: 1.5px solid rgba(0,212,255,0.45);
-            border-radius: 16px;
-            padding: 1.1rem 1rem 0.9rem;
+            border: 1px solid rgba(0,212,255,0.4);
+            border-radius: 14px;
+            padding: 0.8rem 0.8rem 0.6rem;
             position: relative;
             overflow: hidden;
         }
 
-        .modal-theme-badge::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.03));
-        }
-
         .modal-theme-badge-label {
-            font-size: 0.58rem;
-            color: rgba(255,255,255,0.38);
+            font-size: 0.5rem;
+            color: rgba(255,255,255,0.35);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 0.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.2rem;
         }
 
         .modal-theme-badge-name {
             font-family: 'Righteous', cursive;
-            font-size: 2.4rem;
-            letter-spacing: 8px;
+            font-size: 1.8rem;
+            letter-spacing: 6px;
             background: linear-gradient(135deg, #0099ff, #00D4FF, #66e0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            filter: drop-shadow(0 0 15px rgba(0,212,255,0.9));
+            filter: drop-shadow(0 0 12px rgba(0,212,255,0.8));
             animation: blueGlow 2s ease-in-out infinite;
             line-height: 1;
         }
 
         .modal-theme-badge-sub {
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             color: rgba(0,212,255,0.5);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 0.35rem;
+            letter-spacing: 1.5px;
+            margin-top: 0.25rem;
         }
 
         @keyframes blueGlow {
@@ -1199,28 +1227,29 @@
         /* Header variant - replaces Félicitations at top */
   .schtroumpf-alert-header {
     border-radius: 14px 14px 10px 10px;
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.8rem;
     margin-bottom: 0.6rem;
-    font-size: 1rem;
-    white-space: nowrap; /* empêche le texte de passer à la ligne */
-    overflow: hidden; /* cache tout texte qui dépasse */
-    text-overflow: ellipsis; /* ajoute "..." si le texte est trop long */
-    line-height: 1.4; /* ajuste la hauteur de ligne */
+    font-size: 0.85rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.3;
     box-shadow: 0 0 30px rgba(77, 173, 241, 0.8), 0 4px 16px rgba(0,0,0,0.4);
 }
 
 .schtroumpf-alert-text {
-    font-size: 0.72rem;
-    font-weight: 800;
+    font-size: 0.65rem;
+    font-weight: 700;
     color: white;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    letter-spacing: 0.3px;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6);
 }
 
 .schtroumpf-alert-header .schtroumpf-alert-text {
-    font-size: 1rem;
-    letter-spacing: 1px;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
 }
 
         @keyframes alertFlash {
@@ -1234,14 +1263,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.3rem 0;
+            padding: 0.2rem 0;
         }
 
         .schtroumpf-real-img {
             width: 100%;
-            max-width: 180px;
+            max-width: 140px;
             height: auto;
-            border-radius: 14px;
+            border-radius: 12px;
             border: 2px solid rgba(0,212,255,0.5);
             animation: schtroumpfFloat 2.5s ease-in-out infinite;
             box-shadow: 0 0 20px rgba(0,150,255,0.5), 0 0 40px rgba(0,100,255,0.3);
@@ -1397,12 +1426,12 @@
         .blue-theme-info {
             display: flex;
             align-items: flex-start;
-            gap: 0.8rem;
+            gap: 0.5rem;
             background: rgba(0, 102, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.25);
-            border-left: 3px solid var(--secondary);
-            border-radius: 12px;
-            padding: 0.85rem 1rem;
+            border-left: 2px solid var(--secondary);
+            border-radius: 10px;
+            padding: 0.6rem 0.75rem;
             text-align: left;
             animation: blueThemePop 0.5s ease 1.5s both;
         }
@@ -1413,17 +1442,17 @@
         }
 
         .blue-theme-icon {
-            font-size: 1.1rem;
+            font-size: 0.85rem;
             flex-shrink: 0;
             color: var(--secondary);
             opacity: 0.7;
-            margin-top: 1px;
+            margin-top: 0px;
             font-style: normal;
         }
 
         .blue-theme-text {
-            font-size: 0.77rem;
-            line-height: 1.65;
+            font-size: 0.65rem;
+            line-height: 1.4;
             color: rgba(255, 255, 255, 0.8);
         }
 
@@ -2399,35 +2428,49 @@
     
         /* Champ nom sur l'écran d'accueil */
         .name-entry-box {
-            margin: 1.5rem 0;
+            margin: 0.8rem 0;
             text-align: center;
+            padding: 0 0.5rem;
+            width: 100%;
         }
         .name-entry-label {
-            font-size: 1rem;
+            font-size: 0.75rem;
             color: var(--secondary);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
         .name-entry-input {
             width: 100%;
-            max-width: 320px;
-            padding: 0.75rem 1.2rem;
+            max-width: 220px;
+            padding: 0.7rem 1rem;
             border-radius: 12px;
-            border: 2px solid var(--primary);
-            background: rgba(0,0,0,0.5);
+            border: 1.5px solid var(--primary);
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 30, 80, 0.3) 100%);
             color: white;
-            font-size: 1.1rem;
+            font-size: 0.85rem;
             text-align: center;
             font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 0 0 0 rgba(0, 212, 255, 0),
+                inset 0 0 8px rgba(0, 212, 255, 0.05);
         }
         .name-entry-input:focus {
             border-color: var(--secondary);
-            box-shadow: 0 0 15px rgba(0,212,255,0.4);
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2) 0%, rgba(0, 50, 120, 0.4) 100%);
+            box-shadow: 
+                0 0 15px rgba(0, 212, 255, 0.3),
+                inset 0 0 10px rgba(0, 212, 255, 0.08);
+            transform: translateY(-1px);
         }
-        .name-entry-input::placeholder { color: rgba(255,255,255,0.4); }
+        .name-entry-input::placeholder { 
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
 
         /* Message de bienvenue dans le puzzle */
         .welcome-banner {
@@ -3159,39 +3202,51 @@
                 </div>
 
                 <!-- RIGHT column: live stats -->
-                <div id="live-stats-block" style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,212,255,0.25);border-radius:18px;padding:0.9rem 1rem;display:flex;flex-direction:column;">
+                <div id="live-stats-block" style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,212,255,0.25);border-radius:14px;padding:0.5rem 0.6rem;display:flex;flex-direction:column;">
                     <!-- Header -->
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem;">
-                        <span style="font-size:0.75rem;color:#00D4FF;font-weight:700;text-transform:uppercase;letter-spacing:1px;">
-                            <span class="live-dot"></span> Stats en direct
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+                        <span style="font-size:0.65rem;color:#00D4FF;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;">
+                            <span class="live-dot"></span> Stats
                         </span>
-                        <span id="live-updated" style="opacity:0.4;font-size:0.65rem;color:white;">⏳ chargement...</span>
+                        <span id="live-updated" style="opacity:0.4;font-size:0.55rem;color:white;">⏳ chargement...</span>
                     </div>
                     <!-- Loading -->
-                    <div id="live-stats-loading" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.7rem;padding:1rem 0;"><div class="ls-spinner"></div><span style="font-size:0.72rem;color:rgba(0,212,255,0.7);letter-spacing:1.5px;text-transform:uppercase;text-shadow:0 0 10px rgba(0,212,255,0.8);">Chargement...</span></div>
+                    <div id="live-stats-loading" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;padding:0.6rem 0;">
+                        <div class="ls-spinner">
+                            <div class="ls-spinner-ring-1"></div>
+                            <div class="ls-spinner-ring-2"></div>
+                            <div class="ls-spinner-electron electron-1"></div>
+                            <div class="ls-spinner-electron electron-2"></div>
+                            <div class="ls-spinner-electron electron-3"></div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:0.6rem;color:#00D4FF;letter-spacing:1px;text-transform:uppercase;text-shadow:0 0 8px rgba(0,212,255,0.7);font-weight:600;margin-bottom:0.2rem;">Données</div>
+                            <div style="font-size:0.5rem;color:rgba(0,212,255,0.6);letter-spacing:0.3px;">En cours...</div>
+                        </div>
+                    </div>
                     <!-- Content -->
                     <div id="live-stats-content" style="display:none;flex-direction:column;flex:1;">
                         <!-- 3 cartes stats -->
-                        <div style="display:flex;gap:6px;margin-bottom:0.7rem;">
-                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:12px;padding:0.6rem 0.3rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
-                                <div id="ls-count" style="font-size:1.4rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
-                                <div style="font-size:0.58rem;color:rgba(255,255,255,0.5);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Joueurs</div>
+                        <div style="display:flex;gap:3px;margin-bottom:0.3rem;">
+                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:0.4rem 0.2rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
+                                <div id="ls-count" style="font-size:1.1rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
+                                <div style="font-size:0.5rem;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.3px;">Joueurs</div>
                             </div>
-                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:12px;padding:0.6rem 0.3rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
-                                <div id="ls-record" style="font-size:1.4rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
-                                <div style="font-size:0.58rem;color:rgba(255,255,255,0.5);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">⚡ Record</div>
+                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:0.4rem 0.2rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
+                                <div id="ls-record" style="font-size:1.1rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
+                                <div style="font-size:0.5rem;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.3px;">⚡ Record</div>
                             </div>
-                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:12px;padding:0.6rem 0.3rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
-                                <div id="ls-avg" style="font-size:1.4rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
-                                <div style="font-size:0.58rem;color:rgba(255,255,255,0.5);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">⏱ Moyenne</div>
+                            <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:10px;padding:0.4rem 0.2rem;text-align:center;border:1px solid rgba(255,255,255,0.08);">
+                                <div id="ls-avg" style="font-size:1.1rem;font-weight:900;color:#FFD700;line-height:1;">—</div>
+                                <div style="font-size:0.5rem;color:rgba(255,255,255,0.5);margin-top:2px;text-transform:uppercase;letter-spacing:0.3px;">⏱ Moy</div>
                             </div>
                         </div>
                         <!-- Top 3 -->
-                        <div id="ls-top3" style="display:flex;flex-direction:column;gap:4px;flex:1;overflow:hidden;"></div>
+                        <div id="ls-top3" style="display:flex;flex-direction:column;gap:3px;flex:1;overflow:hidden;"></div>
                     </div>
 
                     <!-- Name + Start — visible only after stats loaded -->
-                    <div id="ls-name-form" style="display:none;margin-top:0.8rem;border-top:1px solid rgba(0,212,255,0.15);padding-top:0.75rem;">
+                    <div id="ls-name-form" style="display:none;margin-top:0.5rem;border-top:1px solid rgba(0,212,255,0.15);padding-top:0.5rem;">
                         <div class="name-entry-box" style="margin:0 0 0.6rem 0;">
                             <div class="name-entry-label">👤 Ton prénom pour commencer</div>
                             <input 
@@ -3204,14 +3259,14 @@
                             >
                         </div>
                         <div style="text-align:center;">
-                            <button class="cinematic-btn btn-accept" style="padding:0.7rem 1.8rem;font-size:0.95rem;" onclick="startGame()">
+                            <button class="cinematic-btn btn-accept" onclick="startGame()">
                                 ✨ COMMENCER ✨
                             </button>
                         </div>
                     </div>
 
                     <!-- First player message — visible only when no data -->
-                    <div id="ls-first-player" style="display:none;margin-top:0.8rem;border-top:1px solid rgba(0,212,255,0.15);padding-top:0.75rem;">
+                    <div id="ls-first-player" style="display:none;margin-top:0.5rem;border-top:1px solid rgba(0,212,255,0.15);padding-top:0.5rem;">
                         <div style="text-align:center;background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.3);border-radius:12px;padding:0.7rem 0.9rem;margin-bottom:0.65rem;">
                             <div style="font-size:1.4rem;margin-bottom:0.2rem;">🌟</div>
                             <div style="font-size:0.82rem;font-weight:700;color:#FFD700;letter-spacing:0.5px;">Tu es le premier à jouer !</div>
@@ -3229,7 +3284,7 @@
                             >
                         </div>
                         <div style="text-align:center;">
-                            <button class="cinematic-btn btn-accept" style="padding:0.7rem 1.8rem;font-size:0.95rem;" onclick="startGameFirst()">
+                            <button class="cinematic-btn btn-accept" onclick="startGameFirst()">
                                 ✨ COMMENCER ✨
                             </button>
                         </div>
@@ -4451,9 +4506,34 @@
         }
 
         function closeLeaderboard() {
-            document.querySelector('.leaderboard-modal')?.remove();
-            document.getElementById('share-float-popup')?.remove();
-            window.location.href = 'thanks.html';
+            const modal = document.querySelector('.leaderboard-modal');
+            const overlay = document.getElementById('lb-loading-overlay');
+            
+            // Fade out modal et overlay
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            if (overlay) {
+                overlay.style.animation = 'none';
+                overlay.style.opacity = '0';
+            }
+            
+            // Remove elements and redirect after transition
+            setTimeout(() => {
+                document.querySelector('.leaderboard-modal')?.remove();
+                document.getElementById('share-float-popup')?.remove();
+                document.getElementById('lb-loading-overlay')?.remove();
+                
+                // Hide puzzle elements
+                const mainContainer = document.querySelector('.main-container');
+                if (mainContainer) {
+                    mainContainer.style.opacity = '0';
+                    mainContainer.style.pointerEvents = 'none';
+                }
+                
+                // Redirect to thanks page
+                window.location.href = 'thanks.html';
+            }, 500);
         }
 
         function showBlueInspirationPanel() {
@@ -4835,18 +4915,23 @@
                 const count = players.length;
 
                 if (count === 0) {
-                    if(loading) loading.style.display = 'none';
-                    const firstMsg = document.getElementById('ls-first-player');
-                    if(firstMsg) firstMsg.style.display = 'block';
-                    if(updated) updated.textContent = 'aucun score encore';
+                    // Attendre que le loading orbital soit terminé avant d'afficher le message
+                    setTimeout(() => {
+                        if(loading) loading.style.display = 'none';
+                        const firstMsg = document.getElementById('ls-first-player');
+                        if(firstMsg) firstMsg.style.display = 'block';
+                        if(updated) updated.textContent = 'aucun score encore';
+                    }, 1500);
                     
                     // Remove the global loading overlay
-                    const overlay = document.getElementById('lb-loading-overlay');
-                    if(overlay) {
-                        overlay.style.transition = 'opacity 0.4s ease';
-                        overlay.style.opacity = '0';
-                        setTimeout(() => overlay.remove(), 400);
-                    }
+                    setTimeout(() => {
+                        const overlay = document.getElementById('lb-loading-overlay');
+                        if(overlay) {
+                            overlay.style.transition = 'opacity 0.4s ease';
+                            overlay.style.opacity = '0';
+                            setTimeout(() => overlay.remove(), 400);
+                        }
+                    }, 1500);
                     return;
                 }
 
@@ -4870,32 +4955,43 @@
                         '</div>';
                 }).join('');
 
-                if(loading) loading.style.display = 'none';
-                if(content) content.style.display = 'flex';
-                if(updated) updated.textContent = 'mis à jour à ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
-                const nameForm = document.getElementById('ls-name-form');
-                if(nameForm) nameForm.style.display = 'block';
+                // Attendre que le loading orbital soit complètement terminé avant d'afficher les stats
+                // L'animation du loading dure 1.5s, donc on attend ce délai
+                setTimeout(() => {
+                    if(loading) loading.style.display = 'none';
+                    if(content) content.style.display = 'flex';
+                    if(updated) updated.textContent = 'mis à jour à ' + new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+                    const nameForm = document.getElementById('ls-name-form');
+                    if(nameForm) nameForm.style.display = 'block';
+                }, 1500);
                 
-                // Remove the global loading overlay
-                const overlay = document.getElementById('lb-loading-overlay');
-                if(overlay) {
-                    overlay.style.transition = 'opacity 0.4s ease';
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.remove(), 400);
-                }
+                // Remove the global loading overlay after animation
+                setTimeout(() => {
+                    const overlay = document.getElementById('lb-loading-overlay');
+                    if(overlay) {
+                        overlay.style.transition = 'opacity 0.4s ease';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.remove(), 400);
+                    }
+                }, 1500);
 
             } catch(e) {
-                if(loading) loading.innerHTML = '🌐 Classement partagé en temps réel';
-                const nameForm = document.getElementById('ls-name-form');
-                if(nameForm) nameForm.style.display = 'block';
+                // Attendre que le loading orbital soit terminé
+                setTimeout(() => {
+                    if(loading) loading.innerHTML = '🌐 Classement partagé en temps réel';
+                    const nameForm = document.getElementById('ls-name-form');
+                    if(nameForm) nameForm.style.display = 'block';
+                }, 1500);
                 
                 // Remove the global loading overlay even on error
-                const overlay = document.getElementById('lb-loading-overlay');
-                if(overlay) {
-                    overlay.style.transition = 'opacity 0.4s ease';
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.remove(), 400);
-                }
+                setTimeout(() => {
+                    const overlay = document.getElementById('lb-loading-overlay');
+                    if(overlay) {
+                        overlay.style.transition = 'opacity 0.4s ease';
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.remove(), 400);
+                    }
+                }, 1500);
             }
         }
 
@@ -5033,9 +5129,7 @@
                 '</div>' +
                 '</div>';
 
-            document.body.appendChild(modal);
-            
-            // Create Schtroumpf-themed loading overlay with creative animation
+            // Add loading overlay FIRST (on top)
             const loadingOverlay = document.createElement('div');
             loadingOverlay.id = 'lb-loading-overlay';
             loadingOverlay.className = 'leaderboard-loading-overlay';
@@ -5062,11 +5156,17 @@
             `;
             document.body.appendChild(loadingOverlay);
             
+            // Add modal AFTER 100ms (so overlay renders first)
+            setTimeout(() => {
+                document.body.appendChild(modal);
+            }, 100);
+            
             if (isRecord) { createConfetti(); playVictorySound(true); }
             else { playVictorySound(false); }
 
-            // Show floating share popup after a short delay
-            setTimeout(() => showSharePopup(stats.time, stats.moves, currentRank), 1200);
+            // Show floating share popup AFTER the Schtroumpf loading overlay is completely finished (10s animation + 1s fade-out)
+            // Délai: 11000ms pour que le popup n'apparaisse pas pendant l'animation
+            setTimeout(() => showSharePopup(stats.time, stats.moves, currentRank), 11000);
         };
 
         // ══ Intercept completePuzzle pour effets visuels ══
@@ -5390,6 +5490,81 @@
             0%   { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+
+        /* ── PUZZLE ENTRY ANIMATIONS (après countdown) ── */
+        @keyframes leftPanelSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes rightPanelSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes gridPulseIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes statsBarSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation entrée activée */
+        .puzzle-entering .left-panel {
+            animation: leftPanelSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .puzzle-entering .right-panel {
+            animation: rightPanelSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.15s;
+        }
+
+        .puzzle-entering #puzzle-grid {
+            animation: gridPulseIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s forwards;
+        }
+
+        .puzzle-entering .stats-display {
+            animation: statsBarSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards;
+        }
+
+        /* État initial - avant countdown */
+        .puzzle-pre-entry {
+            opacity: 0;
+        }
+
+        .puzzle-pre-entry .left-panel,
+        .puzzle-pre-entry .right-panel,
+        .puzzle-pre-entry #puzzle-grid,
+        .puzzle-pre-entry .stats-display {
+            opacity: 0;
+        }
         @keyframes crownFloat {
             0%,100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-20px) rotate(5deg); }
@@ -5533,24 +5708,151 @@
 
         /* ── LIVE STATS SPINNER ── */
         .ls-spinner {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 4px solid transparent;
-            border-top-color: #00D4FF;
-            border-right-color: rgba(0,212,255,0.4);
-            animation: lsSpinRotate 0.9s linear infinite;
-            box-shadow:
-                0 0 30px rgba(0,212,255,1),
-                0 0 60px rgba(0,212,255,0.8),
-                0 0 100px rgba(0,212,255,0.6),
-                inset 0 0 20px rgba(0,212,255,0.4);
-            filter: drop-shadow(0 0 20px rgba(0,212,255,1)) drop-shadow(0 0 40px rgba(0,212,255,0.8));
+            width: 50px;
+            height: 50px;
+            position: relative;
         }
-        @keyframes lsSpinRotate {
-            0%   { transform: rotate(0deg);   box-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.8), 0 0 100px rgba(0,212,255,0.6); }
-            50%  { transform: rotate(180deg); box-shadow: 0 0 50px rgba(0,212,255,1),   0 0 100px rgba(0,212,255,0.9), 0 0 150px rgba(0,212,255,0.7); }
-            100% { transform: rotate(360deg); box-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.8), 0 0 100px rgba(0,212,255,0.6); }
+
+        /* Noyau central */
+        .ls-spinner::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
+            box-shadow: 
+                0 0 15px rgba(255, 215, 0, 0.9),
+                0 0 30px rgba(255, 165, 0, 0.6),
+                inset -3px -3px 5px rgba(0, 0, 0, 0.4);
+            animation: nucleusPulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        /* Orbites */
+        .ls-spinner::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top-color: rgba(0, 212, 255, 0.8);
+            border-right-color: rgba(0, 180, 255, 0.4);
+            border-radius: 50%;
+            animation: orbitRotate 2s linear infinite;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Électrons orbitaux */
+        .ls-spinner::before {
+            --electron-size: 6px;
+        }
+
+        @keyframes nucleusPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes orbitRotate {
+            0% {
+                transform: translate(-50%, -50%) rotateZ(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotateZ(360deg);
+            }
+        }
+
+        /* Couches orbitales additionnelles */
+        .ls-spinner-ring-1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 1.5px solid transparent;
+            border-top-color: rgba(0, 102, 255, 0.6);
+            border-bottom-color: rgba(0, 180, 255, 0.3);
+            border-radius: 50%;
+            animation: orbitRotate 3s linear infinite reverse;
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.4));
+        }
+
+        .ls-spinner-ring-2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            border: 1px solid transparent;
+            border-left-color: rgba(0, 180, 255, 0.5);
+            border-right-color: rgba(0, 102, 255, 0.3);
+            border-radius: 50%;
+            animation: orbitRotate 4s linear infinite;
+            filter: drop-shadow(0 0 3px rgba(0, 180, 255, 0.3));
+        }
+
+        .ls-spinner-electron {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #00D4FF, #0099FF);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+            opacity: 0.9;
+        }
+
+        .electron-1 {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: electronOrbit1 2s linear infinite;
+        }
+
+        .electron-2 {
+            animation: electronOrbit2 2s linear infinite;
+        }
+
+        .electron-3 {
+            animation: electronOrbit3 2s linear infinite;
+        }
+
+        @keyframes electronOrbit1 {
+            0% { top: 0; left: 50%; }
+            25% { top: 50%; left: 100%; }
+            50% { top: 100%; left: 50%; }
+            75% { top: 50%; left: 0; }
+            100% { top: 0; left: 50%; }
+        }
+
+        @keyframes electronOrbit2 {
+            0% { top: 50%; left: 100%; }
+            25% { top: 100%; left: 50%; }
+            50% { top: 50%; left: 0; }
+            75% { top: 0; left: 50%; }
+            100% { top: 50%; left: 100%; }
+        }
+
+        @keyframes electronOrbit3 {
+            0% { top: 100%; left: 50%; }
+            25% { top: 50%; left: 0; }
+            50% { top: 0; left: 50%; }
+            75% { top: 50%; left: 100%; }
+            100% { top: 100%; left: 50%; }
         }
 
         /* ── LEADERBOARD LOADING OVERLAY (centered, no card) ── */
@@ -5564,7 +5866,7 @@
             align-items: center;
             justify-content: center;
             gap: 2rem;
-            z-index: 10001;
+            z-index: 99998;
             backdrop-filter: blur(12px);
             animation: schtroumpfCloudFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, schtroumpfCloudFadeOut 1s ease-in 9s forwards;
             opacity: 0;
@@ -5996,9 +6298,15 @@
             const music = document.getElementById('background-music');
             const musicToggle = document.getElementById('music-toggle');
             if (mainContainer) {
-                mainContainer.style.transition = 'opacity 0.8s ease';
+                // Rendre le container visible avec opacity 1
                 mainContainer.style.opacity = '1';
                 mainContainer.style.pointerEvents = 'all';
+                mainContainer.style.transition = 'opacity 0.8s ease';
+                
+                // Ajouter la classe pour déclencher les animations d'entrée
+                setTimeout(() => {
+                    mainContainer.classList.add('puzzle-entering');
+                }, 50);
             }
             // Bienvenue banner
             const topSection = document.querySelector('.top-section');
